@@ -1,0 +1,14 @@
+ul.clearList {
+  padding: 0px;
+  margin: 0px;
+  list-style: none; }
+
+.a-drop-highlight {
+  background-color: #000;
+  height: 100px;
+  width: 1170px; }
+
+.a-drag {
+  background-color: #aaa;
+  height: 100px;
+  width: 1170px; }

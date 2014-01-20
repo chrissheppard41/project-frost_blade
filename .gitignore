@@ -1,0 +1,14 @@
+.Configs/Connection.php
+.Configs\Connection.php
+tmp/
+tmp\
+vendor/*
+vendor\*
+
+apitest.php
+generate.php
+
+*.*~
+/.htpasswd
+\.htpasswd
+

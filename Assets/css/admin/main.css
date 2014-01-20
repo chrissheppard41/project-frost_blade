@@ -1,0 +1,100 @@
+body {
+  padding-top: 64px;
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+}
+
+/* Forms */
+.input {
+    margin: 10px 0;
+}
+
+.footer {
+    border-top: 1px solid #eee;
+    color: #999;
+    margin-top: 100px;
+    padding: 20px 0;
+}
+
+.sortable {
+    position: relative;
+}
+
+.sortable tr {
+    cursor: pointer;
+}
+
+.nav.projects {
+  float: left;
+  margin-bottom: 20px;
+}
+
+.nav + .table {
+    margin-top: 40px;
+}
+
+.dash {
+    line-height: 4em;
+    font-size: 1.2em;
+}
+.dash .h1 {
+    font-size: 3em;
+}
+
+.toggle_search {
+    float: right;
+    margin: 5px 0 0 0;
+}
+
+.search {
+    width: 300px;
+    float: right;
+    clear: right;
+    text-align: right;
+    display: none;
+}
+
+.search input {
+    margin: 5px 0 0;
+}
+
+.search .search-btn {
+    margin: 5px 0;
+}
+
+.no_projects {
+    clear: left;
+    text-align: center;
+}
+
+.replacement-img {
+    height: 120px;
+}
+
+input[type="file"] {
+    line-height: 0;
+}
+
+#progress_bar {
+    width: 200px;
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #000;
+    font-size: 14px;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+}
+#progress_bar.loading {
+    opacity: 1.0;
+}
+#progress_bar .percent {
+    background-color: #99ccff;
+    height: auto;
+    width: 0;
+}

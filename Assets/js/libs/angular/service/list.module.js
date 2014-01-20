@@ -1,1 +1,0 @@
-angular.module('tool', ['filters', 'listServices', 'route_helper', 'dialog', 'ngDragnDrop']);

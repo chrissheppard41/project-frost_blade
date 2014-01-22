@@ -11,9 +11,9 @@
                 /* Checks if the domain is a sub-domain of rehabstudio, and if so, adds a meta robots tag. */
                 /*if (strripos(str_replace('www.', '', env('HTTP_HOST')), '.rehabstudio.com')) {
                         echo $this->Html->meta(array('name' => 'robots', 'content' => 'noindex, nofollow'));
-                }
-                echo $this->Html->css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'main.css'));
-*/
+                }*/
+                echo $this->Html->css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'libs/icons.css',  'main.css', 'admin/login.css'));
+
                 /* Including CSS and favicon. Also outputting blocks of inline meta and CSS. */
                 //echo $this->Html->css(array('example/styles.css'));
                 /*echo $this->fetch('meta');
@@ -23,7 +23,7 @@
 </head>
 <body>
         <div class="container">
-                <?php //echo $this->Session->flash(); ?>
+                <?php echo $this->Html->Flash(); ?>
                 <div id="main" role="main" class="fluid-content">
                         <?php echo $typ__view; ?>
                 </div>

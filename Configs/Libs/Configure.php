@@ -30,5 +30,57 @@ class Configure {
 		$index = array_shift($keys);
 		$_SESSION[$index] = \Frost\Configs\Session_handler::write(array(), implode(".", $keys), $data);
 	}
+/**
+ * delete method
+ * Deletes a session based on a key
+ *
+ * @param $key (string)
+ * @return
+ */
+	public static function delete($key) {
+		 \Frost\Configs\Session_handler::delete($_SESSION, $key);
+	}
+/**
+ * Auth method
+ * Configures the Log in for a user
+ *
+ * @param $method (string)
+ * @return (bool)
+ */
+	public function Auth($data) {
+		if(isset($data) && $data == null)
+			\Configure::delete("Auth.user");
+		else
+			\Configure::write("Auth.user", $data);
+	}
+/**
+ * Logged method
+ * Checks to see if the user is logged in or not
+ *
+ * @param
+ * @return (bool)
+ */
+	public static function Logged() {
+		$user = self::read("Auth.user");
+
+		if(isset($user) && !empty($user) && (count($user) > 0)) {
+			return true;
+		}
+		return false;
+	}
+/**
+ * User method
+ * Checks Logged in User data
+ *
+ * @param $key (string)
+ * @return
+ */
+	public static function User($field) {
+		$user = self::read("Auth.user.".$field);
+		if(isset($user)); {
+			return $user;
+		}
+		return null;
+	}
 
 }

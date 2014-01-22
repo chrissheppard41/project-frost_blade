@@ -13,6 +13,7 @@ require "Libs/Html.php";
 require "Libs/Session_handler.php";
 require "Libs/Session.php";
 require "Libs/Configure.php";
+require "Libs/Validation.php";
 require "Bootstrap.php";
 require (PATH."Controller/Controller.php");
 
@@ -81,16 +82,11 @@ class Core {
 			//if(LIVE)
 			//	Logging::Access();
 
-			$post_data = array();
-			if(!empty($_POST)) {
-				$post_data = $this->postParsing($_POST);
-			}
-
 			$controller = new \Frost\Controller\Controller(
 				$this->url['controller'],
 				isset($this->url['action']) ? $this->url['action'] : '',
 				$this->url['param'],
-				$post_data
+				$_POST
 			);
 
 			$action_data = $controller->pass_back;
@@ -131,21 +127,6 @@ class Core {
 		} finally {
 			return $this->output($action_data, $request, $view);
 		}
-	}
-/**
- * postParsing method
- * Takes the post data which will be encrypted, decrypt it to the json string then decode it into an array
- *
- * @param $post_data(string)
- * @return (array)
- */
-	private function postParsing($post_data) {
-
-		parse_str($this->crypt->decrypt(@$post_data['encrypt']), $arr);
-		if(!DEBUG_MODE)
-			return $arr;
-		else
-			return $post_data;
 	}
 
 

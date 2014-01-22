@@ -1,3 +1,4 @@
+<?php ?>
 <ul class="nav nav-tabs">
         <li class="<?php echo $this->Html->Highlight('/^\/admin\/ArmyLists/'); ?>">
                 <?php echo $this->Html->Url('Army Lists', array('plugin' => false, 'controller' => 'ArmyLists', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>

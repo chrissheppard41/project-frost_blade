@@ -81,6 +81,95 @@ class Database {
 		}
 	}
 
+/**
+ * save method
+ * Returns the SELECTs data values as an array object
+ *
+ * @param $querys (PDO::query)
+ * @return (bool)
+ */
+	public function save($queries) {
+
+		//echo "<pre>".print_r($queries, true)."</pre>";
+
+		foreach($queries as $key => $value) {
+			$sql = "INSERT INTO ".$key."(";
+			$headers = array_keys($value[0]);
+			$sql .= implode(",", $headers);
+			$sql .= ") VALUES ";
+			$inval = "";
+			for($i = 0; $i < count($headers); $i++) {
+				if($i < (count($headers)-1))
+					$inval .= "?, ";
+				else
+					$inval .= "?";
+			}
+			$qPart = array_fill(0, count($value), "(".$inval.")");
+			$sql .=  implode(",",$qPart);
+
+			$q = $this->connection->prepare($sql);
+			$i = 1;
+			foreach($value as $item) { //bind the values one by one
+				foreach($headers as $h) {
+					$q->bindParam($i++, $item[$h]);
+				}
+			}
+		}
+
+		if(!$q->execute()) {
+			throw new \PDOException("Bad error handler most likely something to do with the query string");
+		}
+	}
+
+/**
+ * update method
+ * Returns the SELECTs data values as an array object
+ *
+ * @param $querys (PDO::query)
+ * @return (bool)
+ */
+	public function update($queries) {
+
+		//echo "<pre>".print_r($queries, true)."</pre>";
+
+		foreach($queries as $key => $value) {
+			$sql = "UPDATE ".$key." SET ";
+			$where = "";
+			$arr = array();
+			foreach($value as $key2 => $data) {
+				$i = 0;
+				foreach($data['data'] as $head => $val) {
+					if($i != 0) {
+						$sql .= ", ";
+					}
+					$sql .= $head."=:".$head;
+					$arr[":".$head] = $val;
+					$i++;
+				}
+				$i = 0;
+				foreach($data['condition'] as $head => $val) {
+					if($i != 0) {
+						$sql .= ", ";
+					}
+					$where .= $head."=:".$head;
+					$arr[":".$head] = $val;
+					$i++;
+				}
+				if($where != "") {
+					$sql .= " WHERE ".$where;
+				}
+			}
+			$query = array(
+				"query" => $sql,
+				"params" => $arr
+			);
+
+			if(!$this->query($query)) {
+				throw new \PDOException("Bad error handler most likely something to do with the query string");
+			}
+		}
+
+	}
 
 /**
  * c_read method

@@ -20,7 +20,7 @@
         <!-- Opening mainContainer. -->
         <div id="mainContainer" class="container">
                 <?php
-                //echo $this->Session->flash();
+                echo $this->Html->Flash();
                 //echo $this->Session->flash('auth');
                 ?>
 

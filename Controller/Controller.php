@@ -22,7 +22,10 @@ class Controller {
  * @return (bool)
  */
 	function __construct($name, $action, $params = array(), $methodData = array()) {
-
+		if($name == "Controller") {
+			$name = "PagesController";
+			$action = "index";
+		}
 		$model_name = str_replace("Controller","", $name);
 		if($name == "Controller" || !isset($action)) {
 			throw new \WebException(sprintf("API controller or action or both have not been set"), 404);
@@ -42,6 +45,9 @@ class Controller {
 		}
         $class = "\Frost\Controller\\".$name;
         $conAct = new $class();
+        $conAcc = ((isset($conAct->access))?$conAct->access:null);
+
+        $conAct->Before($action, $conAcc);
 
         if(method_exists($conAct,$action)) {
         	$this->pass_back = $conAct->$action($params, $methodData);
@@ -69,6 +75,27 @@ class Controller {
 	}
 
 /**
+ * before method
+ * Actions to be executed before page loads
+ *
+ * @param
+ * @return (array)
+ */
+    public function before($action, $access) {
+    	if(strpos($action, "admin_") === true && !\Configure::Logged() && !(bool)\Configure::User("is_admin")) {
+    		$this->Flash("You are not allowed to access this part of the site", "alert alert-danger", '/');
+    	}
+    	if(isset($access) && !empty($access)) {
+	    	if(in_array($action,$access['deny']) && !\Configure::Logged()) {
+	    		$this->Flash("You must log in to see this part of the site", "alert alert-info", array('controller' => 'users', 'action' => 'login'));
+	    	}
+	    }
+
+	    if(\Configure::Logged() && (bool)strstr($action, "login") == true || (bool)strstr($action, "register") == true) {
+	    	$this->Flash("You are currently logged in", "alert alert-info", '/');
+	    }
+    }
+/**
  * LoadClass method
  * tries and loads a Model class safely within the system not reusing existing resources
  *
@@ -76,8 +103,8 @@ class Controller {
  * @return (bool)
  */
 	public function LoadClass($class, $url_options, $inputted_values) {
-		$class_name = "\Budlight\Model\\".$class;
-		if(!class_exists("\Budlight\Model\\".$class)) {
+		$class_name = "\Frost\Model\\".$class;
+		if(!class_exists("\Frost\Model\\".$class)) {
 			if(!file_exists($_SERVER['DOCUMENT_ROOT'].DS."Model".DS.ucfirst($class).".php")) {
 				throw new \WebException(sprintf("File %s does not exist within Model list", $class), 404);
 			}
@@ -95,9 +122,34 @@ class Controller {
  */
 	public function requestType($method = "GET") {
 		if($_SERVER['REQUEST_METHOD'] == $method) {
+			$token = \Configure::read("Token");
+			if($_SERVER['REQUEST_METHOD'] == "POST" && isset($token)) {
+				if($token["Token".$_POST['data']["_Token"]["key"]] != $_POST['data']["_Token"]["val"]) {
+					return false;
+				}
+				\Configure::delete("Token");
+			}
 			return true;
 		}
 		return false;
+	}
+
+/**
+ * Flash method
+ * Writes an flash message to appear on the site
+ *
+ * @param $message (string), $class (string), $redirect (array)
+ * @return
+ */
+	public function Flash($message, $class = "alert alert-info", $redirect = "") {
+		\Configure::write("Flash", array("message" => $message, "class" => $class));
+		if(is_array($redirect)) {
+			if(isset($redirect) && !empty($redirect)) {
+				header("Location: /".$redirect['controller']."/".$redirect['action']);
+			}
+		} else {
+			header("Location: ".$redirect);
+		}
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-print_r($typ__passed_params);
+//Configure::pre($typ__passed_params);
 
 ?>
 
@@ -13,37 +13,37 @@ print_r($typ__passed_params);
     </div>
     <table class="table table-striped table-bordered">
         <tr>
-            <th class="header"><?php //echo $this->Paginator->sort('username'); ?></th>
-            <th class="header"><?php //echo $this->Paginator->sort('email'); ?></th>
-            <th class="header"><?php //echo $this->Paginator->sort('email_verified'); ?></th>
-            <th class="header"><?php //echo $this->Paginator->sort('active'); ?></th>
-            <th class="header"><?php //echo $this->Paginator->sort('created'); ?></th>
-            <th class="actions"><?php //echo $this->Html->__t('users', 'Actions'); ?></th>
+            <th class="header"><?php echo $this->Html->Pag_Sort('username'); ?></th>
+            <th class="header"><?php echo $this->Html->Pag_Sort('email'); ?></th>
+            <th class="header"><?php echo $this->Html->Pag_Sort('email_verified'); ?></th>
+            <th class="header"><?php echo $this->Html->Pag_Sort('active'); ?></th>
+            <th class="header"><?php echo $this->Html->Pag_Sort('created'); ?></th>
+            <th class="actions"><?php echo $this->Html->__t('users', 'Actions'); ?></th>
         </tr>
-            <?php //foreach ($users as $user){ ?>
+            <?php foreach ($typ__passed_params['data']['Users'] as $user){ ?>
             <tr>
                 <td>
-                    <?php //echo $user[$model]['username']; ?>
+                    <?php echo $user['username']; ?>
                 </td>
                 <td>
-                    <?php //echo $user[$model]['email']; ?>
+                    <?php echo $user['email']; ?>
                 </td>
                 <td>
-                    <?php //echo $user[$model]['email_verified'] == 1 ? $this->Html->__t('users', 'Yes') : $this->Html->__t('users', 'No'); ?>
+                    <?php echo $user['email_verified'] == 1 ? $this->Html->__t('users', 'Yes') : $this->Html->__t('users', 'No'); ?>
                 </td>
                 <td>
-                    <?php //echo $user[$model]['active'] == 1 ? $this->Html->__t('users', 'Yes') : $this->Html->__t('users', 'No'); ?>
+                    <?php echo $user['is_admin'] == 1 ? $this->Html->__t('users', 'Yes') : $this->Html->__t('users', 'No'); ?>
                 </td>
                 <td>
-                    <?php //echo $this->Time->timeAgoInWords($user[$model]['created']); ?>
+                    <?php echo $this->Html->Time("TimeAgo", $user['created']); ?>
                 </td>
                 <td class="actions">
-                    <?php //echo $this->Html->link($this->Html->__t('users', 'View'), array('admin' => true, 'plugin' => 'users', 'controller' => 'users', 'action'=>'view', $user[$model]['id'])); ?>
-                    <?php //echo $this->Html->link($this->Html->__t('users', 'Edit'), array('action'=>'edit', $user[$model]['id'])); ?>
-                    <?php //echo $this->Html->link($this->Html->__t('users', 'Delete'), array('action'=>'delete', $user[$model]['id']), null, sprintf($this->Html->__t('users', 'Are you sure you want to delete # %s?'), $user[$model]['id'])); ?>
+                    <?php echo $this->Html->Url($this->Html->__t('users', 'View'), array('admin' => true, 'controller' => 'users', 'action'=>'view', 'params' => array($user['id'])), array('class' => 'btn-sm btn-primary')); ?>
+                    <?php echo $this->Html->Url($this->Html->__t('users', 'Edit'), array('admin' => true, 'controller' => 'users', 'action'=>'edit', 'params' => array($user['id'])), array('class' => 'btn-sm btn-warning')); ?>
+                    <?php echo $this->Html->UrlPost($this->Html->__t('users', 'Delete'), array('admin' => true, 'controller' => 'users', 'action'=>'delete', 'params' => array($user['id'])), array('class' => 'btn-sm btn-danger')); ?>
                 </td>
             </tr>
-        <?php //} ?>
+        <?php } ?>
     </table>
-    <?php //echo $this->element('pagination'); ?>
+    <?php echo $this->Html->Pagination("users", 5); ?>
 </div>

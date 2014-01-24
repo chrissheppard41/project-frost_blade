@@ -9,9 +9,11 @@ namespace Frost\Configs;
 class Html {
 
 	public $script;
+	private $Database;
 
-	function __construct() {
+	function __construct(Database $db) {
 		$this->script = "";
+		$this->Database = $db;
 	}
 
 /**
@@ -45,6 +47,45 @@ class Html {
 		return '<a href="'.$url_path.'"'.$attr.'>'.$name.'</a>';
 	}
 
+/**
+ * Url method
+ * UrlPost out nicely formatted URL within a form post, used for deleting
+ *
+ * @param $name(string), $url(mixin), $options (array)
+ * @return (string)
+  **/
+	public function UrlPost($name, $url, $options = array()) {
+		$url_path = "";
+		$attr = "";
+		if(is_array($url)) {
+			if(isset($url['admin']) && $url['admin'] === true) {
+				$url_path = "/admin/";
+			}
+			$url_path .= $url['controller']."/".$url['action'];
+			if(isset($url['params'])) {
+				foreach($url['params'] as $values) {
+					$url_path .= "/".$values;
+				}
+			}
+		} else {
+			$url_path = $url;
+		}
+
+		foreach($options as $key => $value) {
+			$attr .= ' '.$key.'="'.$value.'"';
+		}
+
+		$rand = \Configure::Random_generation();
+
+		$output = '
+<form action="'.$url_path.'" name="post_'.$rand.'" id="post_'.$rand.'" style="display:none;" method="post">
+	<input type="hidden" name="_method" value="POST">
+</form>
+<a href="#" '.$attr.' onclick="if (confirm(\'Are you sure you want to delete this record?\')) { document.post_'.$rand.'.submit(); } event.returnValue = false; return false;">Delete</a>
+';
+
+		return $output;
+	}
 
 /**
  * css method
@@ -248,4 +289,120 @@ class Html {
 		}
 	}
 
+/**
+ * Pagination method
+ * Displays a nice pagination button format
+ *
+ * @param $model(string)
+ * @return (string)
+  **/
+	public function Pagination($model) {
+		$index	= count(\Configure::$url['param'])-1;
+		$arr 	= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
+
+		$last_item = $arr[(count($arr)-1)];
+
+		$output = "";
+		$q = array(
+			"query" => "SELECT count(*) as `count` FROM ".$model,
+			"params" => null
+		);
+		$results = $this->Database->results($this->Database->query($q));
+		if($results[0]['count'] > $last_item) {
+			$output = '
+			<ul class="pagination">
+				'.$this->Pagionation_url($arr, 0, "&laquo;").'
+				';
+			for($i = 0; $i < ($results[0]['count']/$last_item); $i++) {
+				$output .= $this->Pagionation_url($arr, $i);
+			}
+			$output .= ''.$this->Pagionation_url($arr, floor($results[0]['count']/$last_item), "&raquo;").'
+			</ul>
+			';
+		}
+		return $output;
+	}
+
+	private function Pagionation_url($arr, $index, $name = "") {
+		return '<li'.
+		(($index == $arr[1])?' class="active"':'').'><a href="/'.
+		(((bool)strstr(\Configure::$url['action'], "admin_") == true)?"admin/":"").
+		str_replace("controller","",strtolower(\Configure::$url['controller'])).'/'.
+		str_replace("admin_","",\Configure::$url['action']).'/Pag:'.
+		$index.
+		((isset($arr[2]) && !is_numeric($arr[2]))?":".$arr[2]:"").
+		((isset($arr[3]))?":".$arr[3]:"").'">'.
+		(($name != "")?$name:($index+1)).
+		'</a></li>
+		';
+	}
+
+/**
+ * Pag_Sort method
+ * The ability to trigger a sort on pagination headers
+ *
+ * @param $pagination(string), $column(string)
+ * @return (string)
+  **/
+	public function Pag_Sort($pagination, $column = null) {
+		$index	= count(\Configure::$url['param'])-1;
+		$arr 	= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
+
+		$column = ((isset($column) && $column != null)?$column:$pagination);
+
+		$output = '<a href="/'.
+		(((bool)strstr(\Configure::$url['action'], "admin_") == true)?"admin/":"").
+		str_replace("controller","",strtolower(\Configure::$url['controller'])).'/'.
+		str_replace("admin_","",\Configure::$url['action']).'/Pag:'.
+		$arr[1].
+		":".$column.
+		":".((isset($arr[3]) && $arr[3] == "ASC" && $arr[2] == $column)?"DESC":"ASC").
+		'">'.ucfirst($pagination).'</a>';
+
+
+		return $output;
+	}
+
+/**
+ * Time method
+ * Outputs time method based on a string input
+ *
+ * @param $type(string), $type (string)
+ * @return (string)
+  **/
+	public function Time($type, $input = null, $full = false) {
+		$output = "";
+		$time = strtotime($input);
+
+		if($type == "TimeAgo") {
+			$now = new \DateTime;
+			$ago = new \DateTime($input);
+			$diff = $now->diff($ago);
+
+			$diff->w = floor($diff->d / 7);
+			$diff->d -= $diff->w * 7;
+
+			$string = array(
+				'y' => 'year',
+				'm' => 'month',
+				'w' => 'week',
+				'd' => 'day',
+				'h' => 'hour',
+				'i' => 'minute',
+				's' => 'second',
+			);
+			foreach ($string as $k => &$v) {
+				if ($diff->$k) {
+					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+				} else {
+					unset($string[$k]);
+				}
+			}
+
+			if (!$full) $string = array_slice($string, 0, 1);
+			return $string ? implode(', ', $string) . ' ago' : 'just now';
+		}
+
+		return $output;
+	}
 }

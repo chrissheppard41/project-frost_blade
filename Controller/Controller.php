@@ -82,7 +82,7 @@ class Controller {
  * @return (array)
  */
     public function before($action, $access) {
-    	if(strpos($action, "admin_") === true && !\Configure::Logged() && !(bool)\Configure::User("is_admin")) {
+    	if((bool)strstr($action, "admin_") == true && !(bool)\Configure::User("is_admin")) {
     		$this->Flash("You are not allowed to access this part of the site", "alert alert-danger", '/');
     	}
     	if(isset($access) && !empty($access)) {
@@ -91,7 +91,7 @@ class Controller {
 	    	}
 	    }
 
-	    if(\Configure::Logged() && (bool)strstr($action, "login") == true || (bool)strstr($action, "register") == true) {
+	    if(\Configure::Logged() && ((bool)strstr($action, "login") == true || (bool)strstr($action, "register") == true)) {
 	    	$this->Flash("You are currently logged in", "alert alert-info", '/');
 	    }
     }
@@ -102,7 +102,7 @@ class Controller {
  * @param $method (string)
  * @return (bool)
  */
-	public function LoadClass($class, $url_options, $inputted_values) {
+	public function LoadClass($class, $url_options = array(), $inputted_values = array()) {
 		$class_name = "\Frost\Model\\".$class;
 		if(!class_exists("\Frost\Model\\".$class)) {
 			if(!file_exists($_SERVER['DOCUMENT_ROOT'].DS."Model".DS.ucfirst($class).".php")) {
@@ -145,6 +145,10 @@ class Controller {
 		\Configure::write("Flash", array("message" => $message, "class" => $class));
 		if(is_array($redirect)) {
 			if(isset($redirect) && !empty($redirect)) {
+				if($redirect['admin'] == true) {
+					$redirect['controller'] = "admin/".$redirect['controller'];
+					$redirect['action'] = str_replace("admin_","",$redirect['action']);
+				}
 				header("Location: /".$redirect['controller']."/".$redirect['action']);
 			}
 		} else {

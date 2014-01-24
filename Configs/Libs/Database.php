@@ -88,7 +88,7 @@ class Database {
  * @param $querys (PDO::query)
  * @return (bool)
  */
-	public function save($queries) {
+	public function Save($queries) {
 
 		//echo "<pre>".print_r($queries, true)."</pre>";
 
@@ -123,12 +123,12 @@ class Database {
 
 /**
  * update method
- * Returns the SELECTs data values as an array object
+ * Generates a update method
  *
  * @param $querys (PDO::query)
  * @return (bool)
  */
-	public function update($queries) {
+	public function Update($queries) {
 
 		//echo "<pre>".print_r($queries, true)."</pre>";
 
@@ -171,6 +171,152 @@ class Database {
 
 	}
 
+/**
+ * Find method
+ * Returns the SELECTs data values as an array object
+ *
+ * @param $querys (PDO::query)
+ * @return (bool)
+ */
+	public function Find($format, $queries) {
+
+		//echo "<pre>".print_r($queries, true)."</pre>";
+		$output = array();
+
+		foreach($queries as $table => $query) {
+			foreach($query as $headers => $data) {
+				$where = "";
+				$arr = array();
+				$sql = "SELECT ";
+				$sql .= implode(",", array_values($data['fields']));
+
+				$i = 0;
+				if(isset($data['condition'])) {
+					foreach($data['condition'] as $head => $val) {
+						if($head == "or") {
+							foreach($val as $heador => $valor) {
+								if($i != 0) {
+									$where .= " OR ";
+								}
+								$where .= $heador."=:".$heador;
+								$arr[":".$heador] = $valor;
+								$i++;
+							}
+						} else {
+							if($i != 0) {
+								$where .= " AND ";
+							}
+							$where .= $head."=:".$head;
+							$arr[":".$head] = $val;
+							$i++;
+						}
+
+					}
+				}
+
+				$sql .= " FROM ".strtolower($table)."";
+				if($where != "") {
+					$sql .= " WHERE ".$where;
+				}
+
+				if($format == "pagination") {
+					$page_count = ((isset($data['pagination']))?$data['pagination']:10);
+					$page = $this->Page($page_count);
+					if(isset($page[1])) {
+						$sql .= " ORDER BY ".$page[1]." ".$page[2]."";
+					}
+					$sql .= " LIMIT ".((int)$page[0]*$page_count).",".(int)$page_count."";
+				}
+				$sql .= ";";
+
+				$q = array(
+					"query" => $sql,
+					"params" => $arr
+				);
+				if($results = $this->results($this->query($q))) {
+					if($format == "first") {
+						$output[$table] = $results[0];
+					} else if($format == "group") {
+						$output[$table][] = $results;
+					} else if($format == "pagination") {
+						$output[$table] = $results;
+					} else {
+						$output[$table] = $results;
+					}
+
+				} else {
+					$output[$table][] = null;
+				}
+			}
+		}
+		return $output;
+
+	}
+/**
+ * Delete method
+ * Deletes a entry or group of entries based on given ID's
+ *
+ * @param $key (string)
+ * @return
+ */
+	public function Delete($queries) {
+
+		//echo "<pre>".print_r($queries, true)."</pre>";
+		foreach($queries as $table => $query) {
+			$arr = array();
+			$sql = "DELETE FROM ".strtolower($table)."";
+
+			if(count($query) > 0) {
+				$sql .= " WHERE";
+				foreach($query as $column => $list) {
+					$i = 0;
+					foreach($list as $key => $value) {
+						if($i != 0) {
+							$sql .= " OR";
+						}
+						$sql .= ' '.$column.' = :'.'key_'.$key;
+						$arr[':key_'.$key] = $value;
+
+						$i++;
+					}
+				}
+			}
+			$sql .= ";";
+
+			$q = array(
+				"query" => $sql,
+				"params" => $arr
+			);
+			if(!$this->query($q)) {
+				throw new \PDOException("Bad error handler most likely something to do with the query string");
+			}
+		}
+	}
+
+/**
+ * Page method
+ * Gets the current page for pagination by reading the url
+ *
+ * @param $key (string)
+ * @return
+ */
+	public function Page($page_count) {
+		$index = count(\Configure::$url['param'])-1;
+		if($index != -1) {
+
+			$arr 				= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
+			\Configure::$url['param'][$index] .= ":".$page_count;
+
+			if(count($arr) >= 2) {
+				$column = (isset($arr[2]))?$arr[2]:null;
+				$order = (isset($arr[3]))?$arr[3]:"ASC";
+				return array($arr[1],$column,$order);
+			}
+
+		}
+		\Configure::$url['param'][] .= "Pag:0:".$page_count;
+		return array(0,null,null);
+	}
 /**
  * c_read method
  * Reads a cache file based on $config(folder) and $name(filename) and returns a array object

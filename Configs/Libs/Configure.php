@@ -7,6 +7,7 @@
  */
 class Configure {
 
+	public static $url = array();
 /**
  * read method
  * Reads the session data based on the key
@@ -38,7 +39,7 @@ class Configure {
  * @return
  */
 	public static function delete($key) {
-		 \Frost\Configs\Session_handler::delete($_SESSION, $key);
+		\Frost\Configs\Session_handler::delete($_SESSION, $key);
 	}
 /**
  * Auth method
@@ -81,6 +82,40 @@ class Configure {
 			return $user;
 		}
 		return null;
+	}
+	/**
+	 * awesome <pre> wrapper method
+	 *
+	 * @param ( mixed ) $data
+	 * @param ( bool ) $doDie
+	 * @return ( bool ) || ( void )
+	 */
+	public static function pre($data, $doDie = true) {
+		echo "<pre>";
+
+		if (is_array($data)) {
+				print_r($data);
+		} else {
+				var_dump($data);
+		}
+
+		echo "</pre>";
+
+		if ($doDie) {
+				die();
+		}
+
+		return true;
+	}
+/**
+ * Random_generation method
+ * generates a random string
+ *
+ * @param $key (string)
+ * @return
+ */
+	public static function Random_generation() {
+		return substr( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50) , 1) .substr( md5( time() ), 1);
 	}
 
 }

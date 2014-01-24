@@ -56,7 +56,7 @@ class Validation {
 		return $output;
 	}
 
-	private static function response($key, $message) {
+	public static function response($key, $message) {
 		return array(
 			"error" => true,
 			"field" => $key,

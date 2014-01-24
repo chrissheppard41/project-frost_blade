@@ -34,10 +34,32 @@ class UsersController extends Controller {
  * @param
  * @return (array)
  */
-	public function admin_index() {
+	public function admin_index($options) {
 		$this->view = "admin";
 
-		return array("code" => 200, "message" => "User Index", "data" => array(), "errors" => null);
+		$user = $this->LoadClass("Users");
+		$data = $user->Find("pagination",
+			array(
+				"Users" => array(
+					array(
+						"fields" => array(
+							"id",
+							"username",
+							"slug",
+							"email",
+							"email_verified",
+							"is_admin",
+							"last_login",
+							"created",
+							"modified"
+						),
+						"pagination" => 10
+					)
+				)
+			)
+		);
+
+		return array("code" => 200, "message" => "User Index", "data" => $data, "errors" => null);
 	}
 
 /**
@@ -93,6 +115,19 @@ class UsersController extends Controller {
  */
 	public function admin_delete($options) {
 		$this->view = "admin";
+
+		$user = $this->LoadClass("Users");
+		$user->Delete(
+			array(
+				"Users" => array(
+					"id" => array(
+						$options[0]
+					)
+				)
+			)
+		);
+
+		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'users', 'action' => 'admin_index', 'admin' => true));
 
 		return array("code" => 200, "message" => "User Index", "data" => array(), "errors" => null);
 	}

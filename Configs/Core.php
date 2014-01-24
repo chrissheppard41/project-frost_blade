@@ -24,7 +24,6 @@ require (PATH."Controller/Controller.php");
  */
 class Core {
 	private $database 	= null;
-	private $url 		= null;
 	private $codes = array(
 		200 => 'OK',
 		400 => 'Bad Request',
@@ -49,10 +48,9 @@ class Core {
 
 	function __construct() {
 		$this->crypt = new Crypt(CRYPTKEY);
-		$this->Html = new Html();
 		$this->Session = new Session();
 
-		$this->url = $this->urlParsing();
+		\Configure::$url = $this->urlParsing();
 	}
 
 /**
@@ -78,14 +76,15 @@ class Core {
 
 		try {
 			$this->database = new Database();
+			$this->Html = new Html($this->database);
 
 			//if(LIVE)
 			//	Logging::Access();
 
 			$controller = new \Frost\Controller\Controller(
-				$this->url['controller'],
-				isset($this->url['action']) ? $this->url['action'] : '',
-				$this->url['param'],
+				\Configure::$url['controller'],
+				isset(\Configure::$url['action']) ? \Configure::$url['action'] : '',
+				\Configure::$url['param'],
 				$_POST
 			);
 
@@ -207,7 +206,7 @@ class Core {
 	private function output($action_data, $request, $view) {
 		$output = "";
 		if(LIVE) {
-			switch($this->url['ext']) {
+			switch(\Configure::$url['ext']) {
 				case "json":
 					header('Content-type: application/json');
 				break;

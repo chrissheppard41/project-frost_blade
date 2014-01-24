@@ -69,17 +69,30 @@ class Users extends \Frost\Configs\Database {
 
 		$crypt_pass = sha1(crypt($this->post['data']['User']['password'], CRYPTKEY.$this->post['data']['User']['email']));
 
-		$query = array(
-			"query" => "SELECT id, username, slug, email, last_login, is_admin, created, modified FROM users WHERE email = :email AND password = :password;",
-			"params" => array(
-				":email" => $this->post['data']['User']['email'],
-				":password" => $crypt_pass
+		$data = $this->Find("first",
+			array(
+				"Users" => array(
+					array(
+						"fields" => array(
+							"id",
+							"username",
+							"slug",
+							"email",
+							"is_admin",
+							"last_login",
+							"created",
+							"modified"
+						),
+						"condition"	=> array(
+							"email" => $this->post['data']['User']['email'],
+							"password" => $crypt_pass
+						)
+					)
+				)
 			)
 		);
 
-		$results = $this->results($this->query($query));
-
-		if(!empty($results)) {
+		if(!empty($data['Users'])) {
 			$queryUpdate = array(
 				"Users" => array(
 					array(
@@ -88,13 +101,13 @@ class Users extends \Frost\Configs\Database {
 							"modified" 			=> date("Y-m-d H:i:s")
 						),
 						"condition"	=> array(
-							"id" 				=> $results[0]['id']
+							"slug" 				=> $data['Users']['slug']
 						)
 					)
 				)
 			);
-			$this->update($queryUpdate);
-			return $results[0];
+			$this->Update($queryUpdate);
+			return $data["Users"];
 		}
 		return false;
 	}
@@ -110,6 +123,42 @@ class Users extends \Frost\Configs\Database {
 		$validation = \Validation::validate($this->validation, "User");
 		if($validation["error"]) {
 			return $validation;
+		}
+
+		$data = $this->Find("first",
+			array(
+				"Users" => array(
+					array(
+						"fields" => array(
+							"slug",
+							"username",
+							"email"
+						),
+						"condition"	=> array(
+							"or" => array (
+								"username" => $this->post['data']['User']['username'],
+								"email" => $this->post['data']['User']['email']
+							)
+						)
+					)
+				)
+			)
+		);
+
+
+		if(isset($data) && !empty($data)) {
+
+			$head = "";
+			if($this->post['data']['User']['username'] == $data['Users']['username']) {
+				$head = "Username";
+			}
+			if($this->post['data']['User']['email'] == $data['Users']['email']) {
+				if(strlen($head) > 0)
+					$head .= "/";
+
+				$head .= "Email";
+			}
+			return \Validation::response($head,"The information you provided is currently being used, please choose a different ".$head);
 		}
 
 		$crypt_pass = sha1(crypt($this->post['data']['User']['password'], CRYPTKEY.$this->post['data']['User']['email']));
@@ -128,6 +177,6 @@ class Users extends \Frost\Configs\Database {
 				)
 			)
 		);
-		$this->save($query);
+		$this->Save($query);
 	}
 }

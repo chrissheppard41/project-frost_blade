@@ -21,7 +21,6 @@
         <div id="mainContainer" class="container">
                 <?php
                 echo $this->Html->Flash();
-                //echo $this->Session->flash('auth');
                 ?>
 
                 <?php echo $this->element("admin/sub_nav"); ?>

@@ -37,8 +37,7 @@ class UsersController extends Controller {
 	public function admin_index($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("Users");
-		$data = $user->Find("pagination",
+		$data = $this->model->Find("pagination",
 			array(
 				"Users" => array(
 					array(
@@ -74,7 +73,28 @@ class UsersController extends Controller {
 	public function admin_view($options) {
 		$this->view = "admin";
 
-		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
+		$data = $this->model->Find("first",
+			array(
+				"Users" => array(
+					array(
+						"fields" => array(
+							"id",
+							"username",
+							"slug",
+							"email",
+							"email_verified",
+							"is_admin",
+							"last_login",
+							"created",
+							"modified"
+						),
+						"condition" => array("id" => $options[0])
+					)
+				)
+			)
+		);
+
+		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
  * admin_view admin_add
@@ -85,8 +105,20 @@ class UsersController extends Controller {
  * @param
  * @return (array)
  */
-	public function admin_add($options) {
+	public function admin_add($options, $methodData) {
 		$this->view = "admin";
+		if($this->requestType("POST")) {
+			if($this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
+			} else {
+				$data = $this->model->Save();
+				if($data["error"] === true) {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
+				} else {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+				}
+			}
+		}
 
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
@@ -99,10 +131,26 @@ class UsersController extends Controller {
  * @param
  * @return (array)
  */
-	public function admin_edit($options) {
+	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
+		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "condition"	=> array( "id" => $options[0] ) ) ) ) );
 
-		return array("code" => 200, "message" => "User Edit", "data" => array(), "errors" => null);
+		if($this->requestType("POST")) {
+			if($data["Users"]["username"] != $this->model->post["Users"]["username"] || $data["Users"]["email"] != $this->model->post["Users"]["email"]
+			&&  $this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
+			} else {
+				$data = $this->model->Update($this->model->post, array("id" => $options[0]));
+				if($data["error"] === true) {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
+				} else {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+				}
+			}
+		}
+
+		$_POST["data"] = $data;
+		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
  * admin_delete method
@@ -116,12 +164,11 @@ class UsersController extends Controller {
 	public function admin_delete($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("Users");
-		$user->Delete(
+		$this->model->Delete(
 			array(
 				"Users" => array(
-					"id" => array(
-						$options[0]
+					"condition" => array(
+						"id" => $options[0]
 					)
 				)
 			)
@@ -143,8 +190,7 @@ class UsersController extends Controller {
  */
 	public function login($options, $methodData) {
 		if($this->requestType("POST")) {
-			$user = $this->LoadClass("Users", array(), $methodData);
-			$data = $user->log_user();
+			$data = $this->model->log_user();
 
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
@@ -185,12 +231,15 @@ class UsersController extends Controller {
  */
 	public function register($options, $methodData) {
 		if($this->requestType("POST")) {
-			$user = $this->LoadClass("Users", array(), $methodData);
-			$data = $user->reg_user();
-			if($data["error"] === true) {
-				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
+			if($this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
 			} else {
-				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'login'));
+				$data = $this->model->Save();
+				if($data["error"] === true) {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
+				} else {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+				}
 			}
 
 			return array("code" => 200, "message" => "User Register", "data" => $data, "errors" => null);

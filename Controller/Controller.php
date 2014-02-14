@@ -12,6 +12,7 @@ class Controller {
 	public $requestData 		= null;
 	public $return_request 		= null;
 	public $view_vendor 		= array();
+	public $model 				= null;
 
 
 /**
@@ -50,6 +51,7 @@ class Controller {
         $conAct->Before($action, $conAcc);
 
         if(method_exists($conAct,$action)) {
+			$conAct->model = $this->LoadClass(ucfirst($model_name), $params, $methodData);
         	$this->pass_back = $conAct->$action($params, $methodData);
         } else {
         	throw new \WebException(sprintf("Action %s does not exist within Controller %s", $action, $name), 404);

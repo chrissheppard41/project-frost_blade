@@ -246,7 +246,7 @@ class Core {
  * @param $template (string), $param (string),
  * @return (string)
   **/
-	public function Render($typ__layout, $typ__passed_params, $typ__template) {
+	public function Render($typ__layout, $typ__, $typ__template) {
 		ob_start();
 		include($typ__template);
 		$typ__view = ob_get_contents();

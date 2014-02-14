@@ -24,13 +24,16 @@ class Html {
  * @return (string)
   **/
 	public function Url($name, $url, $options = array()) {
+		if(!isset($url['controller']))
+			$url['controller'] = str_replace("Controller", "", \Configure::$url['controller']);
+
 		$url_path = "";
 		$attr = "";
 		if(is_array($url)) {
 			if(isset($url['admin']) && $url['admin'] === true) {
-				$url_path = "/admin/";
+				$url_path = "/admin";
 			}
-			$url_path .= $url['controller']."/".$url['action'];
+			$url_path .= "/".strtolower($url['controller'])."/".$url['action'];
 			if(isset($url['params'])) {
 				foreach($url['params'] as $values) {
 					$url_path .= "/".$values;
@@ -55,6 +58,9 @@ class Html {
  * @return (string)
   **/
 	public function UrlPost($name, $url, $options = array()) {
+		if(!isset($url['controller']))
+			$url['controller'] = str_replace("Controller", "", \Configure::$url['controller']);
+
 		$url_path = "";
 		$attr = "";
 		if(is_array($url)) {
@@ -167,10 +173,10 @@ class Html {
  * __t method
  * Gets the translated phrase from a copy
  *
- * @param $list(string), $phrase(string)
+ * @param $phrase(string)
  * @return (string)
   **/
-	public function __t($list, $phrase) {
+	public function __t($phrase) {
 		return $phrase;
 	}
 
@@ -221,6 +227,7 @@ class Html {
 	public function Input($name, $model, $options = array()) {
 		$nameucf = ucfirst($name);
 		$output = '<div class="form-group">';
+		$outputExra = '';
 		if(isset($options['label'])){
 			$output .= '	<label for="'.$model.''.$nameucf.'" class="control-label">'.$options['label'].'</label>';
 			unset($options['label']);
@@ -231,13 +238,21 @@ class Html {
 			if(isset($options['name']))
 				unset($options['name']);
 
-			$output .= '	<input name="data['.$model.']['.strtolower($name).']"';
+			if($options['type'] == "checkbox")
+				$outputExra = '<input name="data['.$model.']['.strtolower($name).']" type="hidden" value="" />';
+
+			$output .= $outputExra.'<input name="data['.$model.']['.strtolower($name).']"';
 			foreach($options as $key => $values) {
 				$output .= ' '.$key.'="'.$values.'"';
 			}
 
-			if(isset($_POST['data'][$model][strtolower($name)]))
-				$output .= ' value="'.$_POST['data'][$model][strtolower($name)].'"';
+			if(isset($_POST['data'][$model][strtolower($name)])) {
+				if($options['type'] == "checkbox") {
+					if((bool)$_POST['data'][$model][strtolower($name)] === true)
+						$output .= ' checked="checked"';
+				} else
+					$output .= ' value="'.$_POST['data'][$model][strtolower($name)].'"';
+			}
 
 			$output .= ' />';
 		}
@@ -274,8 +289,7 @@ class Html {
   **/
 	public function Flash($message = "", $class = "alert alert-info") {
 		if(isset($message) and $message != "") {
-			\Configure::write("Flash.message", $message);
-			\Configure::write("Flash.class", $class);
+			\Configure::write("Flash", array("message" => $message, "class" => $class));
 		} else {
 			$message = \Configure::read("Flash.message");
 			$output = "";
@@ -308,6 +322,7 @@ class Html {
 			"params" => null
 		);
 		$results = $this->Database->results($this->Database->query($q));
+
 		if($results[0]['count'] > $last_item) {
 			$output = '
 			<ul class="pagination">

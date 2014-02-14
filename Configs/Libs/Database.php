@@ -1,7 +1,7 @@
 <?php
 namespace Frost\Configs;
 
-require "\Configs\Connection.php";
+require PATH."Configs\Connection.php";
 /*
 	@class Database
 	@author Chris Sheppard
@@ -9,6 +9,9 @@ require "\Configs\Connection.php";
 */
 class Database {
 	public $connection = null;
+	protected $table = null;
+	protected $validation = array();
+	public $post = array();
 
 	function __construct() {
 		$this->connection = Connection::PDO();
@@ -33,13 +36,7 @@ class Database {
 		} else {
 			$q = $this->connection->prepare($query['query']);
 			if($q) {
-				$res = $q->execute($query['params']);
-
-				if ($res === FALSE)	{
-					throw new \PDOException($q->errorInfo());
-				}
-			} else {
-				throw new \PDOException("Bad error handler most likely something to do with the query string");
+				$q->execute($query['params']);
 			}
 		}
 
@@ -61,10 +58,10 @@ class Database {
  * returnLastId method
  * Returns the INSERT/UPDATE last inserted ID
  *
- * @param $query (PDO::query)
+ * @param $query ()
  * @return (int)
  */
-	public function returnLastId($query) {
+	public function returnLastId() {
 		return $this->connection->lastInsertId();
 	}
 
@@ -76,9 +73,7 @@ class Database {
  * @return (Array)
  */
 	public function results($query) {
-		if(@$query) {
-			return $query->fetchAll(\PDO::FETCH_ASSOC);
-		}
+		return $query->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 /**
@@ -88,39 +83,173 @@ class Database {
  * @param $querys (PDO::query)
  * @return (bool)
  */
-	public function Save($queries) {
+	public function Save($queries = array()) {
+		if(isset($queries) && !empty($queries))
+			$this->post = $queries;
 
-		//echo "<pre>".print_r($queries, true)."</pre>";
+		if(isset($this->post['_Token']))
+			unset($this->post['_Token']);
 
-		foreach($queries as $key => $value) {
-			$sql = "INSERT INTO ".$key."(";
-			$headers = array_keys($value[0]);
-			$sql .= implode(",", $headers);
-			$sql .= ") VALUES ";
-			$inval = "";
-			for($i = 0; $i < count($headers); $i++) {
-				if($i < (count($headers)-1))
-					$inval .= "?, ";
-				else
-					$inval .= "?";
+		$table = ucfirst($this->table);
+
+		foreach($this->post as $key => $value) {
+
+			$sql = "INSERT INTO ".strtolower($key)." (";
+			$returnval = null;
+			if(isset($value[0])) {
+				$returnval = $this->deepsave($value);
+			} else {
+				$returnval = $this->shallowsave($value);
 			}
-			$qPart = array_fill(0, count($value), "(".$inval.")");
-			$sql .=  implode(",",$qPart);
+			$query = array(
+				"query" => $sql.$returnval["sql"],
+				"params" => $returnval["arr"]
+			);
 
-			$q = $this->connection->prepare($sql);
-			$i = 1;
-			foreach($value as $item) { //bind the values one by one
-				foreach($headers as $h) {
-					$q->bindParam($i++, $item[$h]);
+			$this->query($query);
+
+		}
+
+		return true;
+	}
+/**
+ * deepsave method
+ * A method that handles the datagrouping conditions
+ *
+ * @param $head(String), $val(String)
+ * @return (array)
+ */
+	private function deepsave($value) {
+		$i = 0;
+		$deepsql = "";
+		$sql_ = "";
+		$arr = array();
+		foreach($value as $head => $deepval) {
+			$deepval = array_merge($deepval, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
+			$headers = array_keys($deepval);
+
+			$j = 0;
+			$sqlval = null;
+			foreach($deepval as $header => $val) {
+				$validation = \Validation::validate($head, $deepval, $this->validation, $this->table, "edit");
+				if($validation["error"])
+					return $validation;
+				if($validation["skip"])
+					continue;
+
+				if($j == 0)
+					$sqlval .= ":".$i.$j.$header;
+				else
+					$sqlval .= ", :".$i.$j.$header;
+
+				$arr[":".$i.$j.$header] = $validation["value"];
+				$j++;
+			}
+			$qPart = array_fill(0, 1, "(".$sqlval.")");
+			$deepsql .= implode(",",$qPart);
+
+			$i++;
+			if($i < count($value)) {
+				$deepsql .= ", ";
+			} else {
+				$deepsql .= ";";
+			}
+		}
+		$sql_ .= implode(",", $headers).")";
+		$sql_ .= " VALUES";
+		$sql_ .= " ".$deepsql;
+
+		return array("sql" => $sql_, "arr" => $arr);
+	}
+/**
+ * shallowsave method
+ * A method that handles the datagrouping conditions
+ *
+ * @param $head(String), $val(String)
+ * @return (array)
+ */
+	private function shallowsave($value) {
+		$sql = "";
+		$value = array_merge($value, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
+
+		$arr = array();
+		$i = 0;
+		$sqlval = null;
+		foreach($value as $header => $val) {
+			$validation = \Validation::validate($header, $value, $this->validation, $this->table, "edit");
+			if($validation["error"])
+				return $validation;
+			if($validation["skip"]){
+				unset($value[$header]);
+				continue;
+			}
+			if($i == 0)
+				$sqlval .= ":".$i.$header;
+			else
+				$sqlval .= ", :".$i.$header;
+
+			$arr[":".$i.$header] = $validation["value"];
+			$i++;
+		}
+		$headers = array_keys($value);
+		$sql .= implode(", ", $headers);
+		$sql .= ") VALUES ";
+		$qPart = array_fill(0, 1, "(".$sqlval.")");
+		$sql .=  implode(",",$qPart).";";
+
+		return array("sql" => $sql, "arr" => $arr);
+	}
+
+/**
+ * conditions method
+ * A method that handles the Where conditions
+ *
+ * @param $head(String), $val(String)
+ * @return (array)
+ */
+	private function conditions($condition) {
+		$where = "";
+		$arr = array();
+		$i = 0;
+		if(isset($condition["condition"])) {
+			foreach($condition["condition"] as $head => $val) {
+				if($head == "or") {
+					foreach($val as $heador => $valor) {
+						if(is_array($valor)) {
+							foreach($valor as $valarray) {
+								if($i != 0) {
+									$where .= " OR ";
+								}
+								$where .= $heador."=:o".$i.$heador;
+								$arr[":o".$i.$heador] = $valarray;
+								$i++;
+							}
+						} else {
+							if($i != 0) {
+								$where .= " OR ";
+							}
+							$where .= $heador."=:o".$heador;
+							$arr[":o".$heador] = $valor;
+							$i++;
+						}
+
+					}
+				} else {
+					if($i != 0) {
+						$where .= " AND ";
+					}
+					$where .= $head."=:a".$head;
+					$arr[":a".$head] = $val;
+					$i++;
 				}
 			}
 		}
 
-		if(!$q->execute()) {
-			throw new \PDOException("Bad error handler most likely something to do with the query string");
-		}
+		return array(
+			"where" => $where,
+			"arr" => $arr
+		);
 	}
-
 /**
  * update method
  * Generates a update method
@@ -128,46 +257,55 @@ class Database {
  * @param $querys (PDO::query)
  * @return (bool)
  */
-	public function Update($queries) {
+	public function Update($queries, $condition = array()) {
+		if(!empty($condition)) {
+			$queries = array(
+				$this->table => array(
+					"data" => $queries[$this->table],
+					"condition" => $condition
+				)
+			);
+		}
 
-		//echo "<pre>".print_r($queries, true)."</pre>";
-
+		//echo "<pre>".print_r($this->post, true)."</pre>";
 		foreach($queries as $key => $value) {
-			$sql = "UPDATE ".$key." SET ";
+			$sql = "UPDATE ".strtolower($key)." SET ";
 			$where = "";
 			$arr = array();
-			foreach($value as $key2 => $data) {
-				$i = 0;
-				foreach($data['data'] as $head => $val) {
-					if($i != 0) {
-						$sql .= ", ";
-					}
-					$sql .= $head."=:".$head;
-					$arr[":".$head] = $val;
-					$i++;
+			$i = 0;
+
+			$value['data'] = array_merge($value['data'], array("modified" => date("Y-m-d H:i:s")));
+
+			foreach($value['data'] as $head => $val) {
+				$validation = \Validation::validate($head, $value['data'], $this->validation, $this->table, "edit");
+				if($validation["error"])
+					return $validation;
+				if($validation["skip"])
+					continue;
+
+				if($i != 0) {
+					$sql .= ", ";
 				}
-				$i = 0;
-				foreach($data['condition'] as $head => $val) {
-					if($i != 0) {
-						$sql .= ", ";
-					}
-					$where .= $head."=:".$head;
-					$arr[":".$head] = $val;
-					$i++;
-				}
-				if($where != "") {
-					$sql .= " WHERE ".$where;
-				}
+
+				$sql .= $head."=:".$head;
+				$arr[":".$head] = $validation['value'];
+				$i++;
+			}
+			$returned = $this->conditions($value);
+			$where = $returned['where'];
+			$arr = array_merge($arr, $returned['arr']);
+
+			if($where != "") {
+				$sql .= " WHERE ".$where;
 			}
 			$query = array(
 				"query" => $sql,
 				"params" => $arr
 			);
 
-			if(!$this->query($query)) {
-				throw new \PDOException("Bad error handler most likely something to do with the query string");
-			}
+			$this->query($query);
 		}
+		return true;
 
 	}
 
@@ -190,29 +328,9 @@ class Database {
 				$sql = "SELECT ";
 				$sql .= implode(",", array_values($data['fields']));
 
-				$i = 0;
-				if(isset($data['condition'])) {
-					foreach($data['condition'] as $head => $val) {
-						if($head == "or") {
-							foreach($val as $heador => $valor) {
-								if($i != 0) {
-									$where .= " OR ";
-								}
-								$where .= $heador."=:".$heador;
-								$arr[":".$heador] = $valor;
-								$i++;
-							}
-						} else {
-							if($i != 0) {
-								$where .= " AND ";
-							}
-							$where .= $head."=:".$head;
-							$arr[":".$head] = $val;
-							$i++;
-						}
-
-					}
-				}
+				$returned = $this->conditions($data);
+				$where = $returned['where'];
+				$arr = $returned['arr'];
 
 				$sql .= " FROM ".strtolower($table)."";
 				if($where != "") {
@@ -233,19 +351,14 @@ class Database {
 					"query" => $sql,
 					"params" => $arr
 				);
+
 				if($results = $this->results($this->query($q))) {
 					if($format == "first") {
 						$output[$table] = $results[0];
-					} else if($format == "group") {
-						$output[$table][] = $results;
-					} else if($format == "pagination") {
-						$output[$table] = $results;
 					} else {
 						$output[$table] = $results;
 					}
 
-				} else {
-					$output[$table][] = null;
 				}
 			}
 		}
@@ -266,31 +379,56 @@ class Database {
 			$arr = array();
 			$sql = "DELETE FROM ".strtolower($table)."";
 
-			if(count($query) > 0) {
-				$sql .= " WHERE";
-				foreach($query as $column => $list) {
-					$i = 0;
-					foreach($list as $key => $value) {
-						if($i != 0) {
-							$sql .= " OR";
-						}
-						$sql .= ' '.$column.' = :'.'key_'.$key;
-						$arr[':key_'.$key] = $value;
 
-						$i++;
-					}
-				}
+			$returned = $this->conditions($query);
+			$where = $returned['where'];
+			$arr = array_merge($arr, $returned['arr']);
+
+			if($where != "" && $where != null) {
+				$sql .= " WHERE ".$where;
 			}
+
 			$sql .= ";";
 
 			$q = array(
 				"query" => $sql,
 				"params" => $arr
 			);
-			if(!$this->query($q)) {
-				throw new \PDOException("Bad error handler most likely something to do with the query string");
-			}
+
+			$this->query($q);
 		}
+	}
+/**
+ * Exists method
+ * Checks to see if the item exists in the database
+ *
+ * @param $value (mixed)
+ * @return (Bool)
+ */
+	public function Exists($value) {
+		if(is_array($value)) {
+			$where = "WHERE ";
+			$i = 0;
+			foreach($value as $head => $val) {
+				if($i != 0)
+					$where .= " OR ";
+
+				$where .= $head."=:".$i.$head;
+				$arr[":".$i.$head] = $val;
+				$i++;
+			}
+		} else {
+			$where = "WHERE id = :id";
+			$arr = array(":id" => $value);
+		}
+
+		$class = explode("\\", get_class($this));
+		$sql = "SELECT id FROM ".strtolower($class[count($class)-1])." ".$where.";";
+		$q = array(
+			"query" => $sql,
+			"params" => $arr
+		);
+		return (bool)$this->returnCount($this->query($q));
 	}
 
 /**
@@ -307,11 +445,9 @@ class Database {
 			$arr 				= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
 			\Configure::$url['param'][$index] .= ":".$page_count;
 
-			if(count($arr) >= 2) {
-				$column = (isset($arr[2]))?$arr[2]:null;
-				$order = (isset($arr[3]))?$arr[3]:"ASC";
-				return array($arr[1],$column,$order);
-			}
+			$column = (isset($arr[2]))?$arr[2]:null;
+			$order = (isset($arr[3]))?$arr[3]:"ASC";
+			return array($arr[1],$column,$order);
 
 		}
 		\Configure::$url['param'][] .= "Pag:0:".$page_count;
@@ -325,18 +461,15 @@ class Database {
  * @return (Array)
  */
 	public function c_read($config, $name) {
-		if(LIVE) {
-			$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
-			$data = null;
+		if (!file_exists("tmp" . DS . "cache" . DS . $config)) return array();
 
-			if($filer = @fopen($filename, 'r')) {
-				$data = fread($filer, filesize($filename));
-				fclose($filer);
-				return unserialize($data);
-			} else {
-				return array();
-			}
+		$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
+		$data = null;
 
+		if($filer = @fopen($filename, 'r')) {
+			$data = fread($filer, filesize($filename));
+			fclose($filer);
+			return unserialize($data);
 		} else {
 			return array();
 		}
@@ -350,14 +483,15 @@ class Database {
  * @return (Array)
  */
 	public function c_write($config, $name, $data) {
-		if(LIVE) {
-			$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
-			$filew = fopen($filename, 'w');
-		    fwrite($filew, serialize ($data));
-		    fclose($filew);
+		if (!file_exists("tmp" . DS . "cache" . DS . $config))
+			mkdir("tmp" . DS . "cache" . DS . $config, 0777, true);
 
-		    @chmod("$filename", 0777);
-		}
+		$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
+		$filew = fopen($filename, 'w');
+	    fwrite($filew, serialize ($data));
+	    fclose($filew);
+
+	    @chmod("$filename", 0777);
 	}
 
 /**
@@ -368,9 +502,9 @@ class Database {
  * @return (Array)
  */
 	public function c_delete($config, $name) {
-		if(LIVE) {
-			$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
-			if(file_exists($_SERVER['DOCUMENT_ROOT']. DS .$filename)) {
+		$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
+		if (file_exists($filename)) {
+			if(file_exists($filename)) {
 				unlink($filename);
 			}
 		}

@@ -7,48 +7,69 @@
  */
 class Validation {
 
-	public static function validate($rules, $model) {
+	public static function validate($p_index, $p_value, $p_rules, $p_model, $p_type = "add") {
+		//\Configure::pre($p_value, true);
+		$output = self::response(false, $p_index, null, $p_value[$p_index], false);
+		//id should never be part of any save/update query
+		if($p_index == "id")
+			return self::response(false, $p_index, null, $p_value[$p_index], true);
 
-		//echo "<pre>".print_r($rules, true)."</pre>";
-		//echo "<pre>".print_r($_POST['data']['User'], true)."</pre>";
+		if(isset($p_rules[$p_index])){
+			foreach($p_rules[$p_index] as $head => $value) {
+//\Configure::pre($head, false);
+//\Configure::pre($value, false);
 
-		$output = array(
-			"error" => false,
-			"field" => null,
-			"message" => null
-		);
+				if(isset($value['ignore']) && in_array($p_type, $value['ignore'])) {
 
-		foreach($rules as $key => $value) {
+					if($p_value[$p_index] == "") {
+						if($head == "match"
+						&& $p_value[$p_index] == ""
+						&& $p_value[$value['value']] != "") {
+						} else {
+							$output = self::response(false, $p_index, null, $p_value[$p_index], true);
+							break;
+						}
 
-			if(isset($value['notempty']) && array_keys($value['notempty']) == true) {
-				if(in_array($key, array_keys($_POST['data'][$model]))) {
-
-					if($_POST['data'][$model][$key] == "") {
-						$output = self::response($key, $value["notempty"]["message"]);
-						break;
 					}
-
 				}
-			}
 
-			if(isset($_POST['data'][$model][$key])) {
-				foreach($value as $key2 => $value2) {
-					if($key2 == "email" && !self::is_email($_POST['data'][$model][$key])) {
-						$output = self::response($key, $value["email"]["message"]);
-						break;
-					}
-					if($key2 == "between" && !self::is_between($_POST['data'][$model][$key], $value["between"]["min"], $value["between"]["max"])) {
-						$output = self::response($key, $value["between"]["message"]);
-						break;
-					}
-					if($key2 == "nospecial" && !self::has_no_special($_POST['data'][$model][$key])) {
-						$output = self::response($key, $value["nospecial"]["message"]);
-						break;
-					}
-					if($key2 == "match" && !self::match($_POST['data'][$model][$key], $_POST['data'][$model][$value2['value']])) {
-						$output = self::response($key, $value["match"]["message"]);
-						break;
-					}
+				if($head == "notempty"
+				&& !isset($value['notempty']['ignore'])
+				&& $p_value[$p_index] == ""
+				) {
+					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+					break;
+				}
+				if($head == "between" && !self::is_between($p_value[$p_index], $value["min"], $value["max"])) {
+					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+					break;
+				}
+				if($head == "nospecial" && !self::has_no_special($p_value[$p_index])) {
+					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+					break;
+				}
+				if($head == "match" && !self::match($p_value[$p_index], $p_value[$value['value']])) {
+					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+					break;
+				}
+				if($head == "email" && !self::is_email($p_value[$p_index])) {
+					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+					break;
+				}
+				if($head == "tinyint") {
+					$output['value'] = (int)((isset($p_value[$p_index]))?(bool)$p_value[$p_index]:false);
+					break;
+				}
+				if($head == "password") {
+					$output['value'] = sha1(crypt($p_value[$p_index], CRYPTKEY.$p_value[$value['cryptwith']]));
+					break;
+				}
+				if($head == "slug") {
+					$output['value'] = substr(md5(uniqid(mt_rand()+$p_value[$value['cryptwith']], true)), 0, 16);
+					break;
+				}
+				if($head == "match" && !$output["error"]) {
+					$output = self::response(false, $p_index, null, $p_value[$p_index], true);
 				}
 			}
 		}
@@ -56,11 +77,13 @@ class Validation {
 		return $output;
 	}
 
-	public static function response($key, $message) {
+	public static function response($error, $key, $message, $value, $skip = false) {
 		return array(
-			"error" => true,
+			"error" => $error,
 			"field" => $key,
-			"message" => $message
+			"message" => $message,
+			"value" => $value,
+			"skip" => $skip
 		);
 	}
 
@@ -72,7 +95,7 @@ class Validation {
 	}
 	private static function is_between($string, $min, $max) {
 		$strlen = strlen ($string);
-		if ($min < $strlen && $strlen < $max) {
+		if ($min <= $strlen && $strlen <= $max) {
 			return true;
 		}
 		return false;

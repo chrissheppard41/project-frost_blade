@@ -6,9 +6,9 @@
 
 <div class="users index">
     <div class="row">
-        <h2 class="col-md-11"><?php echo $this->Html->__t('users', 'Users'); ?></h2>
+        <h2 class="col-md-11"><?php echo $this->Html->__t('Users'); ?></h2>
         <div class="col-md-1 pull-right text-right">
-            <?php echo $this->Html->Url($this->Html->__t('users', 'Add'), array('controller' => 'users', 'action' => 'add', 'admin' => true), array('class' => 'btn btn-success icon icon-add')); ?>
+            <?php echo $this->Html->Url($this->Html->__t('Add'), array('controller' => 'users', 'action' => 'add', 'admin' => true), array('class' => 'btn btn-success icon icon-add')); ?>
         </div>
     </div>
     <table class="table table-striped table-bordered">
@@ -18,9 +18,10 @@
             <th class="header"><?php echo $this->Html->Pag_Sort('email_verified'); ?></th>
             <th class="header"><?php echo $this->Html->Pag_Sort('active'); ?></th>
             <th class="header"><?php echo $this->Html->Pag_Sort('created'); ?></th>
-            <th class="actions"><?php echo $this->Html->__t('users', 'Actions'); ?></th>
+            <th class="header"><?php echo $this->Html->Pag_Sort('modified'); ?></th>
+            <th class="actions"><?php echo $this->Html->__t('Actions'); ?></th>
         </tr>
-            <?php foreach ($typ__passed_params['data']['Users'] as $user){ ?>
+            <?php foreach ($typ__['data']['Users'] as $user){ ?>
             <tr>
                 <td>
                     <?php echo $user['username']; ?>
@@ -29,21 +30,24 @@
                     <?php echo $user['email']; ?>
                 </td>
                 <td>
-                    <?php echo $user['email_verified'] == 1 ? $this->Html->__t('users', 'Yes') : $this->Html->__t('users', 'No'); ?>
+                    <?php echo $user['email_verified'] == 1 ? $this->Html->__t('Yes') : $this->Html->__t('No'); ?>
                 </td>
                 <td>
-                    <?php echo $user['is_admin'] == 1 ? $this->Html->__t('users', 'Yes') : $this->Html->__t('users', 'No'); ?>
+                    <?php echo $user['is_admin'] == 1 ? $this->Html->__t('Yes') : $this->Html->__t('No'); ?>
                 </td>
                 <td>
                     <?php echo $this->Html->Time("TimeAgo", $user['created']); ?>
                 </td>
+                <td>
+                    <?php echo $this->Html->Time("TimeAgo", $user['modified']); ?>
+                </td>
                 <td class="actions">
-                    <?php echo $this->Html->Url($this->Html->__t('users', 'View'), array('admin' => true, 'controller' => 'users', 'action'=>'view', 'params' => array($user['id'])), array('class' => 'btn-sm btn-primary')); ?>
-                    <?php echo $this->Html->Url($this->Html->__t('users', 'Edit'), array('admin' => true, 'controller' => 'users', 'action'=>'edit', 'params' => array($user['id'])), array('class' => 'btn-sm btn-warning')); ?>
-                    <?php echo $this->Html->UrlPost($this->Html->__t('users', 'Delete'), array('admin' => true, 'controller' => 'users', 'action'=>'delete', 'params' => array($user['id'])), array('class' => 'btn-sm btn-danger')); ?>
+                    <?php echo $this->Html->Url($this->Html->__t('View'), array('admin' => true, 'controller' => 'users', 'action'=>'view', 'params' => array($user['id'])), array('class' => 'btn-sm btn-primary')); ?>
+                    <?php echo $this->Html->Url($this->Html->__t('Edit'), array('admin' => true, 'controller' => 'users', 'action'=>'edit', 'params' => array($user['id'])), array('class' => 'btn-sm btn-warning')); ?>
+                    <?php echo $this->Html->UrlPost($this->Html->__t('Delete'), array('admin' => true, 'controller' => 'users', 'action'=>'delete', 'params' => array($user['id'])), array('class' => 'btn-sm btn-danger')); ?>
                 </td>
             </tr>
         <?php } ?>
     </table>
-    <?php echo $this->Html->Pagination("users", 5); ?>
+    <?php echo $this->Html->Pagination("users", 10); ?>
 </div>

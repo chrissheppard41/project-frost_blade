@@ -48,7 +48,7 @@ class Configure {
  * @param $method (string)
  * @return (bool)
  */
-	public function Auth($data) {
+	public static function Auth($data = null) {
 		if(isset($data) && $data == null)
 			\Configure::delete("Auth.user");
 		else
@@ -93,17 +93,14 @@ class Configure {
 	public static function pre($data, $doDie = true) {
 		echo "<pre>";
 
-		if (is_array($data)) {
-				print_r($data);
-		} else {
-				var_dump($data);
-		}
+		if (is_array($data))
+			print_r($data);
+		else
+			var_dump($data);
 
 		echo "</pre>";
 
-		if ($doDie) {
-				die();
-		}
+		if ($doDie) { die(); }
 
 		return true;
 	}

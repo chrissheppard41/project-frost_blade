@@ -1,9 +1,9 @@
 <?php ?>
 <div class="users form">
-    <h2><?php echo $this->Html->Url($this->Html->__t('Army Lists'), array('controller' => 'armylists', 'action' => 'index', 'admin' => true)); ?> - <?php echo $this->Html->__t("Admin Edit"); ?></h2>
+    <h2><?php echo $this->Html->Url($this->Html->__t('Races'), array('controller' => 'races', 'action' => 'index', 'admin' => true)); ?> - <?php echo $this->Html->__t("Admin Edit"); ?></h2>
 	<?php
 	echo $this->Html->Form(array(
-					"action" => "/admin/armylists/edit/".$typ__["data"]["Races"]["id"],
+					"action" => "/admin/races/edit/".$typ__["data"]["Races"]["id"],
 					"class" => "form-vertical",
 					"id" => "UserAdminAddForm",
 					"method" => "post",

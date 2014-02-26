@@ -16,10 +16,13 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 		self::$Database = new \Frost\Configs\Database();
 		self::$Html = new \Frost\Configs\Html(self::$Database);
 
+		$query = self::$Database->query(array("query" => "DROP TABLE IF EXISTS test;", "params" => ""));
 		$query = self::$Database->query(array("query" => "CREATE TABLE test(
 			id INT(11) NOT NULL AUTO_INCREMENT,
 			testcol VARCHAR(100) NOT NULL,
 			updatehere VARCHAR(100) NULL,
+			created DATETIME,
+			modified DATETIME,
 			PRIMARY KEY ( id )
 		);", "params" => ""));
 		$query = array(
@@ -335,7 +338,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 	{
 		$results = self::$Html->Time(
 			"TimeAgo",
-			"2014-01-31 12:05:35"
+			date("Y-m-d h:i:s", strtotime("last week"))
 		);
 
 		$this->assertEquals($results, '1 week ago');

@@ -24,8 +24,11 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			"between" => array(
 				"min" => 5,
 				"max" => 50,
-                "message" => "Between 5 to 50 characters"
-            )
+				"message" => "Between 5 to 50 characters"
+			),
+			"password" => array(
+				"cryptwith" => "username"
+			),
 		),
 		"username" => array(
 			"notempty" => array(
@@ -34,18 +37,28 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			"between" => array(
 				"min" => 5,
 				"max" => 50,
-                "message" => "Between 5 to 50 characters"
-            ),
+				"message" => "Between 5 to 50 characters"
+			),
 			"nospecial" => array(
-                "message" => "You must not include special characters within your username"
-            )
+				"message" => "You must not include special characters within your username"
+			)
 		),
 		"confirm_password" => array(
 			"match" => array(
 				"value" => "password",
-                "message" => "Your field must match the password field",
+				"message" => "Your field must match the password field",
 				"ignore" => array("edit")
-            )
+			)
+		),
+		"bool" => array(
+			"tinyint" => array(
+				"default" => false
+			)
+		),
+		"slug" => array(
+			"slug" => array(
+				"cryptwith" => "username"
+			),
 		)
 	);
 
@@ -54,22 +67,25 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 ///
 	public function testValidationEmail()
 	{
-		$_POST["data"]["Test"]["email"] = "bad_email.com";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["email"] = "bad_email.com";
+		$results = \Validation::validate("email", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => true,
 		  	'field' => "email",
-			'message' => "Your email address is not valid"
+			'message' => "Your email address is not valid",
+			"value" => "bad_email.com",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 
-		$_POST["data"]["Test"]["email"] = "good@email.com";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
-
+		$arr["email"] = "good@email.com";
+		$results = \Validation::validate("email", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => false,
-			'field' => NULL,
-			'message' => NULL
+			'field' => "email",
+			'message' => NULL,
+			"value" => "good@email.com",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 	}
@@ -79,22 +95,26 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 ///
 	public function testValidationNotempty()
 	{
-		$_POST["data"]["Test"]["username"] = "";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["username"] = "";
+		$results = \Validation::validate("username", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => true,
 		  	'field' => "username",
-			'message' => "You must include a username"
+			'message' => "You must include a username",
+			"value" => "",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 
-		$_POST["data"]["Test"]["username"] = "Good string";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["username"] = "Good string";
+		$results = \Validation::validate("username", $arr, self::$validation, "Test");
 
 		$expected = array(
 			'error' => false,
-			'field' => NULL,
-			'message' => NULL
+			'field' => "username",
+			'message' => NULL,
+			"value" => "Good string",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 	}
@@ -104,31 +124,36 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 ///
 	public function testValidationBetween()
 	{
-		$_POST["data"]["Test"]["username"] = "bad";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["username"] = "bad";
+		$results = \Validation::validate("username", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => true,
 		  	'field' => "username",
-			'message' => "Between 5 to 50 characters"
+			'message' => "Between 5 to 50 characters",
+			"value" => "bad",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 
-		$_POST["data"]["Test"]["username"] = "Good string";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
-
+		$arr["username"] = "Good string";
+		$results = \Validation::validate("username", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => false,
-			'field' => NULL,
-			'message' => NULL
+			'field' => "username",
+			'message' => NULL,
+			"value" => "Good string",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 
-		$_POST["data"]["Test"]["username"] = "bad01234567890123456789012345678901234567890123456789";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["username"] = "bad01234567890123456789012345678901234567890123456789";
+		$results = \Validation::validate("username", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => true,
 		  	'field' => "username",
-			'message' => "Between 5 to 50 characters"
+			'message' => "Between 5 to 50 characters",
+			"value" => "bad01234567890123456789012345678901234567890123456789",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 	}
@@ -137,24 +162,27 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 ///
 	public function testValidationMatch()
 	{
-		$_POST["data"]["Test"]["password"] = "bad_string";
-		$_POST["data"]["Test"]["confirm_password"] = "very_bad";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["password"] = "bad_string";
+		$arr["confirm_password"] = "very_bad";
+		$results = \Validation::validate("confirm_password", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => true,
 		  	'field' => "confirm_password",
-			'message' => "Your field must match the password field"
+			'message' => "Your field must match the password field",
+			"value" => "very_bad",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
 
-		$_POST["data"]["Test"]["password"] = "Good string";
-		$_POST["data"]["Test"]["confirm_password"] = "Good string";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
-
+		$arr["password"] = "Good string";
+		$arr["confirm_password"] = "Good string";
+		$results = \Validation::validate("confirm_password", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => false,
-			'field' => NULL,
-			'message' => NULL
+			'field' => "confirm_password",
+			'message' => NULL,
+			"value" => "Good string",
+			"skip" => true
 		);
 		$this->assertEquals($expected, $results);
 
@@ -164,13 +192,119 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 ///
 	public function testValidationSpecialChar()
 	{
-		$_POST["data"]["Test"]["username"] = "*&^£(&*£$&*()£$&*()";
-		$results = \Validation::validate(self::$validation, "Test", "edit");
+		$arr["username"] = "*&^£(&*£$&*()£$&*()";
+		$results = \Validation::validate("username", $arr, self::$validation, "Test");
 		$expected = array(
 			'error' => true,
 		  	'field' => "username",
-			'message' => "You must not include special characters within your username"
+			'message' => "You must not include special characters within your username",
+			"value" => "*&^£(&*£$&*()£$&*()",
+			"skip" => false
 		);
 		$this->assertEquals($expected, $results);
+	}
+
+//
+// Action testValidationTinyInt
+///
+	public function testValidationTinyInt()
+	{
+		$arr["bool"] = "1";
+		$results = \Validation::validate("bool", $arr, self::$validation, "Test");
+		$expected = array(
+			'error' => false,
+		  	'field' => "bool",
+			'message' => null,
+			"value" => 1,
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+
+		$arrA["bool"] = "0";
+		$results = \Validation::validate("bool", $arrA, self::$validation, "Test");
+		$expected = array(
+			'error' => false,
+		  	'field' => "bool",
+			'message' => null,
+			"value" => 0,
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+
+		$arr["bool"] = "10";
+		$results = \Validation::validate("bool", $arr, self::$validation, "Test");
+		$expected = array(
+			'error' => false,
+		  	'field' => "bool",
+			'message' => null,
+			"value" => 1,
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+	}
+
+//
+// Action testValidationPassword
+///
+	public function testValidationPassword()
+	{
+		$arr["password"] = "password";
+		$arr["username"] = "password";
+		$results = \Validation::validate("password", $arr, self::$validation, "Test");
+		$expected = array(
+			'error' => false,
+		  	'field' => "password",
+			'message' => null,
+			"value" => "ad462c3e84992a2fc88ac37e0dbe9bbd0280fd56",
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+
+	}
+//
+// Action testValidationSlug
+///
+	public function testValidationSlug()
+	{
+		$arr["slug"] = "password";
+		$arr["username"] = "password";
+		$results = \Validation::validate("slug", $arr, self::$validation, "Test");
+		$this->assertEquals(16, strlen($results["value"]));
+		$this->assertEquals(false, $results["error"]);
+		$this->assertEquals("slug", $results["field"]);
+		$this->assertEquals(null, $results["message"]);
+		$this->assertFalse($results["skip"]);
+
+	}
+//
+// Action testValidationSkip
+///
+	public function testValidationSkip()
+	{
+		$arr["password"] = "";
+		$arr["confirm_password"] = "";
+		$results = \Validation::validate("confirm_password", $arr, self::$validation, "Test", "edit");
+		$expected = array(
+			'error' => false,
+		  	'field' => "confirm_password",
+			'message' => null,
+			"value" => "",
+			"skip" => true
+		);
+		$this->assertEquals($expected, $results);
+
+
+		$arr["password"] = "asdasdasdasda";
+		$arr["confirm_password"] = "";
+		$results = \Validation::validate("confirm_password", $arr, self::$validation, "Test", "edit");
+		$expected = array(
+			'error' => true,
+		  	'field' => "confirm_password",
+			'message' => "Your field must match the password field",
+			"value" => "",
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+
 	}
 }

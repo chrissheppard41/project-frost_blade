@@ -24,12 +24,12 @@ class Html {
  * @return (string)
   **/
 	public function Url($name, $url, $options = array()) {
-		if(!isset($url['controller']))
-			$url['controller'] = str_replace("Controller", "", \Configure::$url['controller']);
-
 		$url_path = "";
 		$attr = "";
 		if(is_array($url)) {
+			if(!isset($url['controller']))
+				$url['controller'] = str_replace("Controller", "", \Configure::$url['controller']);
+
 			if(isset($url['admin']) && $url['admin'] === true) {
 				$url_path = "/admin";
 			}
@@ -58,12 +58,13 @@ class Html {
  * @return (string)
   **/
 	public function UrlPost($name, $url, $options = array()) {
-		if(!isset($url['controller']))
-			$url['controller'] = str_replace("Controller", "", \Configure::$url['controller']);
 
 		$url_path = "";
 		$attr = "";
 		if(is_array($url)) {
+			if(!isset($url['controller']))
+				$url['controller'] = str_replace("Controller", "", \Configure::$url['controller']);
+
 			if(isset($url['admin']) && $url['admin'] === true) {
 				$url_path = "/admin/";
 			}

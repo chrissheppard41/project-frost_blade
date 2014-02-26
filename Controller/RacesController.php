@@ -13,17 +13,17 @@ class RacesController extends Controller {
 	public $view = "Default";
 
 	function __construct()
-    {
-        //parent::__construct(null,null);
-    }
+	{
+		//parent::__construct(null,null);
+	}
 
-    function __destruct()
-    {
-    }
+	function __destruct()
+	{
+	}
 
-    public $access = array(
-    	"deny" => array()
-    );
+	public $access = array(
+		"deny" => array()
+	);
 
 /**
  * admin_index method
@@ -37,8 +37,7 @@ class RacesController extends Controller {
 	public function admin_index($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("Races");
-		$data = $user->Find("pagination",
+		$data = $this->model->Find("pagination",
 			array(
 				"Races" => array(
 					array(
@@ -69,8 +68,7 @@ class RacesController extends Controller {
 	public function admin_view($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("Races");
-		$data = $user->Find("first",
+		$data = $this->model->Find("first",
 			array(
 				"Races" => array(
 					array(
@@ -130,6 +128,7 @@ class RacesController extends Controller {
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
 		$user = $this->LoadClass("Races", array(), $methodData);
+
 
 		if($this->requestType("POST")) {
 			$data = $this->model->Update($this->model->post, array("id" => $options[0]));

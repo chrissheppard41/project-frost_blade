@@ -37,8 +37,7 @@ class ArmyListsController extends Controller {
 	public function admin_index($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("ArmyLists");
-		$data = $user->Find("pagination",
+		$test = $this->model->Find("all",
 			array(
 				"ArmyLists" => array(
 					array(
@@ -47,6 +46,45 @@ class ArmyListsController extends Controller {
 							"name",
 							"descr",
 							"point_limit",
+							"hide",
+							"users_id",
+							"armytypes_id",
+							"created",
+							"modified"
+						),
+						"contains" => array(
+							"Users" => array(
+								"fields" => array(
+									"Users.username"
+								),
+								"relation" => array(
+									"ArmyLists.users_id", "Users.id"
+								)
+							),
+							"ArmyTypes" => array(
+								"fields" => array(
+									"ArmyTypes.name as `army_name`"
+								),
+								"relation" => array(
+									"ArmyLists.armytypes_id", "ArmyTypes.id"
+								)
+							)
+						)
+					)
+				)
+			)
+		);
+\Configure::pre($test);
+		$data = $this->model->Find("pagination",
+			array(
+				"ArmyLists" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name",
+							"descr",
+							"point_limit",
+							"hide",
 							"users_id",
 							"armytypes_id",
 							"created",

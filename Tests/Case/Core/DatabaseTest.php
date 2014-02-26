@@ -13,13 +13,16 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 	public static function setUpBeforeClass()
 	{
-		self::$Database = new \Frost\Configs\Database();
+		self::$Database = new Test();
 		self::$date = date("Y-m-d H:i:s");
 
+		$query = self::$Database->query(array("query" => "DROP TABLE IF EXISTS test;", "params" => ""));
 		$query = self::$Database->query(array("query" => "CREATE TABLE test(
 			id INT(11) NOT NULL AUTO_INCREMENT,
 			testcol VARCHAR(100) NOT NULL,
 			updatehere VARCHAR(100) NULL,
+			created DATETIME,
+			modified DATETIME,
 			PRIMARY KEY ( id )
 		);", "params" => ""));
 		$query = array(
@@ -41,13 +44,49 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 				array("testcol" => "hello")
 			)
 		);
-
-
 		$results = self::$Database->Save($query);
+
+		$queryB = self::$Database->query(array("query" => "DROP TABLE IF EXISTS next;", "params" => ""));
+		$queryB = self::$Database->query(array("query" => "CREATE TABLE next(
+			id INT(11) NOT NULL AUTO_INCREMENT,
+			tests_id INT(11) NOT NULL,
+			name VARCHAR(100) NULL,
+			created DATETIME,
+			modified DATETIME,
+			PRIMARY KEY ( id )
+		);", "params" => ""));
+		$queryB = array(
+			"next" => array(
+				array("tests_id" => 1, "name" => "test"),
+				array("tests_id" => 2, "name" => "test2")
+			)
+		);
+		$results = self::$Database->Save($queryB);
+
+
+		$queryC = self::$Database->query(array("query" => "DROP TABLE IF EXISTS prev;", "params" => ""));
+		$queryC = self::$Database->query(array("query" => "CREATE TABLE prev(
+			id INT(11) NOT NULL AUTO_INCREMENT,
+			tests_id INT(11) NOT NULL,
+			name VARCHAR(100) NULL,
+			created DATETIME,
+			modified DATETIME,
+			PRIMARY KEY ( id )
+		);", "params" => ""));
+		$queryC = array(
+			"prev" => array(
+				array("tests_id" => 1, "name" => "test"),
+				array("tests_id" => 2, "name" => "test2")
+			)
+		);
+		$results = self::$Database->Save($queryC);
+
 	}
 	public static function tearDownAfterClass()
 	{
 		$query = self::$Database->query(array("query" => "DROP TABLE test;", "params" => ""));
+		$query = self::$Database->query(array("query" => "DROP TABLE next;", "params" => ""));
+		$query = self::$Database->query(array("query" => "DROP TABLE prev;", "params" => ""));
 	}
 
 //
@@ -89,6 +128,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertTrue((bool)self::$Database->query(array("query" => "SELECT * FROM tests a;", "params" => array("something"))));
 	}
+
 //
 // Action testQueryReturnCount
 ///
@@ -127,10 +167,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		$query = array(
 			"test" => array(
-				array(
-					"testcol" 			=> "world",
-					"updatehere" 		=> "hello"
-				)
+				"testcol" 			=> "world",
+				"updatehere" 		=> "hello"
 			)
 		);
 
@@ -149,7 +187,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array("id" => $last_id)
+						"conditions" => array("id" => $last_id)
 					)
 				)
 			)
@@ -159,13 +197,147 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 		$query = array(
 			"test" => array(
-				"condition" => array(
+				"conditions" => array(
 					"id" => $last_id
 				)
 			)
 		);
 		self::$Database->Delete($query);
+
+
+		$queryB = array(
+			"test" => array(
+				"testcol" 			=> "world_the_second",
+				"updatehere" 		=> "hello_the_second"
+			),
+			"TEST" => array(
+				"testcol" 			=> "world_the_third",
+				"updatehere" 		=> "hello_the_third"
+			)
+		);
+
+
+		$resultsB = self::$Database->Save($queryB);
+
+		$resultsC = self::$Database->Find("first",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array("testcol" => "world_the_second")
+					)
+				),
+				"TEST" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array("testcol" => "world_the_third")
+					)
+				)
+			)
+		);
+
+		$queryD = array(
+			"test" => array(
+				"conditions" => array(
+					"or" => array("id" => array($resultsC["test"]["id"], $resultsC["TEST"]["id"]))
+				)
+			)
+		);
+		self::$Database->Delete($queryD);
+
+		$queryE = array(
+			"test" => array(
+				array(
+					"testcol" 			=> "world_the_forth",
+					"updatehere" 		=> "hello_the_forth"
+				),
+				array(
+					"testcol" 			=> "world_the_fifth",
+					"updatehere" 		=> "hello_the_fifth"
+				)
+			)
+		);
+
+
+		$resultsE = self::$Database->Save($queryE);
+
+		$resultsF = self::$Database->Find("first",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array("testcol" => "world_the_forth")
+					)
+				),
+				"TEST" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array("testcol" => "world_the_fifth")
+					)
+				)
+			)
+		);
+
+		$queryG = array(
+			"test" => array(
+				"conditions" => array(
+					"or" => array("id" => array($resultsF["test"]["id"], $resultsF["TEST"]["id"]))
+				)
+			)
+		);
+		self::$Database->Delete($queryG);
+
 	}
+
+//
+// Action testValidation
+///
+	public function testValidation()
+	{
+		$prev = new Prev();
+		$query = array(
+			"prev" => array(
+				"tests_id" 		=> "1",
+				"name" 			=> "test",
+				"confirm_name" 	=> "test"
+			)
+		);
+
+		$results = $prev->Save($query);
+
+		$resultsF = self::$Database->Find("first",
+			array(
+				"prev" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array("name" => "test")
+					)
+				)
+			)
+		);
+
+		$queryG = array(
+			"prev" => array(
+				"conditions" => array(
+					"id" => $resultsF["prev"]["id"]
+				)
+			)
+		);
+		self::$Database->Delete($queryG);
+	}
+
+
+
 
 //
 // Action testUpdate
@@ -179,16 +351,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 		$query = array(
 			"test" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("id" => 15)
-				)
+				"data" => $data_array,
+				"conditions" => array("id" => 15)
 			),
 			"TEST" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("id" => 14)
-				)
+				"data" => $data_array,
+				"conditions" => array("id" => 14)
 			)
 		);
 
@@ -205,7 +373,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array("id" => 15)
+						"conditions" => array("id" => 15)
 					)
 				),
 				"TEST" => array(
@@ -215,7 +383,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array("id" => 14)
+						"conditions" => array("id" => 14)
 					)
 				)
 			)
@@ -232,16 +400,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 		$queryB = array(
 			"test" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("id" => 15, "testcol" => "testing")
-				)
+				"data" => $data_array,
+				"conditions" => array("id" => 15, "testcol" => "testing")
 			),
 			"TEST" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("id" => 14)
-				)
+				"data" => $data_array,
+				"conditions" => array("id" => 14)
 			)
 		);
 		$resultsB = self::$Database->Update($queryB);
@@ -257,7 +421,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array(
+						"conditions" => array(
 							"or" => array(
 								"id" => array(14,15)
 							)
@@ -280,10 +444,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		);
 		$queryD = array(
 			"test" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("or" => array("id" => array(14,15)))
-				)
+				"data" => $data_array,
+				"conditions" => array("or" => array("id" => array(14,15)))
 			)
 		);
 		$resultsD = self::$Database->Update($queryD);
@@ -298,7 +460,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array(
+						"conditions" => array(
 							"or" => array(
 								"id" => array(14,15)
 							)
@@ -314,7 +476,96 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($values['updatehere'], self::$date);
 		}
 
+
+		$queryF = array(
+			"test" => array(
+				"data" => $data_array,
+				"conditions" => array("id" => 15)
+			)
+		);
+
+
+		self::$Database->Update(
+			array(
+				"test" => array(
+					"testcol" => "Derpieder"
+				)
+			),
+			array(
+				"or" => array(
+					"id" => array(14,15)
+				)
+			)
+		);
+
+		$resultsF = self::$Database->Find("all",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"conditions" => array(
+							"or" => array(
+								"id" => array(14,15)
+							)
+
+						)
+					)
+				)
+			)
+		);
+
+		foreach($resultsF["test"] as $values) {
+			$this->assertEquals($values['testcol'], "Derpieder");
+		}
+
+
+		self::$Database->Update(
+			array(
+				array(
+					"test" => array(
+						"data" => array("testcol" => "Or Changed"),
+						"conditions" => array("id" => 15)
+					)
+				),
+				array(
+					"test" => array(
+						"data" => array("testcol" => "Or Changed"),
+						"conditions" => array("id" => 14)
+					)
+				)
+			)
+		);
+
+		$resultsG = self::$Database->Find("all",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"conditions" => array(
+							"or" => array(
+								"id" => array(14,15)
+							)
+
+						)
+					)
+				)
+			)
+		);
+
+		foreach($resultsG["test"] as $values) {
+			$this->assertEquals($values['testcol'], "Or Changed");
+		}
+
 	}
+
 //
 // Action testFindAll
 ///
@@ -343,7 +594,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array(
+						"conditions" => array(
 							"or" => array(
 								"testcol" => "hello",
 								"updatehere" => self::$date
@@ -363,7 +614,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array(
+						"conditions" => array(
 							"testcol" => "Or Changed",
 							"updatehere" => self::$date
 						)
@@ -405,6 +656,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedC, $resultsC);
 
 	}
+
 //
 // Action testFindFirst
 ///
@@ -419,7 +671,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array("id" => 1)
+						"conditions" => array("id" => 1)
 					)
 				)
 			)
@@ -436,6 +688,84 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($results));
 		$this->assertEquals($expected, $results);
 
+
+		$results = self::$Database->Find("first",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"conditions" => array("id" => array(1,2,3))
+					)
+				)
+			)
+		);
+		$this->assertEmpty($results);
+
+
+	}
+
+//
+// Action testFindContains
+///
+	public function testFindContains()
+	{
+		$results = self::$Database->Find("all",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"contains" => array(
+							"next" => array(
+								"fields" => array(
+									"next.name"
+								),
+								"relation" => array(
+									"test.id",
+									"next.tests_id"
+								)
+							)
+						),
+						"conditions" => array("test.id" => 1)
+					)
+				)
+			)
+		);
+
+		$expected = array(
+			"test" => array(
+				array(
+					"id" 			=> 1,
+					"testcol" 		=> "hello",
+					"updatehere" 	=> null,
+					"name" 			=> "test"
+				)
+			)
+		);
+
+		$this->assertEquals($expected, $results);
+
+	}
+//
+// Action testExists
+///
+	public function testExists()
+	{
+		$results = self::$Database->Exists(1);
+		$this->assertTrue($results);
+
+		$resultsB = self::$Database->Exists(array("testcol" => "hello"));
+		$this->assertTrue($resultsB);
+
+		$resultsC = self::$Database->Exists(0);
+		$this->assertFalse($resultsC);
 	}
 //
 // Action testFindPagination
@@ -525,9 +855,9 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$results = self::$Database->Page(0);
 
 		$expected = array(
-		    0,
+			0,
 		   	null,
-		    "ASC"
+			"ASC"
 		);
 
 		$this->assertEquals($expected, $results);
@@ -537,9 +867,9 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$results = self::$Database->Page(2);
 
 		$expected = array(
-		    1,
+			1,
 		   	"test",
-		    "ASC"
+			"ASC"
 		);
 
 		$this->assertEquals($expected, $results);
@@ -549,9 +879,9 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$results = self::$Database->Page(2);
 
 		$expected = array(
-		    2,
+			2,
 		   	"testcol",
-		    "ASC"
+			"ASC"
 		);
 
 		$this->assertEquals($expected, $results);
@@ -561,15 +891,16 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$results = self::$Database->Page(3);
 
 		$expected = array(
-		    3,
+			3,
 		   	"testcol",
-		    "DESC"
+			"DESC"
 		);
 
 		$this->assertEquals($expected, $results);
 		$this->assertEquals("Pag:3:testcol:DESC:3", \Configure::$url["param"][0]);
 
 	}
+
 //
 // Action testPage
 ///
@@ -639,10 +970,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		$query = array(
 			"test_no_table" => array(
-				array(
-					"data" => array("something"),
-					"condition" => array("id" => 15)
-				)
+				"data" => array("something"),
+				"conditions" => array("id" => 15)
 			)
 		);
 
@@ -656,7 +985,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		$query = array(
 			"test_no_table" => array(
-				"condition" => array(
+				"conditions" => array(
 					"id" => 1
 				)
 			)
@@ -678,10 +1007,35 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 							"testcol",
 							"updatehere"
 						),
-						"condition" => array("id" => 1)
+						"conditions" => array("id" => 1)
 					)
 				)
 			)
 		);
 	}
+}
+
+
+class Test extends \Frost\Configs\Database {
+	function __construct() {
+		parent::__construct();
+	}
+
+	protected $table = "test";
+}
+class Prev extends \Frost\Configs\Database {
+	function __construct() {
+		parent::__construct();
+	}
+
+	protected $table = "prev";
+	protected $validation = array(
+		"confirm_name" => array(
+			"match" => array(
+				"value" => "name",
+				"message" => "Your field must match the name field",
+				"ignore" => array("edit","add")
+			)
+		)
+	);
 }

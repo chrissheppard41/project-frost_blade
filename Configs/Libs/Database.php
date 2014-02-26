@@ -124,6 +124,7 @@ class Database {
 		$deepsql = "";
 		$sql_ = "";
 		$arr = array();
+
 		foreach($value as $head => $deepval) {
 			$deepval = array_merge($deepval, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
 			$headers = array_keys($deepval);
@@ -131,7 +132,7 @@ class Database {
 			$j = 0;
 			$sqlval = null;
 			foreach($deepval as $header => $val) {
-				$validation = \Validation::validate($head, $deepval, $this->validation, $this->table, "edit");
+				$validation = \Validation::validate($header, $deepval, $this->validation, $this->table, "edit");
 				if($validation["error"])
 					return $validation;
 				if($validation["skip"])
@@ -200,6 +201,19 @@ class Database {
 		return array("sql" => $sql, "arr" => $arr);
 	}
 
+
+/**
+ * conditions method
+ * A method that handles the Where conditions
+ *
+ * @param $head(String), $val(String)
+ * @return (array)
+ */
+	private function group($value, $head, $op, &$wherearr, &$arr, &$i) {
+		$wherearr[$op][] = $head."=:a".$i.str_replace(array("."), "", $head);
+		$arr[":a".$i.str_replace(array("."), "", $head)] = $value;
+		$i++;
+	}
 /**
  * conditions method
  * A method that handles the Where conditions
@@ -209,40 +223,34 @@ class Database {
  */
 	private function conditions($condition) {
 		$where = "";
+		$wherearr = array("or" => array(), "and" => array());
 		$arr = array();
 		$i = 0;
-		if(isset($condition["condition"])) {
-			foreach($condition["condition"] as $head => $val) {
-				if($head == "or") {
-					foreach($val as $heador => $valor) {
-						if(is_array($valor)) {
-							foreach($valor as $valarray) {
-								if($i != 0) {
-									$where .= " OR ";
-								}
-								$where .= $heador."=:o".$i.$heador;
-								$arr[":o".$i.$heador] = $valarray;
-								$i++;
+
+		if(isset($condition["conditions"])) {
+			foreach($condition["conditions"] as $head => $val) {
+				$operation = ($head == "or")?"or":"and";
+
+				if(is_array($val) && $head == "or") {
+					foreach($val as $headarray => $or) {
+						if(is_array($or)) {
+							foreach($or as $valarray) {
+								$this->group($valarray, $headarray, $operation, $wherearr, $arr, $i);
 							}
 						} else {
-							if($i != 0) {
-								$where .= " OR ";
-							}
-							$where .= $heador."=:o".$heador;
-							$arr[":o".$heador] = $valor;
-							$i++;
+							$this->group($or, $headarray, $operation, $wherearr, $arr, $i);
 						}
-
+					}
+				} else if(is_array($val) && $head != "or") {
+					foreach($val as $valarray) {
+						$this->group($valarray, $head, $operation, $wherearr, $arr, $i);
 					}
 				} else {
-					if($i != 0) {
-						$where .= " AND ";
-					}
-					$where .= $head."=:a".$head;
-					$arr[":a".$head] = $val;
-					$i++;
+					$this->group($val, $head, $operation, $wherearr, $arr, $i);
 				}
 			}
+
+			$where = implode(" AND ", $wherearr["and"]).(($wherearr["or"] && $wherearr["and"])?" AND ":"").implode(" OR ", $wherearr["or"]);
 		}
 
 		return array(
@@ -254,20 +262,37 @@ class Database {
  * update method
  * Generates a update method
  *
- * @param $querys (PDO::query)
+ * @param $queries (array), $condition(array)
  * @return (bool)
  */
 	public function Update($queries, $condition = array()) {
-		if(!empty($condition)) {
-			$queries = array(
-				$this->table => array(
-					"data" => $queries[$this->table],
-					"condition" => $condition
-				)
-			);
+		if(isset($queries[0])){
+			foreach($queries as $query) {
+				$this->UpdateQuery($query);
+			}
+		} else {
+			if(!empty($condition)) {
+				$queries = array(
+					$this->table => array(
+						"data" => $queries[$this->table],
+						"conditions" => $condition
+					)
+				);
+			}
+			$this->UpdateQuery($queries);
 		}
 
-		//echo "<pre>".print_r($this->post, true)."</pre>";
+		return true;
+	}
+/**
+ * UpdateQuery method
+ * Generates a update method
+ *
+ * @param $queries (array), $condition(array)
+ * @return (bool)
+ */
+	private function UpdateQuery($queries) {
+
 		foreach($queries as $key => $value) {
 			$sql = "UPDATE ".strtolower($key)." SET ";
 			$where = "";
@@ -305,9 +330,11 @@ class Database {
 
 			$this->query($query);
 		}
-		return true;
 
 	}
+
+
+
 
 /**
  * Find method
@@ -318,31 +345,35 @@ class Database {
  */
 	public function Find($format, $queries) {
 
-		//echo "<pre>".print_r($queries, true)."</pre>";
 		$output = array();
 
-		foreach($queries as $table => $query) {
+		foreach($queries as $this->tab => $query) {
 			foreach($query as $headers => $data) {
 				$where = "";
 				$arr = array();
 				$sql = "SELECT ";
-				$sql .= implode(",", array_values($data['fields']));
 
 				$returned = $this->conditions($data);
 				$where = $returned['where'];
 				$arr = $returned['arr'];
 
-				$sql .= " FROM ".strtolower($table)."";
-				if($where != "") {
+				$contains = $this->contains($data);
+				$sql .= strtolower(implode(", ", array_values(array_merge(array_map(function($str) { return $this->tab.".".$str; }, $data['fields']), $contains['fields']))));
+
+				$sql .= " FROM ".strtolower($this->tab)."";
+
+				if(isset($data["contains"]))
+					$sql .= $contains["join"];
+
+				if($where != "")
 					$sql .= " WHERE ".$where;
-				}
 
 				if($format == "pagination") {
 					$page_count = ((isset($data['pagination']))?$data['pagination']:10);
 					$page = $this->Page($page_count);
-					if(isset($page[1])) {
+					if(isset($page[1]))
 						$sql .= " ORDER BY ".$page[1]." ".$page[2]."";
-					}
+
 					$sql .= " LIMIT ".((int)$page[0]*$page_count).",".(int)$page_count."";
 				}
 				$sql .= ";";
@@ -353,17 +384,40 @@ class Database {
 				);
 
 				if($results = $this->results($this->query($q))) {
-					if($format == "first") {
-						$output[$table] = $results[0];
-					} else {
-						$output[$table] = $results;
-					}
-
+					if($format == "first")
+						$output[$this->tab] = $results[0];
+					else
+						$output[$this->tab] = $results;
 				}
 			}
 		}
 		return $output;
 
+	}
+
+/**
+ * contains method
+ * Generates a contain join between 2 tables on request
+ *
+ * @param $contain (array)
+ * @return (array)
+ */
+	private function contains($contain) {
+		$join = "";
+		$fields = array();
+		$i = 0;
+
+		if(isset($contain["contains"])) {
+			foreach($contain["contains"] as $header => $value) {
+				$join .= " LEFT JOIN ".strtolower($header)." ON ".$value["relation"][0]."=".$value["relation"][1];
+				$fields = array_values(array_merge($fields, $value['fields']));
+			}
+		}
+
+		return array(
+			"join" 		=> $join,
+			"fields" 	=> $fields
+		);
 	}
 /**
  * Delete method

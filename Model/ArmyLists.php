@@ -9,8 +9,8 @@ namespace Frost\Model;
 */
 class ArmyLists extends \Frost\Configs\Database {
 
-	private $table = "armylists";
-	private $validation = array(
+	protected $table = "ArmyLists";
+	protected $validation = array(
 		/*"email" => array(
 			"email" => array(
 				"message" => "Your email address is not valid"
@@ -48,7 +48,7 @@ class ArmyLists extends \Frost\Configs\Database {
             )
 		)*/
 	);
-	protected $post = array();
+	public $post = array();
 
 	function __construct($options, $inputted_params){
 		parent::__construct();

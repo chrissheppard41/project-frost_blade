@@ -13,6 +13,9 @@ class Database {
 	protected $validation = array();
 	public $post = array();
 
+	protected $relationships = array();
+	public $last_id = 0;
+
 	function __construct() {
 		$this->connection = Connection::PDO();
 		$this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -91,40 +94,75 @@ class Database {
 			unset($this->post['_Token']);
 
 		$table = ucfirst($this->table);
-
 		foreach($this->post as $key => $value) {
-
-			$sql = "INSERT INTO ".strtolower($key)." (";
 			$returnval = null;
 			if(isset($value[0])) {
-				$returnval = $this->deepsave($value);
+				$returnval = $this->deepsave($key, $value);
 			} else {
-				$returnval = $this->shallowsave($value);
+				$returnval = $this->shallowsave($key, $value);
 			}
-			$query = array(
-				"query" => $sql.$returnval["sql"],
-				"params" => $returnval["arr"]
-			);
-
-			$this->query($query);
-
+			if(isset($returnval["error"])) {
+				return $returnval;
+			}
 		}
-
 		return true;
 	}
+
+/**
+ * relatedsave method
+ * A method that handles the datagrouping conditions
+ *
+ * @param $table(String), $value(String)
+ * @return (array)
+ */
+	private function relatedsave($table, $value, $id) {
+		$query = array(
+			"query" => "",
+			"params" => array()
+		);
+		$query["query"] = "INSERT INTO ".strtolower($this->relationships[$table]["linktable"])." (".
+			$this->relationships[$table]["linkColumn"].", ".
+			$this->relationships[$table]["baseColumn"].", ".
+			"created, ".
+			"modified) VALUES ";
+		$i = 0;
+		foreach($value as $val) {
+			if($i != 0) $query["query"] .= ", ";
+
+			$query["query"] .= "(".
+				":".$i.$this->relationships[$table]["linkColumn"].", ".
+				":".$i.$this->relationships[$table]["baseColumn"].", ".
+				":".$i."created, ".
+				":".$i."modified".
+				")";
+
+			$query["params"] = array_merge($query["params"], array(
+				":".$i.$this->relationships[$table]["linkColumn"] => $val,
+				":".$i.$this->relationships[$table]["baseColumn"] => $id,
+				":".$i."created" => date("Y-m-d H:i:s"),
+				":".$i."modified" => date("Y-m-d H:i:s"))
+			);
+			$i++;
+		}
+		$query["query"] .= ";";
+
+		$this->query($query);
+	}
+
 /**
  * deepsave method
  * A method that handles the datagrouping conditions
  *
- * @param $head(String), $val(String)
+ * @param $key(String), $value(String)
  * @return (array)
  */
-	private function deepsave($value) {
+	private function deepsave($key, $value) {
 		$i = 0;
 		$deepsql = "";
 		$sql_ = "";
 		$arr = array();
 
+		$sql_ = "INSERT INTO ".strtolower($key)." (";
 		foreach($value as $head => $deepval) {
 			$deepval = array_merge($deepval, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
 			$headers = array_keys($deepval);
@@ -132,7 +170,7 @@ class Database {
 			$j = 0;
 			$sqlval = null;
 			foreach($deepval as $header => $val) {
-				$validation = \Validation::validate($header, $deepval, $this->validation, $this->table, "edit");
+				$validation = \Validation::validate($header, $deepval, $this->validation, $this->table, "add");
 				if($validation["error"])
 					return $validation;
 				if($validation["skip"])
@@ -160,7 +198,14 @@ class Database {
 		$sql_ .= " VALUES";
 		$sql_ .= " ".$deepsql;
 
-		return array("sql" => $sql_, "arr" => $arr);
+		$query = array(
+			"query" => $sql_,
+			"params" => $arr
+		);
+		$this->query($query);
+		$this->last_id = $this->returnLastId();
+
+		return array();
 	}
 /**
  * shallowsave method
@@ -169,15 +214,20 @@ class Database {
  * @param $head(String), $val(String)
  * @return (array)
  */
-	private function shallowsave($value) {
-		$sql = "";
+	private function shallowsave($key, $value) {
 		$value = array_merge($value, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
 
 		$arr = array();
 		$i = 0;
 		$sqlval = null;
+		$sql = "INSERT INTO ".strtolower($key)." (";
+
+		$habtm = array();
 		foreach($value as $header => $val) {
-			$validation = \Validation::validate($header, $value, $this->validation, $this->table, "edit");
+			if(in_array($header, array_keys($this->relationships))) {$habtm[$header] = $val; unset($value[$header]); continue;}
+
+			$validation = \Validation::validate($header, $value, $this->validation, $this->table, "add");
+
 			if($validation["error"])
 				return $validation;
 			if($validation["skip"]){
@@ -198,7 +248,20 @@ class Database {
 		$qPart = array_fill(0, 1, "(".$sqlval.")");
 		$sql .=  implode(",",$qPart).";";
 
-		return array("sql" => $sql, "arr" => $arr);
+		$query = array(
+			"query" => $sql,
+			"params" => $arr
+		);
+		$this->query($query);
+		$this->last_id = $this->returnLastId();
+
+		if(!empty($habtm)) {
+			foreach($habtm as $head => $val) {
+				$this->relatedsave($head, $val, $this->last_id);
+			}
+		}
+
+		return array();
 	}
 
 
@@ -302,6 +365,7 @@ class Database {
 			$value['data'] = array_merge($value['data'], array("modified" => date("Y-m-d H:i:s")));
 
 			foreach($value['data'] as $head => $val) {
+				if(in_array($head, array_keys($this->relationships))) {$habtm[$head] = $val; unset($value[$head]); continue;}
 				$validation = \Validation::validate($head, $value['data'], $this->validation, $this->table, "edit");
 				if($validation["error"])
 					return $validation;
@@ -327,8 +391,26 @@ class Database {
 				"query" => $sql,
 				"params" => $arr
 			);
-
 			$this->query($query);
+
+			if(!empty($this->relationships) && isset($value["conditions"]["id"])) {
+				foreach($this->relationships as $h => $v) {
+					$this->Delete(array(
+						$v["linktable"] => array(
+							"conditions" => array(
+								$v["baseColumn"] => $value["conditions"]["id"]
+							)
+						)
+					));
+				}
+			}
+
+
+			if(!empty($habtm) && isset($value["conditions"]["id"])) {
+				foreach($habtm as $head => $val) {
+					$this->relatedsave($head, $val, $value["conditions"]["id"]);
+				}
+			}
 		}
 
 	}
@@ -385,16 +467,86 @@ class Database {
 
 				if($results = $this->results($this->query($q))) {
 					if($format == "first")
-						$output[$this->tab] = $results[0];
+						$output[$this->tab] = $this->relationdata($results[0], $data, $contains["relationship"]);
 					else
-						$output[$this->tab] = $results;
+						$output[$this->tab] = $this->relationdata($results, $data, $contains["relationship"], false);
+				} else {
+					$output[$this->tab] = array();
 				}
+
 			}
 		}
+
 		return $output;
 
 	}
 
+
+/**
+ * handleRelationship method
+ * if the contains exist as a relationship then for each record pull the data in.
+ *
+ * @param $contain (array)
+ * @return (array)
+ */
+	private function handleRelationship($data, $contain) {
+
+		$keys = array_keys($contain["contains"]);
+		foreach($keys as $header) {
+			if(in_array($header, array_keys($this->relationships)) && $this->relationships[$header]["type"] == "HABTM") {
+				$sql_ = "SELECT ".implode(", ", $this->relationships[$header]["leftcols"])." FROM ".
+					$this->relationships[$header]["linktable"]." LEFT JOIN ".$this->relationships[$header]["lefttable"]." ON ".
+					$this->relationships[$header]["linktable"].".".$this->relationships[$header]["linkColumn"]." = ".$this->relationships[$header]["lefttable"].".id WHERE ".$this->relationships[$header]["linktable"].".".$this->relationships[$header]["baseColumn"].
+					" = :id;";
+
+				$q = array(
+					"query" => $sql_,
+					"params" => array(":id" => $data["id"])
+				);
+
+				if($results = $this->results($this->query($q))) {
+					$data[$header] = $results;
+				}
+			} else if(in_array($header, array_keys($this->relationships)) && $this->relationships[$header]["type"] == "HM") {
+				$sql_ = "SELECT ".implode(", ", $this->relationships[$header]["leftcols"])." FROM ".
+					$this->relationships[$header]["lefttable"].
+					" WHERE ".$this->relationships[$header]["lefttable"].".".$this->relationships[$header]["linkColumn"].
+					" = :".$this->relationships[$header]["linkColumn"].";";
+
+				$q = array(
+					"query" => $sql_,
+					"params" => array(":".$this->relationships[$header]["linkColumn"] => $data["id"])
+				);
+
+				if($results = $this->results($this->query($q))) {
+					$data[$header] = $results;
+				}
+			}
+		}
+		return $data;
+	}
+/**
+ * relationdata method
+ * if the contains exist as a relationship then for each record pull the data in.
+ *
+ * @param $contain (array)
+ * @return (array)
+ */
+	private function relationdata($data, $contain, $relationship, $singlearray = true) {
+
+		if($relationship) {
+
+			if($singlearray) {
+				$data = $this->handleRelationship($data, $contain);
+			} else {
+				foreach($data as $key => $v) {
+					$data[$key] = $this->handleRelationship($v, $contain);
+				}
+			}
+		}
+
+		return $data;
+	}
 /**
  * contains method
  * Generates a contain join between 2 tables on request
@@ -405,18 +557,28 @@ class Database {
 	private function contains($contain) {
 		$join = "";
 		$fields = array();
+		$relationship = false;
 		$i = 0;
 
 		if(isset($contain["contains"])) {
 			foreach($contain["contains"] as $header => $value) {
-				$join .= " LEFT JOIN ".strtolower($header)." ON ".$value["relation"][0]."=".$value["relation"][1];
-				$fields = array_values(array_merge($fields, $value['fields']));
+				if(in_array($header, array_keys($this->relationships))
+					&& ($this->relationships[$header]["type"] == "HABTM" || $this->relationships[$header]["type"] == "HM")
+				) {
+					$relationship = true;
+				} else {
+					if(!empty($value)) {
+						$join .= " LEFT JOIN ".strtolower($header)." ON ".$value["relation"][0]."=".$value["relation"][1];
+						$fields = array_values(array_merge($fields, $value['fields']));
+					}
+				}
 			}
 		}
 
 		return array(
 			"join" 		=> $join,
-			"fields" 	=> $fields
+			"fields" 	=> $fields,
+			"relationship" 	=> $relationship
 		);
 	}
 /**
@@ -426,13 +588,10 @@ class Database {
  * @param $key (string)
  * @return
  */
-	public function Delete($queries) {
-
-		//echo "<pre>".print_r($queries, true)."</pre>";
+	public function Delete($queries, $ignore = false) {
 		foreach($queries as $table => $query) {
 			$arr = array();
 			$sql = "DELETE FROM ".strtolower($table)."";
-
 
 			$returned = $this->conditions($query);
 			$where = $returned['where'];
@@ -448,6 +607,22 @@ class Database {
 				"query" => $sql,
 				"params" => $arr
 			);
+
+
+			if(!$ignore){
+				if(!empty($this->relationships) && isset($queries[$table]["conditions"]["id"])) {
+					foreach($this->relationships as $h => $v) {
+						if($v["type"] != "HABTM") continue;
+						$this->Delete(array(
+							$v["linktable"] => array(
+								"conditions" => array(
+									$v["baseColumn"] => $queries[$table]["conditions"]["id"]
+								)
+							)
+						), true);
+					}
+				}
+			}
 
 			$this->query($q);
 		}

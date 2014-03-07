@@ -74,16 +74,12 @@ class RacesController extends Controller {
 					array(
 						"fields" => array(
 							"id",
-							"username",
-							"slug",
-							"email",
-							"email_verified",
-							"is_admin",
-							"last_login",
+							"name",
 							"created",
 							"modified"
 						),
-						"condition" => array("id" => $options[0])
+						"conditions" => array("id" => $options[0]),
+						"contains" => array( "Armies" => array() )
 					)
 				)
 			)
@@ -101,16 +97,13 @@ class RacesController extends Controller {
  * @return (array)
  */
 	public function admin_add($options, $methodData) {
-		$user = $this->LoadClass("Races", array(), $methodData);
-		//\Configure::pre($user->Exists(1));
-
 		$this->view = "admin";
 		if($this->requestType("POST")) {
 			$data = $this->model->Save();
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong><strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
 
@@ -127,8 +120,6 @@ class RacesController extends Controller {
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
-		$user = $this->LoadClass("Races", array(), $methodData);
-
 
 		if($this->requestType("POST")) {
 			$data = $this->model->Update($this->model->post, array("id" => $options[0]));
@@ -138,8 +129,7 @@ class RacesController extends Controller {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
-
-		$data = $user->Find("first", array( "Races" => array( array( "fields" => array( "id", "name"), "condition"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "Races" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -155,11 +145,10 @@ class RacesController extends Controller {
 	public function admin_delete($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("Races");
-		$user->Delete(
+		$this->model->Delete(
 			array(
 				"Races" => array(
-					"condition" => array(
+					"conditions" => array(
 						"id" => $options[0]
 					)
 				)

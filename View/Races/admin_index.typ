@@ -10,7 +10,6 @@
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
-				<th><?php echo $this->Html->Pag_Sort('id');?></th>
 				<th><?php echo $this->Html->Pag_Sort('name');?></th>
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
 				<th><?php echo $this->Html->Pag_Sort('modified');?></th>
@@ -20,7 +19,6 @@
 		<tbody>
 			<?php foreach ($typ__['data']["Races"] as $race){ ?>
 			<tr id="armyLists-<?php echo $race['id']; ?>" data-id="<?php echo $race['id']; ?>">
-				<td><?php echo $race['id']; ?></td>
 				<td><?php echo $race['name']; ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $race['created']); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $race['modified']); ?></td>

@@ -30,6 +30,6 @@ class PagesController extends Controller {
  * @return (array)
  */
 	public function index($options, $methodData) {
-		return array("code" => 200, "message" => "User Register", "data" => array(), "errors" => null);
+		return array("code" => 200, "message" => "Page default", "data" => array(), "errors" => null);
 	}
 }

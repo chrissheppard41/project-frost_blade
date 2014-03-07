@@ -144,6 +144,8 @@ class Controller {
  * @return
  */
 	public function Flash($message, $class = "alert alert-info", $redirect = "") {
+		//if($this->requestType("POST")) return ;
+		$path = $redirect;
 		\Configure::write("Flash", array("message" => $message, "class" => $class));
 		if(is_array($redirect)) {
 			if(isset($redirect) && !empty($redirect)) {
@@ -151,10 +153,16 @@ class Controller {
 					$redirect['controller'] = "admin/".$redirect['controller'];
 					$redirect['action'] = str_replace("admin_","",$redirect['action']);
 				}
-				header("Location: /".$redirect['controller']."/".$redirect['action']);
+				$params = "";
+				foreach($redirect['params'] as $value)
+					$params .= "/".$value;
+
+				$path = "/".$redirect['controller']."/".$redirect['action'].$params;
 			}
-		} else {
-			header("Location: ".$redirect);
+		}
+		if(isset($path)) {
+			header("Location: ".$path);
+			die;
 		}
 	}
 

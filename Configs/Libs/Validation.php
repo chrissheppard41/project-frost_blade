@@ -71,6 +71,10 @@ class Validation {
 				if($head == "match" && !$output["error"]) {
 					$output = self::response(false, $p_index, null, $p_value[$p_index], true);
 				}
+				if($head == "numeric" && !self::numeric($p_value[$p_index])) {
+					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+					break;
+				}
 			}
 		}
 
@@ -108,6 +112,12 @@ class Validation {
 	}
 	private static function match($string, $string2) {
 		if ($string == $string2) {
+			return true;
+		}
+		return false;
+	}
+	private static function numeric($int) {
+		if (is_numeric($int)) {
 			return true;
 		}
 		return false;

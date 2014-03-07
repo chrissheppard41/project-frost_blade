@@ -37,7 +37,7 @@ class ArmyListsController extends Controller {
 	public function admin_index($options) {
 		$this->view = "admin";
 
-		$test = $this->model->Find("all",
+		/*$test = $this->model->Find("all",
 			array(
 				"ArmyLists" => array(
 					array(
@@ -48,33 +48,34 @@ class ArmyListsController extends Controller {
 							"point_limit",
 							"hide",
 							"users_id",
-							"armytypes_id",
+							"armies_id",
 							"created",
 							"modified"
 						),
 						"contains" => array(
 							"Users" => array(
 								"fields" => array(
+									"Users.id as `user_id`",
 									"Users.username"
 								),
 								"relation" => array(
 									"ArmyLists.users_id", "Users.id"
 								)
 							),
-							"ArmyTypes" => array(
+							"Armies" => array(
 								"fields" => array(
-									"ArmyTypes.name as `army_name`"
+									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armytypes_id", "ArmyTypes.id"
+									"ArmyLists.armies_id", "armies.id"
 								)
 							)
 						)
 					)
 				)
 			)
-		);
-\Configure::pre($test);
+		);*/
+
 		$data = $this->model->Find("pagination",
 			array(
 				"ArmyLists" => array(
@@ -86,11 +87,31 @@ class ArmyListsController extends Controller {
 							"point_limit",
 							"hide",
 							"users_id",
-							"armytypes_id",
+							"armies_id",
 							"created",
 							"modified"
 						),
-						"pagination" => 10
+						"pagination" => 10,
+						"contains" => array(
+							"Users" => array(
+								"fields" => array(
+									"Users.id as `user_id`",
+									"Users.username"
+								),
+								"relation" => array(
+									"ArmyLists.users_id", "Users.id"
+								)
+							),
+							"Armies" => array(
+								"fields" => array(
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"ArmyLists.armies_id", "armies.id"
+								)
+							)
+						)
+
 					)
 				)
 			)
@@ -111,23 +132,41 @@ class ArmyListsController extends Controller {
 	public function admin_view($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("ArmyLists");
-		$data = $user->Find("first",
+		$data = $this->model->Find("first",
 			array(
 				"ArmyLists" => array(
 					array(
 						"fields" => array(
 							"id",
-							"username",
-							"slug",
-							"email",
-							"email_verified",
-							"is_admin",
-							"last_login",
+							"name",
+							"descr",
+							"point_limit",
+							"hide",
+							"users_id",
+							"armies_id",
 							"created",
 							"modified"
 						),
-						"condition" => array("id" => $options[0])
+						"condition" => array("id" => $options[0]),
+						"contains" => array(
+							"Users" => array(
+								"fields" => array(
+									"Users.id as `user_id`",
+									"Users.username"
+								),
+								"relation" => array(
+									"ArmyLists.users_id", "Users.id"
+								)
+							),
+							"Armies" => array(
+								"fields" => array(
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"ArmyLists.armies_id", "armies.id"
+								)
+							)
+						)
 					)
 				)
 			)
@@ -147,16 +186,20 @@ class ArmyListsController extends Controller {
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
 		if($this->requestType("POST")) {
-			$user = $this->LoadClass("ArmyLists", array(), $methodData);
-			$data = $user->save_army();
+			$data = $this->model->Save();
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'ArmyLists', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'ArmyLists', 'action' => 'index', 'admin' => true));
 			}
 		}
 
-		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
+		$data = $this->model->Find("all", array(
+			"Users" => array( array( "fields" => array( "id", "username as `name`") ) ),
+			"Armies" => array( array( "fields" => array( "id", "name") ) )
+		) );
+
+		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
  * admin_edit method
@@ -169,20 +212,34 @@ class ArmyListsController extends Controller {
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
-		$user = $this->LoadClass("ArmyLists", array(), $methodData);
-
+		$this->model->last_id = $options[0];
 		if($this->requestType("POST")) {
-			$data = $user->update_army();
+			$data = $this->model->Update($this->model->post, array("id" => $options[0]));
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'ArmyLists', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'armylists', 'action' => 'index', 'admin' => true));
 			}
 		}
+		$data = $this->model->Find("first", array( "ArmyLists" => array(
+					array(
+						"fields" => array( "id", "name", "descr", "point_limit", "hide", "users_id", "armies_id" ),
+						"condition" => array("id" => $options[0]),
+						"contains" => array(
+							"Users" => array( "fields" => array( "Users.id as `user_id`", "Users.username" ), "relation" => array( "ArmyLists.users_id", "Users.id" ) ),
+							"Armies" => array( "fields" => array( "armies.name as `army_name`" ), "relation" => array( "ArmyLists.armies_id", "armies.id" ) )
+						)
+					)
+				)
+			)
+		);
 
-		$data = $user->Find("first", array( "ArmyLists" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "condition"	=> array( "id" => $options[0] ) ) ) ) );
+		$dataE = array_merge($data, $this->model->Find("all", array(
+			"Users" => array( array( "fields" => array( "id", "username as `name`") ) ),
+			"Armies" => array( array( "fields" => array( "id", "name") ) )
+		) ) );
 		$_POST["data"] = $data;
-		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
+		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
  * admin_delete method
@@ -196,8 +253,7 @@ class ArmyListsController extends Controller {
 	public function admin_delete($options) {
 		$this->view = "admin";
 
-		$user = $this->LoadClass("ArmyLists");
-		$user->Delete(
+		$this->model->Delete(
 			array(
 				"ArmyLists" => array(
 					"condition" => array(

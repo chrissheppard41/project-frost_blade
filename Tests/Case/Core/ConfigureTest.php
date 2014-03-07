@@ -60,10 +60,19 @@ class ConfigureTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(\Configure::Logged());
 	}
 //
-// Action testConfigurePre
+// Action Random_generation
 ///
 	public function Random_generation()
 	{
-		$this->asserNotNull(\Configure::Random_generation());
+		$this->assertNotNull(\Configure::Random_generation());
+	}
+//
+// Action testin_array_r
+///
+	public function testin_array_r()
+	{
+		$this->assertTrue(\Configure::in_array_r(1, array(1,2,3,4,5,6)));
+		$this->assertFalse(\Configure::in_array_r(1, array(array(2,3,4),array(6,9,8),array(5,10,20))));
+		$this->assertTrue(\Configure::in_array_r(1, array(array(2,3,4),array(6,9,8),array(5,1,20))));
 	}
 }

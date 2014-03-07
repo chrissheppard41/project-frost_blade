@@ -1,52 +1,49 @@
+<?php ?>
 <div class="page-header">
-	<h1><?php echo $this->Html->link(__('Army Lists'), array('action' => 'index')); ?> - <?php echo h($armyList['ArmyList']['name']); ?></h1>
+	<h1><?php echo $this->Html->Url($this->Html->__t('Army Lists'), array('action' => 'index')); ?> - <?php echo $typ__["data"]['ArmyLists']['name']; ?></h1>
 </div>
 
 <div class="raceTypes view">
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
-	  		<?php echo __('Army Lists view'); ?>
+	  		<?php echo $this->Html->__t('Army Lists view'); ?>
 	  		<span class="pull-right">
-				<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $armyList['ArmyList']['id']), array('class' => 'btn-sm btn-warning')); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'squads', 'action' => 'delete', $armyList['ArmyList']['id']), array('class' => 'btn-sm btn-danger'), __('Are you sure you want to delete this record?')); ?>
+				<?php echo $this->Html->Url($this->Html->__t('Edit'), array('action' => 'edit', "params" => array($typ__["data"]['ArmyLists']['id']), "admin" => true), array('class' => 'btn-sm btn-warning')); ?>
+				<?php echo $this->Html->UrlPost($this->Html->__t('Delete'), array('action' => 'delete', "params" => array($typ__["data"]['ArmyLists']['id']), "admin" => true), array('class' => 'btn-sm btn-danger'), $this->Html->__t('Are you sure you want to delete this record?')); ?>
 	  		</span>
 	  	</div>
 	  	<div class="panel-body">
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Id'); ?></span>
-	  			<span class="col-md-9"><?php echo h($armyList['ArmyList']['id']); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Name'); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]['ArmyLists']['name']; ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Name'); ?></span>
-	  			<span class="col-md-9"><?php echo h($armyList['ArmyList']['name']); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Description'); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]['ArmyLists']['descr']; ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Description'); ?></span>
-	  			<span class="col-md-9"><?php echo h($armyList['ArmyList']['descr']); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Point Limit'); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]['ArmyLists']['point_limit']; ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Point Limit'); ?></span>
-	  			<span class="col-md-9"><?php echo h($armyList['ArmyList']['point_limit']); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Hidden'); ?></span>
+	  			<span class="col-md-9"><?php echo ($typ__["data"]['ArmyLists']['hide'])?"Private":"Public"; ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Hidden'); ?></span>
-	  			<span class="col-md-9"><?php echo h(($armyList['ArmyList']['hide'])?"Private":"Public"); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Army type'); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Url($typ__["data"]['ArmyLists']['army_name'], array('controller' => 'armies', 'action' => 'view', "params" => array($typ__["data"]['ArmyLists']['armies_id']), "admin" => true)); ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Race'); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->link($armyList['Races']['name'], array('controller' => 'races', 'action' => 'view', $armyList['Races']['id'])); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('User'); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Url((($typ__["data"]['ArmyLists']['username'])?$typ__["data"]['ArmyLists']['username']:$typ__["data"]['ArmyLists']['email']), array('controller' => 'users', 'action' => 'view', "params" => array($typ__["data"]['ArmyLists']['users_id']), "admin" => true)); ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('User'); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->link((($armyList['Users']['username'])?$armyList['Users']['username']:$armyList['Users']['email']), array('controller' => 'users', 'action' => 'view', $armyList['Users']['id'])); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Created'); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]['ArmyLists']['created']); ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Created'); ?></span>
-	  			<span class="col-md-9"><?php echo h($this->Time->timeAgoInWords($armyList['ArmyList']['created'])); ?></span>
-	  		</div>
-	  		<div class="row">
-	  			<span class="col-md-3"><?php echo __('Modified'); ?></span>
-	  			<span class="col-md-9"><?php echo h($this->Time->timeAgoInWords($armyList['ArmyList']['modified'])); ?></span>
+	  			<span class="col-md-3"><?php echo $this->Html->__t('Modified'); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]['ArmyLists']['modified']); ?></span>
 	  		</div>
 	  	</div>
 	</div>

@@ -5,7 +5,7 @@ namespace Frost\Model;
 /*
 	@class Races
 	@author Chris Sheppard
-	@desc handles all user data and information
+	@desc handles all Races data and information
 */
 class Races extends \Frost\Configs\Database {
 
@@ -13,7 +13,7 @@ class Races extends \Frost\Configs\Database {
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
-				"message" => "You must include your name"
+				"message" => "You must include your race name"
 			),
 			"between" => array(
 				"min" => 3,
@@ -23,6 +23,17 @@ class Races extends \Frost\Configs\Database {
 		)
 	);
 	public $post = array();
+
+	protected $relationships = array(
+		"Armies" => array(
+			"type" => "HM",
+			"linktable" => null,
+			"lefttable" => "armies",
+			"leftcols" => array("armies.id","armies.name","armies.created","armies.modified"),
+			"linkColumn" => "races_id",
+			"baseColumn" => "id"
+		)
+	);
 
 	function __construct($options, $inputted_params){
 		parent::__construct();

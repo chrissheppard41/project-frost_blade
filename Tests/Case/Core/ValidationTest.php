@@ -59,6 +59,11 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			"slug" => array(
 				"cryptwith" => "username"
 			),
+		),
+		"number" => array(
+			"numeric" => array(
+				"message" => "The field must be a numeric value"
+			),
 		)
 	);
 
@@ -302,6 +307,34 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		  	'field' => "confirm_password",
 			'message' => "Your field must match the password field",
 			"value" => "",
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+
+	}
+//
+// Action testValidationNumeric
+///
+	public function testValidationNumeric()
+	{
+		$arr["number"] = "abc";
+		$results = \Validation::validate("number", $arr, self::$validation, "Test", "edit");
+		$expected = array(
+			'error' => true,
+		  	'field' => "number",
+			'message' => "The field must be a numeric value",
+			"value" => "abc",
+			"skip" => false
+		);
+		$this->assertEquals($expected, $results);
+
+		$arr["number"] = 12345;
+		$results = \Validation::validate("number", $arr, self::$validation, "Test", "edit");
+		$expected = array(
+			'error' => false,
+		  	'field' => "number",
+			'message' => null,
+			"value" => 12345,
 			"skip" => false
 		);
 		$this->assertEquals($expected, $results);

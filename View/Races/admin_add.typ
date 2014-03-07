@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h2><?php echo $this->Html->Url($this->Html->__t('Races'), array('action' => 'index', 'admin' => true)); ?> - <?php echo $this->Html->__t("Admin Add"); ?></h2>
+	<h1><?php echo $this->Html->Url($this->Html->__t('Races'), array('action' => 'index', 'admin' => true)); ?> - <?php echo $this->Html->__t("Admin Add"); ?></h1>
 </div>
 <div class="armyLists form">
 	<?php

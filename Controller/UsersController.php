@@ -62,6 +62,21 @@ class UsersController extends Controller {
 	}
 
 /**
+ * admin_dashboard method
+ * ROUTE: /admin/users/dashboard
+ * Method: GET
+ * Index's all the users
+ *
+ * @param
+ * @return (array)
+ */
+	public function admin_dashboard($options) {
+		$this->view = "admin";
+
+		return array("code" => 200, "message" => "User Index", "data" => null, "errors" => null);
+	}
+
+/**
  * admin_view method
  * ROUTE: /admin/users/view/:id
  * Method: GET
@@ -167,7 +182,7 @@ class UsersController extends Controller {
 		$this->model->Delete(
 			array(
 				"Users" => array(
-					"condition" => array(
+					"conditions" => array(
 						"id" => $options[0]
 					)
 				)
@@ -238,7 +253,7 @@ class UsersController extends Controller {
 				if($data["error"] === true) {
 					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 				} else {
-					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'login'));
 				}
 			}
 

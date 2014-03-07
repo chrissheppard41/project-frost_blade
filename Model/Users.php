@@ -83,12 +83,16 @@ class Users extends \Frost\Configs\Database {
  * @return (bool)
  */
 	public function log_user() {
-		$validation = \Validation::validate($this->validation, "User");
+		$validation = \Validation::validate("email", $this->post['Users'], $this->validation, $this->table);
+		if($validation["error"]) {
+			return $validation;
+		}
+		$validation = \Validation::validate("password", $this->post['Users'], $this->validation, $this->table);
 		if($validation["error"]) {
 			return $validation;
 		}
 
-		$crypt_pass = sha1(crypt($this->post['User']['password'], CRYPTKEY.$this->post['User']['email']));
+		$crypt_pass = sha1(crypt($this->post['Users']['password'], CRYPTKEY.$this->post['Users']['email']));
 
 		$data = $this->Find("first",
 			array(
@@ -105,7 +109,7 @@ class Users extends \Frost\Configs\Database {
 							"modified"
 						),
 						"condition"	=> array(
-							"email" => $this->post['User']['email'],
+							"email" => $this->post['Users']['email'],
 							"password" => $crypt_pass
 						)
 					)
@@ -116,14 +120,12 @@ class Users extends \Frost\Configs\Database {
 		if(!empty($data['Users'])) {
 			$queryUpdate = array(
 				"Users" => array(
-					array(
-						"data" => array(
-							"last_login" 		=> date("Y-m-d H:i:s"),
-							"modified" 			=> date("Y-m-d H:i:s")
-						),
-						"condition"	=> array(
-							"slug" 				=> $data['Users']['slug']
-						)
+					"data" => array(
+						"last_login" 		=> date("Y-m-d H:i:s"),
+						"modified" 			=> date("Y-m-d H:i:s")
+					),
+					"condition"	=> array(
+						"slug" 				=> $data['Users']['slug']
 					)
 				)
 			);
@@ -131,110 +133,5 @@ class Users extends \Frost\Configs\Database {
 			return $data["Users"];
 		}
 		return false;
-	}
-
-/**
- * save_user method
- * Registers a user into the website if data is correct
- *
- * @param
- * @return (bool)
- */
-	public function save_user() {
-		$validation = \Validation::validate($this->validation, "Users");
-		if($validation["error"]) {
-			return $validation;
-		}
-
-		$data = $this->Find("first",
-			array(
-				"Users" => array(
-					array(
-						"fields" => array(
-							"slug",
-							"username",
-							"email"
-						),
-						"condition"	=> array(
-							"or" => array (
-								"username" => $this->post['User']['username'],
-								"email" => $this->post['User']['email']
-							)
-						)
-					)
-				)
-			)
-		);
-
-		if(isset($data['Users']) && !empty($data['Users'])) {
-			$head = "";
-			if($this->post['User']['username'] == $data['Users']['username']) {
-				$head = "Username";
-			}
-			if($this->post['User']['email'] == $data['Users']['email']) {
-				if(strlen($head) > 0)
-					$head .= "/";
-
-				$head .= "Email";
-			}
-			return \Validation::response($head,"The information you provided is currently being used, please choose a different ".$head);
-		}
-
-		$crypt_pass = sha1(crypt($this->post['User']['password'], CRYPTKEY.$this->post['User']['email']));
-		$slug = crypt($this->post['User']['username'], CRYPTKEY.$this->post['User']['email']);
-
-		$query = array(
-			"Users" => array(
-				array(
-					"username" 			=> $this->post['User']['username'],
-					"slug" 				=> $slug,
-					"password" 			=> $crypt_pass,
-					"email" 			=> $this->post['User']['email'],
-					"email_verified"	=> (int)((isset($this->post['User']['email_verified']))?(bool)$this->post['User']['email_verified']:false),
-					"is_admin"			=> (int)((isset($this->post['User']['is_admin']))?(bool)$this->post['User']['is_admin']:false),
-					"created" 			=> date("Y-m-d H:i:s"),
-					"modified" 			=> date("Y-m-d H:i:s")
-				)
-			)
-		);
-		$this->Save($query);
-	}
-
-/**
- * update_user method
- * Updates a current user withint he system
- *
- * @param
- * @return (bool)
- */
-	public function update_user() {
-		$validation = \Validation::validate($this->validation, "Users", "edit");
-		if($validation["error"]) {
-			return $validation;
-		}
-		$pass = array();
-		if(isset($this->post['data']['Users']['password']) && !empty($this->post['data']['Users']['password'])) {
-			$crypt_pass = sha1(crypt($this->post['data']['Users']['password'], CRYPTKEY.$this->post['data']['Users']['email']));
-			$pass = array("password" 		=> $crypt_pass);
-		}
-
-		$data_array = array_merge($pass,array(
-			"username" 			=> $this->post['data']['Users']['username'],
-			"email" 			=> $this->post['data']['Users']['email'],
-			"email_verified"	=> (int)((isset($this->post['data']['Users']['email_verified']))?(bool)$this->post['data']['Users']['email_verified']:false),
-			"is_admin"			=> (int)((isset($this->post['data']['Users']['is_admin']))?(bool)$this->post['data']['Users']['is_admin']:false),
-			"modified" 			=> date("Y-m-d H:i:s")
-		));
-
-		$query = array(
-			"Users" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("id" => $this->post['data']['Users']['id'])
-				)
-			)
-		);
-
-		$this->Update($query);
 	}
 }

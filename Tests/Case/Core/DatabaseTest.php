@@ -81,12 +81,86 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		);
 		$results = self::$Database->Save($queryC);
 
+
+
+		$queryD = self::$Database->query(array("query" => "DROP TABLE IF EXISTS relations;", "params" => ""));
+		$queryD = self::$Database->query(array("query" => "CREATE TABLE relations(
+			id INT(11) NOT NULL AUTO_INCREMENT,
+			name VARCHAR(100) NOT NULL,
+			created DATETIME,
+			modified DATETIME,
+			PRIMARY KEY ( id )
+		);", "params" => ""));
+		$queryD = array(
+			"relations" => array(
+				array("name" => "hello"),
+			)
+		);
+		$results = self::$Database->Save($queryD);
+
+
+
+
+		$queryE = self::$Database->query(array("query" => "DROP TABLE IF EXISTS testRelations;", "params" => ""));
+		$queryE = self::$Database->query(array("query" => "CREATE TABLE testRelations(
+			id INT(11) NOT NULL AUTO_INCREMENT,
+			relations_id INT(11) NOT NULL,
+			tests_id INT(11) NOT NULL,
+			created DATETIME,
+			modified DATETIME,
+			PRIMARY KEY ( id )
+		);", "params" => ""));
+		$queryE = array(
+			"testRelations" => array(
+				array("relations_id" => "1","tests_id" => "1"),
+			)
+		);
+		$results = self::$Database->Save($queryE);
+
+
+
+		$queryF = self::$Database->query(array("query" => "DROP TABLE IF EXISTS company;", "params" => ""));
+		$queryF = self::$Database->query(array("query" => "CREATE TABLE company(
+			id INT(11) NOT NULL AUTO_INCREMENT,
+			name VARCHAR(100) NOT NULL,
+			created DATETIME,
+			modified DATETIME,
+			PRIMARY KEY ( id )
+		);", "params" => ""));
+		$queryF = array(
+			"company" => array(
+				array("name" => "test name"),
+			)
+		);
+		$results = self::$Database->Save($queryF);
+
+		$queryG = self::$Database->query(array("query" => "DROP TABLE IF EXISTS employee;", "params" => ""));
+		$queryG = self::$Database->query(array("query" => "CREATE TABLE employee(
+			id INT(11) NOT NULL AUTO_INCREMENT,
+			name VARCHAR(100) NOT NULL,
+			companys_id INT(11) NOT NULL,
+			created DATETIME,
+			modified DATETIME,
+			PRIMARY KEY ( id )
+		);", "params" => ""));
+		$queryG = array(
+			"employee" => array(
+				array("name" => "employee 1","companys_id" => "1"),
+				array("name" => "employee 2","companys_id" => "1"),
+				array("name" => "employee 3","companys_id" => "1"),
+			)
+		);
+		$results = self::$Database->Save($queryG);
+
+
 	}
 	public static function tearDownAfterClass()
 	{
 		$query = self::$Database->query(array("query" => "DROP TABLE test;", "params" => ""));
 		$query = self::$Database->query(array("query" => "DROP TABLE next;", "params" => ""));
 		$query = self::$Database->query(array("query" => "DROP TABLE prev;", "params" => ""));
+		$query = self::$Database->query(array("query" => "DROP TABLE relations;", "params" => ""));
+		$query = self::$Database->query(array("query" => "DROP TABLE testRelations;", "params" => ""));
 	}
 
 //
@@ -294,6 +368,72 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 			)
 		);
 		self::$Database->Delete($queryG);
+
+		$queryH = array(
+			"test" => array(
+				array(
+					"causeerror" 			=> null
+				)
+			)
+		);
+		$prev = new Prev();
+
+		$resultsE = $prev->Save($queryH);
+
+		$expectedE = array(
+			'error' => true,
+			'field' => "causeerror",
+			'message' => "error",
+			'value' => NULL,
+			'skip' => false
+		);
+
+		$this->assertEquals($expectedE, $resultsE);
+
+
+
+		$queryF = array(
+			"test" => array(
+				"testcol" 			=> "worldA",
+				"updatehere" 		=> "helloA",
+				"Relation" 			=> array(1)
+			)
+		);
+
+
+		$resultsF = self::$Database->Save($queryF);
+		$this->assertTrue($resultsF);
+
+		$resultsG = self::$Database->Find("first",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"contains" => array( "Relation" => array() ),
+						"conditions" => array("testcol" => "worldA")
+					)
+				)
+			)
+		);
+
+		$this->assertEquals($resultsG['test']['testcol'], "worldA");
+		$this->assertEquals($resultsG['test']['updatehere'], "helloA");
+
+		$this->assertEquals($resultsG['test']['Relation'][0]["name"], "hello");
+
+		$queryH = array(
+			"test" => array(
+				"conditions" => array(
+					"or" => array("id" => $resultsG['test']["id"])
+				)
+			)
+		);
+		self::$Database->Delete($queryH);
+
 
 	}
 
@@ -564,7 +704,149 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($values['testcol'], "Or Changed");
 		}
 
+
+
+
+
+		self::$Database->Update(
+			array(
+				array(
+					"test" => array(
+						"data" => array("testcol" => "Or Changed", "Relation" => array(1)),
+						"conditions" => array("id" => 15),
+
+					)
+				),
+				array(
+					"test" => array(
+						"data" => array("testcol" => "Or Changed", "Relation" => array(2)),
+						"conditions" => array("id" => 14)
+					)
+				)
+			)
+		);
+
+		$resultsH = self::$Database->Find("all",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"conditions" => array(
+							"or" => array(
+								"id" => array(14,15)
+							)
+
+						),
+						"contains" => array( "Relation" => array() )
+					)
+				)
+			)
+		);
+		$expectedHa = array(
+			array(
+				"id" => null,
+				"name" => null
+			)
+		);
+		$expectedHb = array(
+			array(
+				"id" => 1,
+				"name" => "hello"
+			)
+		);
+		$this->assertEquals($resultsH["test"][0]["Relation"], $expectedHa);
+		$this->assertEquals($resultsH["test"][1]["Relation"], $expectedHb);
+
 	}
+
+
+//
+// Action testHasManyFind
+///
+	public function testHasManyFind()
+	{
+		$company = new Company();
+		$results = $company->Find("all",
+			array(
+				"company" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name"
+						),
+						"contains" => array( "Employee" => array() )
+					)
+				)
+			)
+		);
+		$expected = array(
+			"company" => array(
+				array(
+					"id" => 1,
+					"name" => "test name",
+					"Employee" => array(
+						array(
+							"id" => 1,
+							"name" => "employee 1"
+						),
+						array(
+							"id" => 2,
+							"name" => "employee 2"
+						),
+						array(
+							"id" => 3,
+							"name" => "employee 3"
+						)
+					)
+				)
+			)
+		);
+		$this->assertEquals($expected, $results);
+
+		$resultsB = $company->Find("first",
+			array(
+				"company" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name"
+						),
+						"contains" => array( "Employee" => array() )
+					)
+				)
+			)
+		);
+
+		$expectedB = array(
+			"company" => array(
+				"id" => 1,
+				"name" => "test name",
+				"Employee" => array(
+					array(
+						"id" => 1,
+						"name" => "employee 1"
+					),
+					array(
+						"id" => 2,
+						"name" => "employee 2"
+					),
+					array(
+						"id" => 3,
+						"name" => "employee 3"
+					)
+				)
+			)
+		);
+		$this->assertEquals($expectedB, $resultsB);
+
+	}
+
+
+
 
 //
 // Action testFindAll
@@ -655,6 +937,36 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $resultsB);
 		$this->assertEquals($expectedC, $resultsC);
 
+
+
+
+		$resultsG = self::$Database->Find("all",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"contains" => array( "Relation" => array() )
+					)
+				)
+			)
+		);
+
+		$expectedE = array(
+			"id" => 2,
+			"testcol" => "hello",
+			"updatehere" => null
+		);
+
+		$this->assertEquals("15", $resultsG["test"][14]["id"]);
+		$this->assertEquals("Or Changed", $resultsG["test"][14]["testcol"]);
+		$this->assertEquals(array(array("id" => 1,"name" => "hello")), $resultsG["test"][14]["Relation"]);
+
+		$this->assertEquals($expectedE, $resultsB["test"][1]);
+
 	}
 
 //
@@ -703,7 +1015,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 				)
 			)
 		);
-		$this->assertEmpty($results);
+		;
+		$this->assertEmpty($results["test"]);
 
 
 	}
@@ -752,6 +1065,41 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expected, $results);
 
+	}
+//
+// Action testDeleteContains
+///
+	public function testDeleteContains()
+	{
+		$query = array(
+			"test" => array(
+				"conditions" => array(
+					"id" => 15
+				)
+			)
+		);
+		self::$Database->Delete($query);
+
+
+		$results = self::$Database->Find("first",
+			array(
+				"test" => array(
+					array(
+						"fields" => array(
+							"id",
+							"testcol",
+							"updatehere"
+						),
+						"contains" => array(
+							"Relation" => array()
+						),
+						"conditions" => array("test.id" => 15)
+					)
+				)
+			)
+		);
+
+		$this->assertEmpty($results["test"]);
 	}
 //
 // Action testExists
@@ -1022,6 +1370,35 @@ class Test extends \Frost\Configs\Database {
 	}
 
 	protected $table = "test";
+
+	protected $relationships = array(
+		"Relation" => array(
+			"type" => "HABTM",
+			"linktable" => "testRelations",
+			"lefttable" => "relations",
+			"leftcols" => array("relations.id","relations.name"),
+			"linkColumn" => "relations_id",
+			"baseColumn" => "tests_id"
+		)
+	);
+}
+class Company extends \Frost\Configs\Database {
+	function __construct() {
+		parent::__construct();
+	}
+
+	protected $table = "company";
+
+	protected $relationships = array(
+		"Employee" => array(
+			"type" => "HM",
+			"linktable" => null,
+			"lefttable" => "employee",
+			"leftcols" => array("employee.id","employee.name"),
+			"linkColumn" => "companys_id",
+			"baseColumn" => "id"
+		)
+	);
 }
 class Prev extends \Frost\Configs\Database {
 	function __construct() {
@@ -1035,6 +1412,11 @@ class Prev extends \Frost\Configs\Database {
 				"value" => "name",
 				"message" => "Your field must match the name field",
 				"ignore" => array("edit","add")
+			)
+		),
+		"causeerror" => array(
+			"notempty" => array(
+				"message" => "error"
 			)
 		)
 	);

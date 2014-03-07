@@ -1,16 +1,25 @@
+<?php
+?>
 <div class="page-header">
-	<h1><?php echo $this->Html->link(__('Army Lists'), array('action' => 'index')); ?> - Admin Add</h1>
+	<h1><?php echo $this->Html->Url($this->Html->__t('Army Lists'), array('action' => 'index', 'admin' => true)); ?> - <?php echo $this->Html->__t("Admin Add"); ?></h1>
 </div>
 <div class="armyLists form">
 	<?php
-	echo $this->Form->create('ArmyList');
-		echo $this->Form->input('name', array('label' => 'Name'));
-		echo $this->Form->input('descr', array('label' => 'Description'));
-		echo $this->Form->input('point_limit', array('label' => 'Point Limit'));
-		echo $this->Form->input('hide', array('label' => 'Hide', 'type' => 'checkbox'));
-		echo $this->Form->input('races_id', array('label' => 'Race'));
-		echo $this->Form->input('users_id', array('label' => 'Username'));
-		echo $this->Form->submit(__('Save'));
-		echo $this->Form->end();
+		echo $this->Html->Form(array(
+			"action" => "/admin/ArmyLists/add",
+			"class" => "form-vertical",
+			"id" => "ArmyListsAdminAddForm",
+			"method" => "post",
+			"accept-charset" => "utf-8"
+		));
+		echo $this->Html->Input("name", "ArmyLists", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
+		echo $this->Html->Input("descr", "ArmyLists", array('label' => 'Description', 'placeholder' => "Description", 'class' => "form-control", 'maxlength' => "255", 'type' => "textarea", 'id' => "descr"));
+		echo $this->Html->Input("point_limit", "ArmyLists", array('label' => 'Points limit', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "point_limit"));
+		echo $this->Html->Input("hide", "ArmyLists", array('label' => 'Army Hidden', 'class' => "form-control", 'type' => "checkbox", 'id' => "hide"));
+
+		echo $this->Html->Input("armies_id", "ArmyLists", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "races"), $typ__['data']["Armies"]);
+		echo $this->Html->Input("users_id", "ArmyLists", array('label' => 'Username', 'class' => "form-control", 'type' => "select", 'id' => "username"), $typ__['data']["Users"]);
+		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
+		echo $this->Html->Form();
 	?>
 </div>

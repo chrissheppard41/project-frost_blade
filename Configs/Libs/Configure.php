@@ -115,4 +115,25 @@ class Configure {
 		return substr( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50) , 1) .substr( md5( time() ), 1);
 	}
 
+/**
+ * in_array_r method
+ * recursive method to search multidimensional  arrays
+ *
+ * @param $needle(string), $haystack(array), $strict(bool)
+ * @return
+ */
+	public static function in_array_r($needle, $haystack, $strict = false) {
+		if(!empty($haystack)) {
+			if(is_array($haystack)) {
+				foreach ($haystack as $item) {
+					if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && self::in_array_r($needle, $item, $strict))) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 }

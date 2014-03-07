@@ -11,49 +11,58 @@ class ArmyLists extends \Frost\Configs\Database {
 
 	protected $table = "ArmyLists";
 	protected $validation = array(
-		/*"email" => array(
-			"email" => array(
-				"message" => "Your email address is not valid"
-			),
+		"name" => array(
 			"notempty" => array(
-				"message" => "You must include your email"
+				"message" => "You must include an army name"
+			),
+			"between" => array(
+				"min" => 3,
+				"max" => 100,
+				"message" => "Between 3 to 100 characters"
 			)
 		),
-		"password" => array(
+		"descr" => array(
 			"notempty" => array(
-				"message" => "You must include a password",
-				"ignore" => array("edit")
+				"message" => "You must include an army description"
 			),
 			"between" => array(
 				"min" => 5,
-				"max" => 50,
-                "message" => "Between 5 to 50 characters"
-            )
+				"max" => 255,
+				"message" => "Between 5 to 255 characters"
+			)
 		),
-		"username" => array(
-			"between" => array(
-				"min" => 5,
-				"max" => 50,
-                "message" => "Between 5 to 50 characters"
-            ),
-			"nospecial" => array(
-                "message" => "You must not include special characters within your username"
-            )
+		"points_limit" => array(
+			"notempty" => array(
+				"message" => "You must include an Points limit"
+			),
+			"numeric" => array(
+				"message" => "Points limit must be an number"
+			)
 		),
-		"confirm_password" => array(
-			"match" => array(
-				"value" => "password",
-                "message" => "Your field must match the password field",
-				"ignore" => array("edit")
-            )
-		)*/
+		"hide" => array(
+			"tinyint" => array(
+				"default" => false
+			)
+		),
+		"armies_id" => array(
+			"notempty" => array(
+				"message" => "You must include an army type"
+			)
+		),
+		"users_id" => array(
+			"notempty" => array(
+				"message" => "You must include an username"
+			)
+		),
 	);
 	public $post = array();
 
 	function __construct($options, $inputted_params){
 		parent::__construct();
 
-		$this->post = $inputted_params;
+		if(isset($inputted_params["data"])) {
+			$this->post = $inputted_params["data"];
+		}
 	}
 
 /**

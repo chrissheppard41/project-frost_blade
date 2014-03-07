@@ -223,9 +223,9 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertTrue((bool)strstr($results, '<label for="TestTestField" class="control-label">TestField</label>'));
-		$this->assertTrue((bool)strstr($results, '<input name="data[Test][testfield]" placeholder="Test placeholder" class="form-control" maxlength="255" type="text" id="TestName" />'));
+		$this->assertTrue((bool)strstr($results, '<input name="data[Test][TestField]" placeholder="Test placeholder" class="form-control" maxlength="255" type="text" id="TestName" />'));
 
-		$_POST["data"]["Test"]["testname"] = "hello world";
+		$_POST["data"]["Test"]["Testname"] = "hello world";
 
 		$resultsB = self::$Html->Input(
 			"Testname",
@@ -239,7 +239,6 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 				'id' => "Testname"
 			)
 		);
-
 		$this->assertTrue((bool)strstr($resultsB, 'holder="Test placeholder" class="form-control" maxlength="255" type="text" id="Testname" value="hello world" />'));
 
 
@@ -270,6 +269,90 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertTrue((bool)strstr($resultsC, ' class="form-control" type="checkbox" id="Testcheck" />'));
+
+		$resultsD = self::$Html->Input(
+			"Testcheck",
+			"Test",
+			array(
+				'label' => 'Testcheck',
+				'class' => "form-control",
+				'type' => "select",
+				'id' => "Testselect"
+			)
+		);
+
+		$this->assertTrue((bool)strstr($resultsD, '<select name="data[Test][Testcheck]" class="form-control" id="Testselect">'));
+		$this->assertTrue((bool)strstr($resultsD, '<option value="">Select an option</option>'));
+
+		$resultsE = self::$Html->Input(
+			"Testcheck",
+			"Test",
+			array(
+				'label' => 'Testcheck',
+				'class' => "form-control",
+				'type' => "select",
+				'id' => "Testselect",
+				"multiple"
+			),
+			array(array("id" => 1, "name" => "test option 1"),array("id" => 2, "name" => "test option 2"),array("id" => 3, "name" => "test option 3"))
+		);
+
+		$this->assertTrue((bool)strstr($resultsE, '<select name="data[Test][Testcheck][]" class="form-control" id="Testselect" multiple>'));
+		$this->assertFalse((bool)strstr($resultsE, '<option value="">Select an option</option>'));
+
+		$this->assertTrue((bool)strstr($resultsE, '<option value="1">test option 1</option>'));
+		$this->assertTrue((bool)strstr($resultsE, '<option value="2">test option 2</option>'));
+		$this->assertTrue((bool)strstr($resultsE, '<option value="3">test option 3</option>'));
+
+
+		$_POST["data"]["Test"]["Testcheck"] = 1;
+		$resultsF = self::$Html->Input(
+			"Testcheck",
+			"Test",
+			array(
+				'label' => 'Testcheck',
+				'class' => "form-control",
+				'type' => "select",
+				'id' => "Testselect"
+			),
+			array(array("id" => 1, "name" => "test option 1"),array("id" => 2, "name" => "test option 2"))
+		);
+
+		$this->assertTrue((bool)strstr($resultsF, '<select name="data[Test][Testcheck]" class="form-control" id="Testselect">'));
+
+		$this->assertTrue((bool)strstr($resultsF, '<option value="">Select an option</option>'));
+
+		$resultsG = self::$Html->Input(
+			"TestArea",
+			"Test",
+			array(
+				'label' => 'TestArea',
+				'placeholder' => "Test placeholder",
+				'class' => "form-control",
+				'type' => "textarea",
+				'id' => "TestName"
+			)
+		);
+
+		$this->assertTrue((bool)strstr($resultsG, '<label for="TestTestArea" class="control-label">TestArea</label>'));
+		$this->assertTrue((bool)strstr($resultsG, '<textarea name="data[Test][TestArea]" placeholder="Test placeholder" class="form-control" id="TestName"></textarea>'));
+
+
+		$_POST["data"]["Test"]["TestArea"] = "Lorem ispum";
+		$resultsH = self::$Html->Input(
+			"TestArea",
+			"Test",
+			array(
+				'label' => 'TestArea',
+				'placeholder' => "Test placeholder",
+				'class' => "form-control",
+				'type' => "textarea",
+				'id' => "TestName"
+			)
+		);
+		$this->assertTrue((bool)strstr($resultsH, '<label for="TestTestArea" class="control-label">TestArea</label>'));
+		$this->assertTrue((bool)strstr($resultsH, '<textarea name="data[Test][TestArea]" placeholder="Test placeholder" class="form-control" id="TestName">Lorem ispum</textarea>'));
+
 	}
 //
 // Action testSubmit
@@ -289,10 +372,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 ///
 	public function testFlash()
 	{
-		self::$Html->Flash(
-			"My test message",
-			"alert alert-danger"
-		);
+		\Configure::write("Flash", array("message" => "My test message", "class" => "alert alert-danger"));
 		$results = self::$Html->Flash();
 
 		$this->assertEquals($results, '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>My test message</div>');

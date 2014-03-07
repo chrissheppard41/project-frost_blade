@@ -225,7 +225,9 @@ class Html {
  * @param $options(array)
  * @return (string)
   **/
-	public function Input($name, $model, $options = array()) {
+	public function Input($name, $model, $options = array(), $list = array()) {
+//\Configure::pre($_POST['data'][$model][$name], false);
+
 		$nameucf = ucfirst($name);
 		$output = '<div class="form-group">';
 		$outputExra = '';
@@ -234,32 +236,65 @@ class Html {
 			unset($options['label']);
 		}
 
-
 		if(isset($options)) {
 			if(isset($options['name']))
 				unset($options['name']);
 
-			if($options['type'] == "checkbox")
-				$outputExra = '<input name="data['.$model.']['.strtolower($name).']" type="hidden" value="" />';
+			if($options['type'] == "select") {
+				if(!in_array("multiple", $options))
+					$output .= '<select name="data['.$model.']['.$name.']"';
+				else
+					$output .= '<select name="data['.$model.']['.$name.'][]"';
+			} else if($options['type'] == "textarea") {
+				$output .= '<textarea name="data['.$model.']['.$name.']"';
+			} else {
+				if($options['type'] == "checkbox")
+					$outputExra = '<input name="data['.$model.']['.$name.']" type="hidden" value="" />';
 
-			$output .= $outputExra.'<input name="data['.$model.']['.strtolower($name).']"';
+				$output .= $outputExra.'<input name="data['.$model.']['.$name.']"';
+			}
+
 			foreach($options as $key => $values) {
-				$output .= ' '.$key.'="'.$values.'"';
+				if($key == "type" && $values == "select" || $values == "textarea") continue;
+				if($key == 0 && $values == "multiple")
+					$output .= ' multiple';
+				else
+					$output .= ' '.$key.'="'.$values.'"';
+
 			}
 
-			if(isset($_POST['data'][$model][strtolower($name)])) {
-				if($options['type'] == "checkbox") {
-					if((bool)$_POST['data'][$model][strtolower($name)] === true)
-						$output .= ' checked="checked"';
-				} else
-					$output .= ' value="'.$_POST['data'][$model][strtolower($name)].'"';
-			}
+			if($options['type'] == "select") {
+				$output .= '>';
+				if(!in_array("multiple", $options))
+					$output .= '<option value="">Select an option</option>';
+				foreach($list as $key => $values) {
+					$found = false;
+					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$name])) {
+						if($values["id"] == $_POST['data'][$model][$name]) $found = true;
+						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name])) $found = true;
+					}
 
-			$output .= ' />';
+					$output .= '<option value="'.$values["id"].'"'.(($found)?" selected='selected'":"").'>'.$values["name"].'</option>';
+				}
+				$output .= '<select/>';
+			} else if($options['type'] == "textarea") {
+				$output .= '>';
+				if(isset($_POST['data'][$model][$name])) $output .= $_POST['data'][$model][$name];
+				$output .= '</textarea>';
+			} else {
+				if(isset($_POST['data'][$model][$name])) {
+					if($options['type'] == "checkbox") {
+						if((bool)$_POST['data'][$model][$name] === true)
+							$output .= ' checked="checked"';
+					} else
+						$output .= ' value="'.$_POST['data'][$model][$name].'"';
+				}
+
+				$output .= ' />';
+			}
 		}
 		$output .= '</div>';
-
-		return $output;
+				return $output;
 	}
 
 /**
@@ -289,19 +324,18 @@ class Html {
  * @return (string)
   **/
 	public function Flash($message = "", $class = "alert alert-info") {
-		if(isset($message) and $message != "") {
-			\Configure::write("Flash", array("message" => $message, "class" => $class));
-		} else {
+		$output = "";
+		if($message == "" && !empty(\Configure::read("Flash.message"))) {
 			$message = \Configure::read("Flash.message");
-			$output = "";
+			$class = \Configure::read("Flash.class");
+
 			if(isset($message)) {
-				$output = '<div class="'.\Configure::read("Flash.class").' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.\Configure::read("Flash.message").'</div>';
-				\Configure::delete("Flash.message");
-				\Configure::delete("Flash.class");
+				$output = '<div class="'.$class.' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.$message.'</div>';
+				\Configure::delete("Flash");
 			}
 
-			return $output;
 		}
+		return $output;
 	}
 
 /**

@@ -51,8 +51,8 @@
 		foreach ($typ__["data"]["Armies"]["ArmyCharacteristics"] as $armies){ ?>
 		<tr>
 			<td><?php echo $armies['name'];?></td>
-			<td><?php echo $armies['created'];?></td>
-			<td><?php echo $armies['modified'];?></td>
+			<td><?php echo $this->Html->Time("TimeAgo", $armies['created']);?></td>
+			<td><?php echo $this->Html->Time("TimeAgo", $armies['modified']);?></td>
 			<td class="actions">
 				<?php echo $this->Html->Url($this->Html->__t('View'), array('controller' => 'armycharacteristics', 'action' => 'view', "params" => array($armies['id']), "admin" => true), array('class' => 'btn-sm btn-primary')); ?>
 				<?php echo $this->Html->Url($this->Html->__t('Edit'), array('controller' => 'armycharacteristics', 'action' => 'edit', "params" => array($armies['id']), "admin" => true), array('class' => 'btn-sm btn-warning')); ?>
@@ -80,8 +80,8 @@
 		foreach ($typ__["data"]["Armies"]["Squads"] as $squads){ ?>
 		<tr>
 			<td><?php echo $squads['name'];?></td>
-			<td><?php echo $squads['created'];?></td>
-			<td><?php echo $squads['modified'];?></td>
+			<td><?php echo $this->Html->Time("TimeAgo", $squads['created']);?></td>
+			<td><?php echo $this->Html->Time("TimeAgo", $squads['modified']);?></td>
 			<td class="actions">
 				<?php echo $this->Html->Url($this->Html->__t('View'), array('controller' => 'squads', 'action' => 'view', "params" => array($squads['id']), "admin" => true), array('class' => 'btn-sm btn-primary')); ?>
 				<?php echo $this->Html->Url($this->Html->__t('Edit'), array('controller' => 'squads', 'action' => 'edit', "params" => array($squads['id']), "admin" => true), array('class' => 'btn-sm btn-warning')); ?>

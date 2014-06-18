@@ -17,8 +17,8 @@ class Units extends \Frost\Configs\Database {
 			),
 			"between" => array(
 				"min" => 3,
-				"max" => 100,
-				"message" => "Between 3 to 100 characters"
+				"max" => 45,
+				"message" => "Between 3 to 45 characters"
 			),
 		'weapon_skill' => array(
 			'numeric' => array(
@@ -107,18 +107,39 @@ class Units extends \Frost\Configs\Database {
 			'notempty' => array(
 				"message" => "You must include your points value"
 			)
+		),
+		'unitTypes_id' => array(
+			'notempty' => array(
+				"message" => "You must include your unit type value"
+			)
 		)
 		)
 	);
 	public $post = array();
 
 	protected $relationships = array(
-		"Squads" => array(
+		/*"Squads" => array(
 			"type" => "HABTM",
 			"linktable" => "squadunits",
 			"lefttable" => "squads",
 			"leftcols" => array("squads.id","squads.name","squads.created","squads.modified"),
 			"linkColumn" => "squads_id",
+			"baseColumn" => "units_id"
+		),*/
+		"UnitCharacteristics" => array(
+			"type" => "HABTM",
+			"linktable" => "unitqualities",
+			"lefttable" => "unitcharacteristics",
+			"leftcols" => array("unitcharacteristics.id","unitcharacteristics.name","unitcharacteristics.created","unitcharacteristics.modified"),
+			"linkColumn" => "unitcharacteristics_id",
+			"baseColumn" => "units_id"
+		),
+		"Wargears" => array(
+			"type" => "HABTM",
+			"linktable" => "unitwargears",
+			"lefttable" => "wargears",
+			"leftcols" => array("wargears.id","wargears.name","wargears.created","wargears.modified"),
+			"linkColumn" => "wargears_id",
 			"baseColumn" => "units_id"
 		)
 	);

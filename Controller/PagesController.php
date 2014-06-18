@@ -32,4 +32,17 @@ class PagesController extends Controller {
 	public function index($options, $methodData) {
 		return array("code" => 200, "message" => "Page default", "data" => array(), "errors" => null);
 	}
+/**
+ * partials method
+ * ROUTE: /users/register
+ * Allows a user to register with fb and log in
+ *
+ * @param
+ * @return (array)
+ */
+	public function partials($options, $methodData) {
+		$this->view = "Empty";
+
+		return array("code" => 200, "message" => "Page default", "data" => $options, "errors" => null);
+	}
 }

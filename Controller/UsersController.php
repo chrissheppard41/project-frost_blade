@@ -130,7 +130,7 @@ class UsersController extends Controller {
 				if($data["error"] === true) {
 					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 				} else {
-					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+					$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
 				}
 			}
 		}
@@ -159,7 +159,7 @@ class UsersController extends Controller {
 				if($data["error"] === true) {
 					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 				} else {
-					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+					$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
 				}
 			}
 		}

@@ -44,8 +44,8 @@
 		foreach ($typ__["data"]["ArmyCharacteristics"]["Armies"] as $armies){ ?>
 		<tr>
 			<td><?php echo $armies['name'];?></td>
-			<td><?php echo $armies['created'];?></td>
-			<td><?php echo $armies['modified'];?></td>
+			<td><?php echo $this->Html->Time("TimeAgo", $armies['created']);?></td>
+			<td><?php echo $this->Html->Time("TimeAgo", $armies['modified']);?></td>
 			<td class="actions">
 				<?php echo $this->Html->Url($this->Html->__t('View'), array('controller' => 'armies', 'action' => 'view', "params" => array($armies['id']), "admin" => true), array('class' => 'btn-sm btn-primary')); ?>
 				<?php echo $this->Html->Url($this->Html->__t('Edit'), array('controller' => 'armies', 'action' => 'edit', "params" => array($armies['id']), "admin" => true), array('class' => 'btn-sm btn-warning')); ?>

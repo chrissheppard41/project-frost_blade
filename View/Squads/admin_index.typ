@@ -1,4 +1,5 @@
 <?php
+//\Configure::pre($typ__);
 ?>
 <div class="page-header">
 	<h1><?php echo $this->Html->__t('Squads'); ?></h1>
@@ -12,7 +13,8 @@
 		<thead>
 			<tr>
 				<th><?php echo $this->Html->Pag_Sort('name');?></th>
-				<th><?php echo $this->Html->Pag_Sort('Army types');?></th>
+				<th><?php echo $this->Html->Pag_Sort('Army');?></th>
+				<th><?php echo $this->Html->Pag_Sort('Type');?></th>
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
 				<th><?php echo $this->Html->Pag_Sort('modified');?></th>
 				<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
@@ -24,6 +26,8 @@
 				<td><?php echo $squad['name']; ?></td>
 
 				<td><?php echo $this->Html->Url($squad["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($squad["army_id"]))); ?></td>
+
+				<td><?php echo $this->Html->Url($squad["type_name"], array("controller" => "types", "action" => "view", "admin" => true, "params" => array($squad["type_id"]))); ?></td>
 
 				<td><?php echo $this->Html->Time("TimeAgo", $squad['created']); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $squad['modified']); ?></td>

@@ -98,12 +98,24 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 	{
 		$results = self::$Html->Css(array("hello/world.css"));
 
-		$expected = '<link href="/assets/css/hello/world.css" media="all" rel="stylesheet" type="text/css" />';
+		$expected = '<link href="/Assets/css/hello/world.css" media="all" rel="stylesheet" type="text/css" />';
 		$this->assertEquals($expected, $results);
 
 
 		$results = self::$Html->Css(array("hello/world.css","my/test/css.css"));
-		$expected = '<link href="/assets/css/hello/world.css" media="all" rel="stylesheet" type="text/css" /><link href="/assets/css/my/test/css.css" media="all" rel="stylesheet" type="text/css" />';
+		$expected = '<link href="/Assets/css/hello/world.css" media="all" rel="stylesheet" type="text/css" /><link href="/Assets/css/my/test/css.css" media="all" rel="stylesheet" type="text/css" />';
+		$this->assertEquals($expected, $results);
+	}
+
+//
+// Action testScriptInline
+///
+	public function testScriptInline()
+	{
+		self::$Html->Js(array("hello/world.js"), array("inline" => false));
+		$results = self::$Html->Script();
+
+		$expected = '<script type="text/javascript" src="/Assets/js/hello/world.js"></script>';
 		$this->assertEquals($expected, $results);
 	}
 //
@@ -113,12 +125,14 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 	{
 		$results = self::$Html->Js(array("hello/world.js"));
 
-		$expected = '<script type="text/javascript" src="/assets/js/hello/world.js"></script>';
+		$expected = '<script type="text/javascript" src="/Assets/js/hello/world.js"></script>';
 		$this->assertEquals($expected, $results);
 
 
-		$results = self::$Html->Js(array("hello/world.js","my/test/js.js"));
-		$expected = '<script type="text/javascript" src="/assets/js/hello/world.js"></script><script type="text/javascript" src="/assets/js/my/test/js.js"></script>';
+		$results = self::$Html->Js(array("hello/world.js", "my/test/js.js"));
+
+		$expected = '<script type="text/javascript" src="/Assets/js/hello/world.js"></script>'."\n".'<script type="text/javascript" src="/Assets/js/my/test/js.js"></script>';
+
 		$this->assertEquals($expected, $results);
 	}
 //
@@ -129,14 +143,14 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 		self::$Html->Script("Hello world");
 		$results = self::$Html->Script();
 
-		$expected = '<script type="text/javascript">Hello world</script>';
+		$expected = '<script type="text/javascript" src="/Assets/js/hello/world.js"></script><script type="text/javascript">Hello world</script>';
 		$this->assertEquals($expected, $results);
 
 
 		self::$Html->Script("My Javascript code");
 		$results = self::$Html->Script();
 
-		$expected = '<script type="text/javascript">Hello world</script><script type="text/javascript">My Javascript code</script>';
+		$expected = '<script type="text/javascript" src="/Assets/js/hello/world.js"></script><script type="text/javascript">Hello world</script><script type="text/javascript">My Javascript code</script>';
 		$this->assertEquals($expected, $results);
 	}
 //

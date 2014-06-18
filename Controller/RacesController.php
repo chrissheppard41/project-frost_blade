@@ -103,7 +103,7 @@ class RacesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				$this->Flash("<strong><strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
 
@@ -126,7 +126,7 @@ class RacesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
 		$data = $this->model->Find("first", array( "Races" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
@@ -159,4 +159,43 @@ class RacesController extends Controller {
 
 		return array("code" => 200, "message" => "User Index", "data" => array(), "errors" => null);
 	}
+
+	/**
+     * API endpoints
+     */
+
+     /**
+     * API racetypes to return a list of army types to choose from
+     *
+     * @return void
+     */
+
+    public function racetypes() {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+        //$data = Cache::read('types_all', 'races');
+        //if(!$data) {
+            $data = $this->model->find(
+                'all',
+                array(
+					"Races" => array(
+						array(
+							"fields" => array(
+								"id",
+								"name"
+							),
+							"contains" => array(
+								"Armies" => array()
+							)
+						)
+					)
+				)
+            );
+        //    Cache::write('types_all', $data, 'races');
+        //}
+
+		return \Frost\Configs\Response::setResponse(200, "Race Types", array("data" => $data));
+    }
+
 }

@@ -30,6 +30,17 @@ class SquadUnits extends \Frost\Configs\Database {
 	);
 	public $post = array();
 
+	protected $relationships = array(
+		"Groups" => array(
+			"type" => "HABTM",
+			"linktable" => "unitgroups",
+			"lefttable" => "groups",
+			"leftcols" => array("groups.id","groups.name","groups.created","groups.modified"),
+			"linkColumn" => "groups_id",
+			"baseColumn" => "squadunits_id"
+		)
+	);
+
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

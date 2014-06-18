@@ -17,8 +17,8 @@ class ArmyCharacteristics extends \Frost\Configs\Database {
 			),
 			"between" => array(
 				"min" => 3,
-				"max" => 100,
-				"message" => "Between 3 to 100 characters"
+				"max" => 45,
+				"message" => "Between 3 to 45 characters"
 			)
 		)
 	);

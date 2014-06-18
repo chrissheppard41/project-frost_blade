@@ -12,7 +12,7 @@
 		"accept-charset" => "utf-8"
 	));
 		echo $this->Html->Input("id", "Races", array('type' => "hidden", 'id' => "UserId"));
-		echo $this->Html->Input("name", "Races", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "UserName", "required" => true));
+		echo $this->Html->Input("name", "Races", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(
 				'class' => "btn btn-primary"

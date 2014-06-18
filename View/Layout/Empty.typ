@@ -1,0 +1,1 @@
+<?php echo $typ__view; ?>

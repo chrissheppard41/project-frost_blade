@@ -8,38 +8,33 @@ function AddCtrl($scope, $routeParams, $location, list) {
 	$scope.step_4_view = true;
 
 	var promise_types = list.getAsync('GET', '/armytypes.json', {});
+
 	$scope.my_armies = {};
 
-	promise_types.then(function( data ){
-		$scope.armytypes = list.data;
+	promise_types.then(function( data ) {
+		$scope.Races = list.data;
 	});
 
 
 	$scope.dis_races = function() {
-		$scope.races = $scope.armytypes[$scope.army].Races;
+		$scope.armies = $scope.Races.Races[$scope.race].Armies;
 		$scope.step_2_view = false;
 	};
 
 	$scope.dis_squads = function() {
 		//var promise_squads = list.getAsync('GET', '/squads/'+$scope.race+'.json', {});
-		var promise_squads = list.getSecure('GET', '/squads/'+$scope.race+'.json', {});
+		var promise_squads = list.getSecure('GET', '/squads/'+$scope.army+'', {});
 		$scope.squads = {};
 
 		promise_squads.then(function( data ){
-			$scope.squads = data;
+			$scope.squads = data.Squads;
 			$scope.step_3_view = false;
 		});
 	};
 
 	$scope.displayFormmessages = function(response) {
-
 		$scope.formMessage = "";
-		if(response.data.code == 500) {
-			$scope.formMessage = response.data.error;
-		} else {
-			$scope.formMessage = "Internal server error: '"+response.name+"'. Please try again later.";
-		}
-
+		$scope.formMessage = list.outputError(response.errors);
 	};
 
 	$scope.add_resets = function() {
@@ -69,16 +64,18 @@ function AddCtrl($scope, $routeParams, $location, list) {
 		} else {
 			$scope.formMessage = "";
 
-			var promise_post = list.getAsync('POST', '/add/save.json', {'races_id':this.race, 'name':this.name, 'descr':this.descr, 'point_limit':this.points_limit, 'hide':this.hide});
+			if(this.hide == undefined) this.hide = 0;
+
+			var promise_post = list.getAsync('POST', '/add/save.json', {'ArmyLists':{'armies_id':this.army, 'name':this.name, 'descr':this.descr, 'point_limit':this.points_limit, 'hide':this.hide}});
 
 			promise_post.then(function( data ){
-				if(list.data.code == 200) {
+				if(data.code == 200) {
 
 					$scope.add_resets();
 
 					$location.path('#/');
 				} else {
-					$scope.displayFormmessages(list);
+					$scope.displayFormmessages(data);
 				}
 			});
 		}

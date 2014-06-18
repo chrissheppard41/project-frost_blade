@@ -88,7 +88,7 @@ class ArmyLists extends \Frost\Configs\Database {
 							"email"
 						),
 						"condition"	=> array(
-							"or" => array (
+							"or" => array(
 								"username" => $this->post['data']['User']['username'],
 								"email" => $this->post['data']['User']['email']
 							)
@@ -169,4 +169,15 @@ class ArmyLists extends \Frost\Configs\Database {
 
 		$this->Update($query);
 	}
+
+/**
+ * _generateCode to saves a submitted army
+ *
+ * @return hash (string)
+ */
+
+    public function _generateCode($id) {
+        $salt = substr(md5(uniqid(rand(), true)), 0, 9);
+        return $salt . sha1($salt . time() . $id);
+    }
 }

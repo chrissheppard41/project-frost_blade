@@ -202,6 +202,7 @@ class Database {
 			"query" => $sql_,
 			"params" => $arr
 		);
+
 		$this->query($query);
 		$this->last_id = $this->returnLastId();
 
@@ -395,13 +396,15 @@ class Database {
 
 			if(!empty($this->relationships) && isset($value["conditions"]["id"])) {
 				foreach($this->relationships as $h => $v) {
-					$this->Delete(array(
-						$v["linktable"] => array(
-							"conditions" => array(
-								$v["baseColumn"] => $value["conditions"]["id"]
+					if($v["type"] == "HABTM") {
+						$this->Delete(array(
+							$v["linktable"] => array(
+								"conditions" => array(
+									$v["baseColumn"] => $value["conditions"]["id"]
+								)
 							)
-						)
-					));
+						));
+					}
 				}
 			}
 
@@ -480,7 +483,65 @@ class Database {
 		return $output;
 
 	}
+/**
+ * connect method
+ * if the connect exist as a relationship then for each record pull the data in.
+ *
+ * @param $data (array), $connect (array)
+ * @return (array)
+ */
+	private function connect($data, $connect) {
 
+		foreach($connect as $h => $k) {
+			$sql_ = "";
+			foreach($data as $dataHeader => $dataValue) {
+				if($k["type"] == "belongs") {
+					$sql_ = "SELECT ".implode(", ", $k["leftcols"])." FROM ".strtolower($k['lefttable']);
+
+					if(isset($k["Join"])) {
+						foreach($k["Join"] as $joinHeader => $joinData) {
+							$sql_ .= " LEFT JOIN ".strtolower($joinData['lefttable']);
+							$sql_ .= " ON ".strtolower($k['lefttable']).".".$joinData['linkColumn']." = ".strtolower($joinData['lefttable']).".id";
+						}
+					}
+					$sql_ .= " WHERE ".strtolower($k['lefttable']).".".$k['linkColumn']."=:id";
+
+					$q = array(
+						"query" => $sql_,
+						"params" => array(":id" => $dataValue[$k['dataColumn']])
+					);
+					if($results = $this->results($this->query($q))) {
+						if(isset($k["Connect"])) {
+							$data[$dataHeader][$h] = $this->connect($results, $k["Connect"])[0];
+						} else {
+							$data[$dataHeader][$h] = $results[0];
+						}
+					}
+				} else if($k["type"] == "HABTM") {
+					$sql_ = "SELECT ".implode(", ", $k["leftcols"])." FROM ".
+						$k["linktable"]." LEFT JOIN ".$k["lefttable"]." ON ".
+						$k["linktable"].".".$k["linkColumn"]." = ".$k["lefttable"].".id WHERE ".$k["linktable"].".".$k["baseColumn"].
+						" = :id;";
+
+					$q = array(
+						"query" => $sql_,
+						"params" => array(":id" => $dataValue[$k['dataColumn']])
+					);
+
+					if($results = $this->results($this->query($q))) {
+						if(isset($k["Connect"])) {
+							$data[$dataHeader][$h] = $this->connect($results, $k["Connect"]);
+						} else {
+							$data[$dataHeader][$h] = $results;
+						}
+					}
+				}
+			}
+		}
+
+
+		return $data;
+	}
 
 /**
  * handleRelationship method
@@ -495,8 +556,19 @@ class Database {
 		foreach($keys as $header) {
 			if(in_array($header, array_keys($this->relationships)) && $this->relationships[$header]["type"] == "HABTM") {
 				$sql_ = "SELECT ".implode(", ", $this->relationships[$header]["leftcols"])." FROM ".
-					$this->relationships[$header]["linktable"]." LEFT JOIN ".$this->relationships[$header]["lefttable"]." ON ".
-					$this->relationships[$header]["linktable"].".".$this->relationships[$header]["linkColumn"]." = ".$this->relationships[$header]["lefttable"].".id WHERE ".$this->relationships[$header]["linktable"].".".$this->relationships[$header]["baseColumn"].
+					$this->relationships[$header]["linktable"];
+
+				$sql_ .= " LEFT JOIN ".$this->relationships[$header]["lefttable"]." ON ".
+					$this->relationships[$header]["linktable"].".".$this->relationships[$header]["linkColumn"]." = ".$this->relationships[$header]["lefttable"].".id";
+
+				if(isset($this->relationships[$header]["Join"])) {
+					foreach($this->relationships[$header]["Join"] as $joinHeader => $joinData) {
+						$sql_ .= " LEFT JOIN ".strtolower($joinData['lefttable']);
+						$sql_ .= " ON ".strtolower($this->relationships[$header]['lefttable']).".".$joinData['linkColumn']." = ".strtolower($joinData['lefttable']).".id";
+					}
+				}
+
+				$sql_ .= " WHERE ".$this->relationships[$header]["linktable"].".".$this->relationships[$header]["baseColumn"].
 					" = :id;";
 
 				$q = array(
@@ -505,21 +577,36 @@ class Database {
 				);
 
 				if($results = $this->results($this->query($q))) {
-					$data[$header] = $results;
+					if(isset($this->relationships[$header]["Connect"])) {
+						$data[$header] = $this->connect($results, $this->relationships[$header]["Connect"]);
+					} else {
+						$data[$header] = $results;
+					}
 				}
 			} else if(in_array($header, array_keys($this->relationships)) && $this->relationships[$header]["type"] == "HM") {
 				$sql_ = "SELECT ".implode(", ", $this->relationships[$header]["leftcols"])." FROM ".
-					$this->relationships[$header]["lefttable"].
-					" WHERE ".$this->relationships[$header]["lefttable"].".".$this->relationships[$header]["linkColumn"].
-					" = :".$this->relationships[$header]["linkColumn"].";";
+					$this->relationships[$header]["lefttable"];
+
+				if(isset($this->relationships[$header]["Join"])) {
+					foreach($this->relationships[$header]["Join"] as $joinHeader => $joinData) {
+						$sql_ .= " LEFT JOIN ".strtolower($joinData['lefttable']);
+						$sql_ .= " ON ".strtolower($this->relationships[$header]['lefttable']).".".$joinData['linkColumn']." = ".strtolower($joinData['lefttable']).".id";
+					}
+				}
+
+				$sql_ .= " WHERE ".$this->relationships[$header]["lefttable"].".".$this->relationships[$header]["linkColumn"].
+				" = :".$this->relationships[$header]["linkColumn"].";";
 
 				$q = array(
 					"query" => $sql_,
 					"params" => array(":".$this->relationships[$header]["linkColumn"] => $data["id"])
 				);
-
 				if($results = $this->results($this->query($q))) {
-					$data[$header] = $results;
+					if(isset($this->relationships[$header]["Connect"])) {
+						$data[$header] = $this->connect($results, $this->relationships[$header]["Connect"]);
+					} else {
+						$data[$header] = $results;
+					}
 				}
 			}
 		}
@@ -608,7 +695,6 @@ class Database {
 				"params" => $arr
 			);
 
-
 			if(!$ignore){
 				if(!empty($this->relationships) && isset($queries[$table]["conditions"]["id"])) {
 					foreach($this->relationships as $h => $v) {
@@ -681,6 +767,27 @@ class Database {
 		}
 		\Configure::$url['param'][] .= "Pag:0:".$page_count;
 		return array(0,null,null);
+	}
+
+/**
+ *	method to tackle bad requests by checking the presented access tokens and time stamps
+ *
+ *	@return array
+ */
+	public function auth_check($token, $session_data = array()) {
+		if(empty($session_data) || !isset($session_data['access']) || !isset($session_data['time'])) {
+			return false;
+		}
+
+		if($token != $session_data['access']) {
+			return false;
+		}
+
+		if((time()+1) < $session_data['time']) {
+			return false;
+		}
+
+		return true;
 	}
 /**
  * c_read method

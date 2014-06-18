@@ -40,7 +40,6 @@ class ConfigureTest extends PHPUnit_Framework_TestCase
 		\Configure::delete("Hello.world");
 
 		$this->assertNull(\Configure::read("Hello.world"));
-
 	}
 //
 // Action testConfigureAuth

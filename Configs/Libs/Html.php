@@ -12,7 +12,7 @@ class Html {
 	private $Database;
 
 	function __construct(Database $db) {
-		$this->script = "";
+		$this->script = array();
 		$this->Database = $db;
 	}
 
@@ -104,7 +104,7 @@ class Html {
 	public function Css($file = array()) {
 		$output = "";
 		foreach($file as $value) {
-			$output .= '<link href="/assets/css/'.$value.'" media="all" rel="stylesheet" type="text/css" />';
+			$output .= '<link href="/Assets/css/'.$value.'" media="all" rel="stylesheet" type="text/css" />';
 		}
 		return $output;
 	}
@@ -116,12 +116,18 @@ class Html {
  * @param $file(array)
  * @return (string)
   **/
-	public function Js($file = array()) {
-		$output = "";
+	public function Js($file = array(), $options = null) {
+		$output = array();
 		foreach($file as $value) {
-			$output .= '<script type="text/javascript" src="/assets/js/'.$value.'"></script>';
+			$output[] = '<script type="text/javascript" src="/Assets/js/'.$value.'"></script>';
 		}
-		return $output;
+
+		if(isset($options["inline"]) && $options["inline"] === false) {
+			$this->script = array_merge($this->script, $output);
+			return ;
+		}
+
+		return implode("\n", $output);
 	}
 /**
  * Script method
@@ -131,8 +137,10 @@ class Html {
  * @return (string)
   **/
 	public function Script($content = null) {
+		//\Configure::pre($this->script);
 		if(isset($content)) {
-			$this->script[] = '<script type="text/javascript">'.$content.'</script>'; return ;
+			$this->script[] = '<script type="text/javascript">'.$content.'</script>';
+			return ;
 		}
 		$output = "";
 		if(isset($this->script) && is_array($this->script)) {

@@ -8,7 +8,7 @@ function ViewCtrl($scope, $routeParams, $location, list) {
 	$scope.army = {};
 
 	promise_my.then(function( data ){
-		$scope.army = list.data;
+		$scope.army = list.data.ArmyLists;
 	});
 
 

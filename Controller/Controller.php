@@ -23,6 +23,7 @@ class Controller {
  * @return (bool)
  */
 	function __construct($name, $action, $params = array(), $methodData = array()) {
+
 		if($name == "Controller") {
 			$name = "PagesController";
 			$action = "index";
@@ -65,7 +66,7 @@ class Controller {
 		if(!file_exists($_SERVER['DOCUMENT_ROOT'].DS."View".DS."Layout".DS.$conAct->view.".typ")) {
 			throw new \WebException(sprintf("Layout file %s does not exist within View list", $conAct->view), 404);
 		}
-		if(!file_exists($_SERVER['DOCUMENT_ROOT'].DS."View".DS.$model_name.DS.$action.".typ")) {
+		if(!file_exists($_SERVER['DOCUMENT_ROOT'].DS."View".DS.$model_name.DS.$action.".typ") && $this->return_request != "json") {
 			throw new \WebException(sprintf("Layout file %s does not exist within %s list", $action, $model_name), 404);
 		}
 
@@ -124,13 +125,13 @@ class Controller {
  */
 	public function requestType($method = "GET") {
 		if($_SERVER['REQUEST_METHOD'] == $method) {
-			$token = \Configure::read("Token");
+			/*$token = \Configure::read("Token");
 			if($_SERVER['REQUEST_METHOD'] == "POST" && isset($token)) {
 				if($token["Token".$_POST['data']["_Token"]["key"]] != $_POST['data']["_Token"]["val"]) {
 					return false;
 				}
 				\Configure::delete("Token");
-			}
+			}*/
 			return true;
 		}
 		return false;
@@ -143,7 +144,7 @@ class Controller {
  * @param $message (string), $class (string), $redirect (array)
  * @return
  */
-	public function Flash($message, $class = "alert alert-info", $redirect = "") {
+	public function Flash($message, $class = "alert alert-info", $redirect = null) {
 		//if($this->requestType("POST")) return ;
 		$path = $redirect;
 		\Configure::write("Flash", array("message" => $message, "class" => $class));
@@ -154,8 +155,10 @@ class Controller {
 					$redirect['action'] = str_replace("admin_","",$redirect['action']);
 				}
 				$params = "";
-				foreach($redirect['params'] as $value)
-					$params .= "/".$value;
+				if(isset($redirect['params'])) {
+					foreach($redirect['params'] as $value)
+						$params .= "/".$value;
+				}
 
 				$path = "/".$redirect['controller']."/".$redirect['action'].$params;
 			}
@@ -165,5 +168,13 @@ class Controller {
 			die;
 		}
 	}
-
+/**
+ * check that required params have been supplied and generate response for an invalid request
+ *
+ * @return bool
+ */
+	protected function _hasRequiredParams($suppliedParams, $requiredParams) {
+		$diff = array_diff_key($suppliedParams, $requiredParams);
+		return !empty($diff);
+	}
 }

@@ -6,7 +6,7 @@
 	<p class="pull-right">
         <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
     </p>
-    <?php if(!empty($typ__['data'])) { ?>
+    <?php if(!empty($typ__['data']['Races'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>

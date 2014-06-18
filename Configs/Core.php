@@ -1,10 +1,10 @@
 <?php
-
 namespace Frost\Configs;
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
 
+require "Routing.php";
 require "Libs/Database.php";
 require "Libs/Logging.php";
 require "WebException.php";
@@ -14,6 +14,7 @@ require "Libs/Session_handler.php";
 require "Libs/Session.php";
 require "Libs/Configure.php";
 require "Libs/Validation.php";
+require "Libs/Response.php";
 require "Bootstrap.php";
 require (PATH."Controller/Controller.php");
 
@@ -78,9 +79,6 @@ class Core {
 			$this->database = new Database();
 			$this->Html = new Html($this->database);
 
-			//if(LIVE)
-			//	Logging::Access();
-
 			$controller = new \Frost\Controller\Controller(
 				\Configure::$url['controller'],
 				isset(\Configure::$url['action']) ? \Configure::$url['action'] : '',
@@ -100,6 +98,7 @@ class Core {
 				"errors" 		=> array("message" => $webEx->getMessage()),
 				"trace" 		=> $webEx->getTraceAsString()
 			);
+			http_response_code($webEx->getWebCode());
 			$request = "error";
 			if(LIVE == "core")
 				Logging::Error($webEx->getMessage(), $webEx->getWebCode(), $webEx->getTraceAsString());
@@ -110,6 +109,7 @@ class Core {
 				"errors" 		=> array("message" => $ex->getMessage()),
 				"trace" 		=> $ex->getTraceAsString()
 			);
+			http_response_code(400);
 			$request = "error";
 			if(LIVE == "core")
 				Logging::Error($ex->getMessage(), 400, $ex->getTraceAsString());
@@ -120,6 +120,7 @@ class Core {
 				"errors" 		=> array("message" => $pdoEx->getMessage()),
 				"trace" 		=> $pdoEx->getTraceAsString()
 			);
+			http_response_code(500);
 			$request = "error";
 			if(LIVE == "core")
 				Logging::Error($pdoEx->getMessage(), 500, $pdoEx->getTraceAsString());
@@ -145,29 +146,8 @@ class Core {
 		$urlmax 							= count($parsedURLParams)-1;
 		$info 								= pathinfo($parsedURLParams[$urlmax]);
 		$parsedURLParams[$urlmax] 			= isset($info['filename']) ? $info['filename'] : '';
+		$output = \Frost\Configs\Route::getRoute(implode("/", $parsedURLParams));
 		$output['ext'] 						= isset($info['extension']) ? $info['extension'] : '';
-
-		$append = "";
-		if($parsedURLParams[0] == "admin") {
-			$append = "admin_";
-			unset($parsedURLParams[0]);
-			$parsedURLParams = array_values($parsedURLParams);
-		}
-
-		foreach($parsedURLParams as $key => $values) {
-
-			if($key == 0) {
-				$output['controller'] 		= ucfirst($values) . "Controller";
-			} else if($key == 1) {
-				$output['action'] 			= $append.$values;
-			} else {
-				$output['param'][] 			= $values;
-			}
-
-		}
-		if(empty($output['param'])) {
-			$output['param'] 				= array();
-		}
 
 		return $output;
 	}
@@ -218,14 +198,26 @@ class Core {
 
 		switch($request) {
 			case "json":
+				$output = json_encode($action_data);
 				//$output = $this->crypt->encrypt($this->response($action_data['code'], $action_data['message'], $action_data));
 			break;
 			case "error":
-				$output = $this->Render(
-					$_SERVER['DOCUMENT_ROOT'].DS."View".DS."Layout".DS.$view['view'].".typ",
-					$action_data,
-					$_SERVER['DOCUMENT_ROOT'].DS."View".DS."Layout".DS."ext".DS."error.typ"
-				);
+				if(\Configure::$url["ext"] == "json") {
+					$output = json_encode(
+						array(
+							"code" => $action_data["code"],
+							"message" => $action_data["message"],
+							"data" => null,
+							"errors" => $action_data["errors"]
+						)
+					);
+				} else {
+					$output = $this->Render(
+						$_SERVER['DOCUMENT_ROOT'].DS."View".DS."Layout".DS.$view['view'].".typ",
+						$action_data,
+						$_SERVER['DOCUMENT_ROOT'].DS."View".DS."Layout".DS."ext".DS."error.typ"
+					);
+				}
 			break;
 			default:
 				$output = $this->Render(
@@ -260,6 +252,16 @@ class Core {
 		return $ret;
 	}
 
+/**
+ * ElementExists method
+ * element exists
+ *
+ * @param $typ__element (string)
+ * @return (bool)
+  **/
+	public function ElementExists($typ__element) {
+		return file_exists($_SERVER['DOCUMENT_ROOT'].DS."View".DS."Element".DS.$typ__element.".typ");
+	}
 /**
  * Element method
  * breaks styles into elements

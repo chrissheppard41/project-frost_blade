@@ -30,28 +30,28 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["Units"] as $race){ ?>
-			<tr id="armyLists-<?php echo $race['id']; ?>" data-id="<?php echo $race['id']; ?>">
-				<td><?php echo $race['name']; ?></td>
+			<?php foreach ($typ__['data']["Units"] as $unit){ ?>
+			<tr id="armyLists-<?php echo $unit['id']; ?>" data-id="<?php echo $unit['id']; ?>">
+				<td><?php echo $unit['name']; ?></td>
 
-				<td><?php echo $race['weapon_skill']; ?></td>
-				<td><?php echo $race['ballistic_skill']; ?></td>
-				<td><?php echo $race['strength']; ?></td>
-				<td><?php echo $race['toughness']; ?></td>
-				<td><?php echo $race['initiative']; ?></td>
-				<td><?php echo $race['wounds']; ?></td>
-				<td><?php echo $race['attacks']; ?></td>
-				<td><?php echo $race['leadership']; ?></td>
-				<td><?php echo $race['armour_save']; ?></td>
-				<td><?php echo $race['invulnerable_save']; ?></td>
-				<td><?php echo $race['pts']; ?></td>
+				<td><?php echo $unit['weapon_skill']; ?></td>
+				<td><?php echo $unit['ballistic_skill']; ?></td>
+				<td><?php echo $unit['strength']; ?></td>
+				<td><?php echo $unit['toughness']; ?></td>
+				<td><?php echo $unit['initiative']; ?></td>
+				<td><?php echo $unit['wounds']; ?></td>
+				<td><?php echo $unit['attacks']; ?></td>
+				<td><?php echo $unit['leadership']; ?></td>
+				<td><?php echo $unit['armour_save']; ?></td>
+				<td><?php echo $unit['invulnerable_save']; ?></td>
+				<td><?php echo $unit['pts']; ?></td>
 
-				<td><?php echo $this->Html->Time("TimeAgo", $race['created']); ?></td>
-				<td><?php echo $this->Html->Time("TimeAgo", $race['modified']); ?></td>
+				<td><?php echo $this->Html->Time("TimeAgo", $unit['created']); ?></td>
+				<td><?php echo $this->Html->Time("TimeAgo", $unit['modified']); ?></td>
 				<td class="actions">
-					<?php echo $this->Html->Url($this->Html->__t('View'), array('admin' => true, 'action' => 'view', 'params' => array($race['id'])), array('class' => 'btn-sm btn-primary')); ?>
-					<?php echo $this->Html->Url($this->Html->__t('Edit'), array('admin' => true, 'action' => 'edit', 'params' => array($race['id'])), array('class' => 'btn-sm btn-warning')); ?>
-					<?php echo $this->Html->UrlPost($this->Html->__t('Delete'), array('admin' => true, 'action' => 'delete', 'params' => array($race['id'])), array('class' => 'btn-sm btn-danger'), $this->Html->__t('Are you sure you want to delete this record?')); ?>
+					<?php echo $this->Html->Url($this->Html->__t('View'), array('admin' => true, 'action' => 'view', 'params' => array($unit['id'])), array('class' => 'btn-sm btn-primary')); ?>
+					<?php echo $this->Html->Url($this->Html->__t('Edit'), array('admin' => true, 'action' => 'edit', 'params' => array($unit['id'])), array('class' => 'btn-sm btn-warning')); ?>
+					<?php echo $this->Html->UrlPost($this->Html->__t('Delete'), array('admin' => true, 'action' => 'delete', 'params' => array($unit['id'])), array('class' => 'btn-sm btn-danger'), $this->Html->__t('Are you sure you want to delete this record?')); ?>
 				</td>
 			</tr>
 			<?php } ?>

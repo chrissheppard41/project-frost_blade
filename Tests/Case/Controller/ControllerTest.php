@@ -12,35 +12,35 @@ class ControllerTest extends PHPUnit_Framework_TestCase
 {
 	public static $connection = null;
 
-	private static $DB_Test_SERVER = "localhost";
-	private static $DB_Test_NAME = "budlight_test";
+	private static $DB_Test_SERVER = "127.0.0.1";
+	private static $DB_Test_NAME = "frost_test";
 	private static $DB_Test_USER = "root";
 	private static $DB_Test_PASS = "password";
 
 	public static function setUpBeforeClass()
-    {
+	{
 		self::$connection = @new \PDO(
 				"mysql:host=".self::$DB_Test_SERVER.";dbname=".self::$DB_Test_NAME,
 				self::$DB_Test_USER,
 				self::$DB_Test_PASS
 			);
 		self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    }
+	}
 
-    public static function tearDownAfterClass()
-    {
-    	$q = self::$connection->prepare("TRUNCATE user_logging");
+	public static function tearDownAfterClass()
+	{
+		/*$q = self::$connection->prepare("TRUNCATE user_logging");
 		$q->execute();
-    	$q = self::$connection->prepare("TRUNCATE user_done");
+		$q = self::$connection->prepare("TRUNCATE user_done");
 		$q->execute();
 
-    	$q = self::$connection->prepare("SET FOREIGN_KEY_CHECKS = 0");
+		$q = self::$connection->prepare("SET FOREIGN_KEY_CHECKS = 0");
 		$q->execute();
-    	$q = self::$connection->prepare("TRUNCATE participants");
+		$q = self::$connection->prepare("TRUNCATE participants");
 		$q->execute();
-    	$q = self::$connection->prepare("SET FOREIGN_KEY_CHECKS = 1");
-		$q->execute();
-    }
+		$q = self::$connection->prepare("SET FOREIGN_KEY_CHECKS = 1");
+		$q->execute();*/
+	}
 
 /**
  * Action method

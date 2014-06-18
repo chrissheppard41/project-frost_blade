@@ -2,9 +2,9 @@ function SetupCtrl($scope, $routeParams, $location, list) {
 	$scope.user_id = $sid;
 
 	$scope.routeParams = $routeParams;
-	console.log("Setup", $scope.routeParams.id);
+	$scope.armycost = 0;
 
-	var promise_unit_types = list.getAsync('GET', '/unit_types.json', {});
+	var promise_unit_types = list.getAsync('GET', '/types.json', {});
 	$scope.unit_types = {};
 
 	promise_unit_types.then(function( data ){
@@ -16,13 +16,13 @@ function SetupCtrl($scope, $routeParams, $location, list) {
 	$scope.army = {};
 
 	promise_my.then(function( data ){
-		$scope.army = list.data;
+		$scope.army = list.data.ArmyLists;
 
-		var promise_squads = list.getSecure('GET', '/squads/'+$scope.army.Races.id+'.json', {});
+		var promise_squads = list.getSecure('GET', '/squads_units/'+$scope.army.armies_id+'.json', {});
 		$scope.squads = {};
 
 		promise_squads.then(function( data ){
-			$scope.squads = data;
+			$scope.squads = data.Squads;
 		});
 
 	});
@@ -38,85 +38,56 @@ function SetupCtrl($scope, $routeParams, $location, list) {
 
 
 	$scope.squadBuilder = function(group, element) {
-
 		var cost = 0;
-		var eachmodel = [];
-		for(var unit in $scope.currentDraggedSquad.Unit) {
-			cost = cost + (parseInt($scope.currentDraggedSquad.Unit[unit].pts) * parseInt($scope.currentDraggedSquad.Unit[unit].SquadUnit.min_count));
+		var Units = [];
+		var squad = new Squad();
 
-			var find = $scope.unit_types.filter(function(unit_type) {
-				return unit_type.UnitType.id == $scope.currentDraggedSquad.Unit[unit].unit_types_id
-			});
+		for(var unit_index in $scope.currentDraggedSquad.SquadUnits) {
+			cost = cost + (parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].Units.pts, 0) * parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].min_count, 0));
 
-			eachmodel[unit] = {
-				'id': $scope.currentDraggedSquad.Unit[unit].id,
-				'unitType': find[0].UnitType.name,
-				'count': parseInt($scope.currentDraggedSquad.Unit[unit].SquadUnit.min_count)
-			};
-
+			Units.push(new Unit($scope.currentDraggedSquad.SquadUnits[unit_index]));
+			squad.buildCharacteristics($scope.currentDraggedSquad.SquadUnits[unit_index].Units.UnitCharacteristics);
+			squad.buildWargears($scope.currentDraggedSquad.SquadUnits[unit_index].Units.Wargears);
 		}
 
-		var thisunit = {
-			'id': $scope.squad_list.length,
-			'position': $scope.dropPos,
-			'group': group,
-			'total': cost,
-			'data': $scope.currentDraggedSquad,
-			'unit': eachmodel
-		};
+		squad.setId($scope.squad_list.length);
+		squad.setGroup(group);
+		squad.addTotal(cost);
+		squad.setUnits(Units);
+		squad.setName($scope.currentDraggedSquad.name);
 
-		$scope.squadPositionsOnAddition();
+
 
 		$scope.$apply(function () {
-			$scope.squad_list.push( thisunit );
+			SquadList.setSquad(squad);
+			$scope.squad_list = SquadList.getSquad();
+			$scope.armycost = SquadList.getTotal();
 		});
 
 		element.remove();
 
-		console.log($scope.squad_list);
-	};
-
-	$scope.squadPositionsOnAddition = function() {
-		for(var i = 0; i < $scope.squad_list.length; i++) {
-			if($scope.squad_list[i].position >= $scope.dropPos) {
-				$scope.squad_list[i].position += 1;
-			}
-		}
 	};
 
 	$scope.squadPositionsOnSort = function() {
-
-		var id = $scope.knownId.split("_");
-
-		for(var i = 0; i < $scope.squad_list.length; i++) {
-
-			if($scope.dropPos < $scope.startPos && $scope.squad_list[i].position >= $scope.dropPos && $scope.squad_list[i].position < $scope.startPos) {
-				//down
-				$scope.squad_list[i].position += 1;
-			}
-
-			if($scope.dropPos > $scope.startPos && $scope.squad_list[i].position <= $scope.dropPos && $scope.squad_list[i].position > $scope.startPos) {
-				//up
-				$scope.squad_list[i].position -= 1;
-			}
-
-		}
-
-		$scope.squad_list[id[1]].position = $scope.dropPos;
+		SquadList.squadPositionsOnSort($scope.knownId, $scope.dropPos, $scope.startPos);
 
 	};
 
-	$scope.addSquad = function(p_index, index, unit) {
-		if($scope.squad_list[p_index].unit[index].count < unit.SquadUnit.max_count) {
-			$scope.squad_list[p_index].unit[index].count++;
-			$scope.squad_list[p_index].total += parseInt(unit.pts);
-		}
+	$scope.addSquad = function(squad, unit) {
+		UnitCount.add(squad, unit);
+		$scope.armycost = SquadList.getTotal();
+	};
+	$scope.subSquad = function(squad, unit) {
+		UnitCount.sub(squad, unit);
+		$scope.armycost = SquadList.getTotal();
 	};
 
-	$scope.subSquad = function(p_index, index, unit) {
-		if($scope.squad_list[p_index].unit[index].count > unit.SquadUnit.min_count) {
-			$scope.squad_list[p_index].unit[index].count--;
-			$scope.squad_list[p_index].total -= parseInt(unit.pts);
-		}
+	$scope.addWargear = function(squad, unit) {
+		Wargear.add(squad, unit, this.selectedItem);
+		$scope.armycost = SquadList.getTotal();
+	};
+	$scope.subWargear = function(squad, unit, wargear, index) {
+		Wargear.remove(squad, unit, wargear, index);
+		$scope.armycost = SquadList.getTotal();
 	};
 }

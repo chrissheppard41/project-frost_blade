@@ -9,7 +9,7 @@
         echo $this->Html->Meta('robots', 'noindex, nofollow');
 
         /* Including CSS and favicon. Also outputting blocks of inline meta and CSS. */
-        echo $this->Html->Css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'admin/main.css'));
+        echo $this->Html->Css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'build.min.css'));
         ?>
 </head>
 <body>

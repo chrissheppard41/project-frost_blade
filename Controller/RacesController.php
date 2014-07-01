@@ -103,6 +103,8 @@ class RacesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete('Races', 'types_all');
+
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -126,6 +128,8 @@ class RacesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete('Races', 'types_all');
+
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -154,6 +158,7 @@ class RacesController extends Controller {
 				)
 			)
 		);
+		\Cache::delete('Races', 'types_all');
 
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Races', 'action' => 'admin_index', 'admin' => true));
 
@@ -174,8 +179,8 @@ class RacesController extends Controller {
 		$this->view = "Empty";
 		$this->returnType = "json";
 
-        //$data = Cache::read('types_all', 'races');
-        //if(!$data) {
+        $data = \Cache::read('Races', 'types_all');
+        if(!$data) {
             $data = $this->model->find(
                 'all',
                 array(
@@ -192,8 +197,8 @@ class RacesController extends Controller {
 					)
 				)
             );
-        //    Cache::write('types_all', $data, 'races');
-        //}
+            \Cache::write('Races', 'types_all', $data);
+        }
 
 		return \Frost\Configs\Response::setResponse(200, "Race Types", array("data" => $data));
     }

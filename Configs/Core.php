@@ -6,6 +6,7 @@ define('DS', DIRECTORY_SEPARATOR);
 
 require "Routing.php";
 require "Libs/Database.php";
+require "Libs/Cache.php";
 require "Libs/Logging.php";
 require "WebException.php";
 require "Libs/Crypt.php";

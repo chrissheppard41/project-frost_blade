@@ -57,6 +57,61 @@ class ArmyLists extends \Frost\Configs\Database {
 	);
 	public $post = array();
 
+	protected $relationships = array(
+		"ArmySquads" => array(
+			"type" => "HM",
+			"linktable" => null,
+			"lefttable" => "armysquads",
+			"leftcols" => array(
+				"ArmySquads.id",
+				"ArmySquads.position",
+				"ArmySquads.squads_id",
+				"ArmySquads.armylists_id",
+				"ArmySquads.created",
+				"ArmySquads.modified"
+			),
+			"linkColumn" => "armylists_id",
+			"baseColumn" => null,
+			"dataColumn" => "id",
+			"Connect" => array(
+				"ArmyUnits" => array(
+					"type" => "HM",
+					"linktable" => null,
+					"lefttable" => "armyunits",
+					"leftcols" => array(
+						"ArmyUnits.id",
+						"ArmyUnits.count",
+						"ArmyUnits.units_id",
+						"ArmyUnits.armysquads_id",
+						"ArmyUnits.created",
+						"ArmyUnits.modified"
+					),
+					"linkColumn" => "armysquads_id",
+					"baseColumn" => null,
+					"dataColumn" => "id",
+					"Connect" => array(
+						"ArmyWargears" => array(
+							"type" => "HM",
+							"linktable" => null,
+							"lefttable" => "armywargears",
+							"leftcols" => array(
+								"ArmyWargears.id",
+								"ArmyWargears.wargears_id",
+								"ArmyWargears.armyunits_id",
+								"ArmyWargears.created",
+								"ArmyWargears.modified"
+							),
+							"linkColumn" => "armyunits_id",
+							"baseColumn" => null,
+							"dataColumn" => "id",
+
+						)
+					)
+				)
+			)
+		)
+	);
+
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

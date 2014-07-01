@@ -12,8 +12,7 @@
 		/*if (strripos(str_replace('www.', '', env('HTTP_HOST')), '.rehabstudio.com')) {
 			echo $this->Html->meta(array('name' => 'robots', 'content' => 'noindex, nofollow'));
 		}*/
-		echo $this->Html->css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'libs/icons.css',  'main.css', 'admin/login.css'));
-
+		echo $this->Html->css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'build.min.css'));
 		/* Including CSS and favicon. Also outputting blocks of inline meta and CSS. */
 		//echo $this->Html->css(array('example/styles.css'));
 		/*echo $this->fetch('meta');
@@ -29,13 +28,9 @@
 		</div>
 	</div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <?php echo $this->Html->Js(array('libs/jquery-ui-1.10.2.min.js')); ?>
-        <?php echo $this->Html->Js(array('libs/angular/angular.min.js')); ?>
-        <?php echo $this->Html->Js(array('libs/moment.js')); ?>
-	<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 	<?php
-                echo $this->Html->Script();
+		echo $this->Html->Js(array('all.min.js'));
+		echo $this->Html->Script();
 	?>
 </body>
 </html>

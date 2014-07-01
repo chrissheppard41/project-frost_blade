@@ -29,9 +29,7 @@ class Database {
  * @return $q (PDO::query)
  */
 	public function query($query) {
-		/*echo "<pre>";
-		print_r($query);
-		echo "</pre>";*/
+		//\Configure::pre($query, false);
 
 		if(empty($query['params'])) {
 			$q = $this->connection->prepare($query['query']);
@@ -97,7 +95,7 @@ class Database {
 		foreach($this->post as $key => $value) {
 			$returnval = null;
 			if(isset($value[0])) {
-				$returnval = $this->deepsave($key, $value);
+				$returnval = $this->deepsave($key, $value, 0, $this->relationships);
 			} else {
 				$returnval = $this->shallowsave($key, $value);
 			}
@@ -156,44 +154,52 @@ class Database {
  * @param $key(String), $value(String)
  * @return (array)
  */
-	private function deepsave($key, $value) {
+	private function deepsave($key, $value, $index = 0, $relationship = array(), $lastInsertId = 0, $linkedColumn = "") {
+
+		if(!isset($value[$index]) && empty($value[$index])) {
+			return array();
+		}
+
+		$deepval = $value[$index];
+
 		$i = 0;
 		$deepsql = "";
 		$sql_ = "";
 		$arr = array();
+		$habtm = array();
 
 		$sql_ = "INSERT INTO ".strtolower($key)." (";
-		foreach($value as $head => $deepval) {
-			$deepval = array_merge($deepval, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
-			$headers = array_keys($deepval);
 
-			$j = 0;
-			$sqlval = null;
-			foreach($deepval as $header => $val) {
-				$validation = \Validation::validate($header, $deepval, $this->validation, $this->table, "add");
-				if($validation["error"])
-					return $validation;
-				if($validation["skip"])
-					continue;
-
-				if($j == 0)
-					$sqlval .= ":".$i.$j.$header;
-				else
-					$sqlval .= ", :".$i.$j.$header;
-
-				$arr[":".$i.$j.$header] = $validation["value"];
-				$j++;
-			}
-			$qPart = array_fill(0, 1, "(".$sqlval.")");
-			$deepsql .= implode(",",$qPart);
-
-			$i++;
-			if($i < count($value)) {
-				$deepsql .= ", ";
-			} else {
-				$deepsql .= ";";
-			}
+		$deepval = array_merge($deepval, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
+		if($linkedColumn != null) {
+			$deepval = array_merge($deepval, array($linkedColumn => $lastInsertId));
 		}
+
+		$j = 0;
+		$sqlval = null;
+		foreach($deepval as $header => $val) {
+			if(isset($relationship[$key]["Connect"]) && in_array($header, array_keys($relationship[$key]["Connect"]))) {$habtm[$header] = $val; unset($deepval[$header]); continue;}
+
+			$validation = \Validation::validate($header, $deepval, $this->validation, $this->table, "add");
+			if($validation["error"])
+				return $validation;
+			if($validation["skip"])
+				continue;
+
+			if($j == 0)
+				$sqlval .= ":".$i.$j.$header;
+			else
+				$sqlval .= ", :".$i.$j.$header;
+
+			$arr[":".$i.$j.$header] = $validation["value"];
+			$j++;
+		}
+		$qPart = array_fill(0, 1, "(".$sqlval.")");
+		$deepsql .= implode(",",$qPart);
+
+		$deepsql .= ";";
+
+		$headers = array_keys($deepval);
 		$sql_ .= implode(",", $headers).")";
 		$sql_ .= " VALUES";
 		$sql_ .= " ".$deepsql;
@@ -203,11 +209,30 @@ class Database {
 			"params" => $arr
 		);
 
+//\Configure::pre($query, false);
+//\Configure::pre($habtm, false);
+
 		$this->query($query);
 		$this->last_id = $this->returnLastId();
 
-		return array();
+		if(!empty($habtm)) {
+			foreach($habtm as $keyHeader => $keyVal) {
+				$this->deepsave(
+					$keyHeader,
+					$keyVal,
+					0,
+					$relationship[$key]["Connect"],
+					$this->last_id,
+					$relationship[$key]["Connect"][$keyHeader]["linkColumn"]
+				);
+			}
+
+		}
+
+		return $this->deepsave($key, $value, ($index+1), $relationship, $lastInsertId, $linkedColumn);
 	}
+
+
 /**
  * shallowsave method
  * A method that handles the datagrouping conditions
@@ -500,8 +525,13 @@ class Database {
 
 					if(isset($k["Join"])) {
 						foreach($k["Join"] as $joinHeader => $joinData) {
+							$to = "id";
+							if(isset($joinData['toColumn'])) {
+								$to = $joinData['toColumn'];
+							}
+
 							$sql_ .= " LEFT JOIN ".strtolower($joinData['lefttable']);
-							$sql_ .= " ON ".strtolower($k['lefttable']).".".$joinData['linkColumn']." = ".strtolower($joinData['lefttable']).".id";
+							$sql_ .= " ON ".strtolower($k['lefttable']).".".$joinData['linkColumn']." = ".strtolower($joinData['lefttable']).".".$to;
 						}
 					}
 					$sql_ .= " WHERE ".strtolower($k['lefttable']).".".$k['linkColumn']."=:id";
@@ -510,6 +540,7 @@ class Database {
 						"query" => $sql_,
 						"params" => array(":id" => $dataValue[$k['dataColumn']])
 					);
+
 					if($results = $this->results($this->query($q))) {
 						if(isset($k["Connect"])) {
 							$data[$dataHeader][$h] = $this->connect($results, $k["Connect"])[0];
@@ -521,6 +552,23 @@ class Database {
 					$sql_ = "SELECT ".implode(", ", $k["leftcols"])." FROM ".
 						$k["linktable"]." LEFT JOIN ".$k["lefttable"]." ON ".
 						$k["linktable"].".".$k["linkColumn"]." = ".$k["lefttable"].".id WHERE ".$k["linktable"].".".$k["baseColumn"].
+						" = :id;";
+
+					$q = array(
+						"query" => $sql_,
+						"params" => array(":id" => $dataValue[$k['dataColumn']])
+					);
+
+					if($results = $this->results($this->query($q))) {
+						if(isset($k["Connect"])) {
+							$data[$dataHeader][$h] = $this->connect($results, $k["Connect"]);
+						} else {
+							$data[$dataHeader][$h] = $results;
+						}
+					}
+				} else if($k["type"] == "HM") {
+					$sql_ = "SELECT ".implode(", ", $k["leftcols"])." FROM ".strtolower($k['lefttable']).
+						" WHERE ".$k["lefttable"].".".$k["linkColumn"].
 						" = :id;";
 
 					$q = array(
@@ -788,61 +836,5 @@ class Database {
 		}
 
 		return true;
-	}
-/**
- * c_read method
- * Reads a cache file based on $config(folder) and $name(filename) and returns a array object
- *
- * @param $config (string), $name (string)
- * @return (Array)
- */
-	public function c_read($config, $name) {
-		if (!file_exists("tmp" . DS . "cache" . DS . $config)) return array();
-
-		$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
-		$data = null;
-
-		if($filer = @fopen($filename, 'r')) {
-			$data = fread($filer, filesize($filename));
-			fclose($filer);
-			return unserialize($data);
-		} else {
-			return array();
-		}
-	}
-
-/**
- * c_write method
- * Writes a cache file based on $config(folder) and $name(filename) and ensures that the file is writable again
- *
- * @param $config (string), $name (string), $data (array)
- * @return (Array)
- */
-	public function c_write($config, $name, $data) {
-		if (!file_exists("tmp" . DS . "cache" . DS . $config))
-			mkdir("tmp" . DS . "cache" . DS . $config, 0777, true);
-
-		$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
-		$filew = fopen($filename, 'w');
-	    fwrite($filew, serialize ($data));
-	    fclose($filew);
-
-	    @chmod("$filename", 0777);
-	}
-
-/**
- * c_delete method
- * Deletes a cache file based on $config(folder) and $name(filename)
- *
- * @param $config (string), $name (string)
- * @return (Array)
- */
-	public function c_delete($config, $name) {
-		$filename = "tmp" . DS . "cache" . DS . $config . DS . $name;
-		if (file_exists($filename)) {
-			if(file_exists($filename)) {
-				unlink($filename);
-			}
-		}
 	}
 }

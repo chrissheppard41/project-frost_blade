@@ -25,7 +25,7 @@
 				<a href="#/edit/{{army.id}}" class="btn-sm btn-warning">Edit</a>
 				<a href="#/setup/{{army.id}}" class="btn-sm btn-info">Setup</a>
 
-				<a href="#/" class="btn-sm btn-danger" ng-confirm-click="Are you sure you want to delete this army?" ng-click="submit_delete(army.id)">Delete</a>
+				<a href="#/" class="btn-sm btn-danger" ng-confirm-click="Are you sure you want to delete this army?" confirmed-click="{{army.id}}">Delete</a>
 			</td>
 		</tr>
 	</table>

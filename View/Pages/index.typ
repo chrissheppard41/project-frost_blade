@@ -20,27 +20,29 @@ if(\Configure::Logged()) {
 		$this->Html->Script(
 			'var $sid = '.$this->Session->read("Auth.user.id")
 		);
-		echo $this->Html->Js(array(
-			'libs/angular/module/UnitCount.module.js',
-			'libs/angular/module/Wargear.module.js'
+		echo $this->Html->Js(array('build.min.js'), array("inline" => false));
+		/*echo $this->Html->Js(array(
+			'build/module/UnitCount.module.js',
+			'build/module/Wargear.module.js'
 		), array("inline" => false));
 
-		echo $this->Html->Js(array('libs/angular/class/Squad.class.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/class/SquadList.class.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/class/Unit.class.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/list.module.js'), array("inline" => false));
 
-		echo $this->Html->Js(array('libs/angular/service/list.module.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/service/filters.module.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/service/listServices.module.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/service/routeHelper.module.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/service/ngConfirmClick.directive.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/service/ngDragnDropSort.directive.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/class/Squad.class.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/class/SquadList.class.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/class/Unit.class.js'), array("inline" => false));
 
-		echo $this->Html->Js(array('libs/angular/controller/Add.ctrl.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/controller/Display.ctrl.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/controller/Edit.ctrl.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/controller/View.ctrl.js'), array("inline" => false));
-		echo $this->Html->Js(array('libs/angular/controller/Setup.ctrl.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/service/filters.module.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/service/listServices.module.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/service/routeHelper.module.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/service/ngConfirmClick.directive.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/service/ngDragnDropSort.directive.js'), array("inline" => false));
+
+		echo $this->Html->Js(array('build/controller/Add.ctrl.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/controller/Display.ctrl.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/controller/Edit.ctrl.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/controller/View.ctrl.js'), array("inline" => false));
+		echo $this->Html->Js(array('build/controller/Setup.ctrl.js'), array("inline" => false));*/
 
 } else {
 	echo $this->Html->Url($this->Html->__t('Login'), array('controller' => 'users', 'action' => 'login'), array('class' => 'btn btn-info icon icon-add'));

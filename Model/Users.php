@@ -108,7 +108,7 @@ class Users extends \Frost\Configs\Database {
 							"created",
 							"modified"
 						),
-						"condition"	=> array(
+						"conditions"	=> array(
 							"email" => $this->post['Users']['email'],
 							"password" => $crypt_pass
 						)

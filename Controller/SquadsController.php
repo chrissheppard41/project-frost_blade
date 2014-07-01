@@ -144,6 +144,7 @@ class SquadsController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete("Squads". DS ."Armies", "_army_".$methodData["data"]["Squads"]["armies_id"]);
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -174,6 +175,7 @@ class SquadsController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete("Squads". DS ."Armies", "_army_".$methodData["data"]["Squads"]["armies_id"]);
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -199,6 +201,16 @@ class SquadsController extends Controller {
 	public function admin_delete($options) {
 		$this->view = "admin";
 
+		$data = $this->model->Find("first",
+			array(
+				"Squads" => array(
+					array(
+						"fields" => array("armies_id"),
+						"conditions" => array("Squads.id" => $options[0])
+					)
+				)
+			)
+		);
 		$this->model->Delete(
 			array(
 				"Squads" => array(
@@ -208,6 +220,7 @@ class SquadsController extends Controller {
 				)
 			)
 		);
+		\Cache::delete("Squads". DS ."Armies", "_army_".$data["Squads"]["armies_id"]);
 
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Squads', 'action' => 'admin_index', 'admin' => true));
 
@@ -245,8 +258,8 @@ class SquadsController extends Controller {
 			throw new \WebException("Forbidden: Not logged in", 403);
 		}
 
-		//$data = Cache::read('_race_'.$id, 'squads');
-		//if(!$data) {
+		$data = \Cache::read("Squads". DS ."Armies", "_army_".$options[0]);
+		if(!$data) {
 			$data = $this->model->Find(
 				"all",
 				array(
@@ -273,8 +286,8 @@ class SquadsController extends Controller {
 					)
 				)
 			);
-			//Cache::write('_race_'.$id, $data, 'squads');
-		//}
+			\Cache::write("Squads". DS ."Armies", "_army_".$options[0], $data);
+		}
 
 		return \Frost\Configs\Response::setResponse(200, "Squads", array("data" => $data));
 	}
@@ -305,8 +318,8 @@ class SquadsController extends Controller {
 			throw new \WebException("Forbidden: Not logged in", 403);
 		}
 
-		//$data = Cache::read('_race_'.$id, 'squads');
-		//if(!$data) {
+		$data = \Cache::read("Squads", "squad_data_".$options[0]);
+		if(!$data) {
 			$data = $this->model->Find(
 				"all",
 				array(
@@ -335,8 +348,8 @@ class SquadsController extends Controller {
 					)
 				)
 			);
-			//Cache::write('_race_'.$id, $data, 'squads');
-		//}
+			\Cache::write("Squads", "squad_data_".$options[0], $data);
+		}
 
 		return \Frost\Configs\Response::setResponse(200, "Squads", array("data" => $data));
 	}

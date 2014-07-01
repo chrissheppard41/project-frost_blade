@@ -117,6 +117,7 @@ class ArmiesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete('Races', 'types_all');
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Armies', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -146,6 +147,9 @@ class ArmiesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete("Squads". DS ."Armies", "_army_".$options[0]);
+				\Cache::delete("Squads", "squad_data_".$options[0]);
+				\Cache::delete('Races', 'types_all');
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Armies', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -178,6 +182,9 @@ class ArmiesController extends Controller {
 				)
 			)
 		);
+		\Cache::delete('Races', 'types_all');
+		\Cache::delete("Squads", "squad_data_".$options[0]);
+		\Cache::delete("Squads". DS ."Armies", "_army_".$options[0]);
 
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Armies', 'action' => 'admin_index', 'admin' => true));
 

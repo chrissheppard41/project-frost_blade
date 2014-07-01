@@ -28,6 +28,8 @@ class Route {
 			'view_army/:?'			=> array("controller" => "ArmyListsController", "action" => "view_army", "param" => array()),
 			'delete_army/:?'		=> array("controller" => "ArmyListsController", "action" => "delete_army", "param" => array()),
 			'edit/save/:?'			=> array("controller" => "ArmyListsController", "action" => "edit_save_army", "param" => array()),
+			'save_units/:?'			=> array("controller" => "ArmyListsController", "action" => "save_units", "param" => array()),
+			'get_army/:?'			=> array("controller" => "ArmyListsController", "action" => "get_army", "param" => array()),
 			'types'					=> array("controller" => "TypesController", "action" => "unit_types", "param" => array())
 		);
 	}

@@ -84,4 +84,10 @@
 		</div>
 	</div>
 
+	<form ng-submit="submit_army()" class="form-horizontal" name="setup_army_list" id="ArmyList#Form" method="POST" accept-charset="utf-8">
+		<span class="col-lg-offset-2 col-lg-10">
+			<input class="btn btn-primary" type="submit" value="Save"/>
+		</span>
+	</form>
+
 </section>

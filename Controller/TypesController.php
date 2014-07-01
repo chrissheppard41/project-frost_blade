@@ -103,6 +103,7 @@ class TypesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete("Types", "all_types");
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Types', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -126,6 +127,7 @@ class TypesController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete("Types", "all_types");
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Types', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -155,6 +157,7 @@ class TypesController extends Controller {
 			)
 		);
 
+		\Cache::delete("Types", "all_types");
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Types', 'action' => 'admin_index', 'admin' => true));
 
 		return array("code" => 200, "message" => "User Index", "data" => array(), "errors" => null);
@@ -177,9 +180,9 @@ class TypesController extends Controller {
 			throw new \WebException("Forbidden: Not logged in", 403);
 		}
 
-        //$data = Cache::read('all_types', 'units');
-        //if(!$data){
-            $data = $this->model->Find("all",
+        $data = \Cache::read('Types', 'all_types');
+        if(!$data){
+			$data = $this->model->Find("all",
 				array(
 					"Types" => array(
 						array(
@@ -193,8 +196,8 @@ class TypesController extends Controller {
 					)
 				)
 			);
-        //    Cache::write('all_types', $data, 'units');
-        //}
+			\Cache::write("Types", 'all_types', $data);
+        }
 
         return \Frost\Configs\Response::setResponse(200, "Types", array("data" => $data));
     }

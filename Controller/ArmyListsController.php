@@ -108,7 +108,7 @@ class ArmyListsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("id" => $options[0]),
+						"conditions" => array("ArmyLists.id" => $options[0]),
 						"contains" => array(
 							"Users" => array(
 								"fields" => array(
@@ -151,6 +151,8 @@ class ArmyListsController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete('ArmyLists', "private");
+				\Cache::delete('ArmyLists', "public");
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'ArmyLists', 'action' => 'index', 'admin' => true));
 			}
 		}
@@ -175,17 +177,19 @@ class ArmyListsController extends Controller {
 		$this->view = "admin";
 		$this->model->last_id = $options[0];
 		if($this->requestType("POST")) {
-			$data = $this->model->Update($this->model->post, array("id" => $options[0]));
+			$data = $this->model->Update($this->model->post, array("ArmyLists.id" => $options[0]));
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
+				\Cache::delete('ArmyLists', "private");
+				\Cache::delete('ArmyLists', "public");
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'armylists', 'action' => 'index', 'admin' => true));
 			}
 		}
 		$data = $this->model->Find("first", array( "ArmyLists" => array(
 					array(
 						"fields" => array( "id", "name", "descr", "point_limit", "hide", "users_id", "armies_id" ),
-						"conditions" => array("id" => $options[0]),
+						"conditions" => array("ArmyLists.id" => $options[0]),
 						"contains" => array(
 							"Users" => array( "fields" => array( "Users.id as `user_id`", "Users.username" ), "relation" => array( "ArmyLists.users_id", "Users.id" ) ),
 							"Armies" => array( "fields" => array( "armies.name as `army_name`" ), "relation" => array( "ArmyLists.armies_id", "armies.id" ) )
@@ -218,12 +222,13 @@ class ArmyListsController extends Controller {
 			array(
 				"ArmyLists" => array(
 					"conditions" => array(
-						"id" => $options[0]
+						"ArmyLists.id" => $options[0]
 					)
 				)
 			)
 		);
-
+		\Cache::delete('ArmyLists', "private");
+		\Cache::delete('ArmyLists', "public");
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'ArmyLists', 'action' => 'admin_index', 'admin' => true));
 
 		return array("code" => 200, "message" => "User Index", "data" => array(), "errors" => null);
@@ -241,8 +246,9 @@ class ArmyListsController extends Controller {
 	public function armies($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
-
+		$cache = "private";
 		if($options[0] == "public") {
+			$cache = "public";
 			$conditions = array("armylists.hide" => 0);
 		} else {
 			if(!\Configure::Logged()) {
@@ -251,8 +257,8 @@ class ArmyListsController extends Controller {
 			$conditions = array("users_id" => \Configure::User("id"));
 		}
 
-		//$data = Cache::read('notHidden', 'army_lists');
-		//if(!$data){
+		$data = \Cache::read('ArmyLists', $cache);
+		if(!$data){
 			$data = $this->model->find(
 				'all',
 				array(
@@ -275,8 +281,8 @@ class ArmyListsController extends Controller {
 					)
 				)
 			);
-			//Cache::write('notHidden', $data, 'army_lists');
-		//}
+			\Cache::write('ArmyLists', $cache, $data);
+		}
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
@@ -317,6 +323,8 @@ class ArmyListsController extends Controller {
 		if($data["error"] === true) {
 			return \Frost\Configs\Response::setResponse(400, "Army Lists", array("errors" => $data["error"]));
 		} else {
+			\Cache::delete('ArmyLists', "private");
+			\Cache::delete('ArmyLists', "public");
 			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 		}
 	}
@@ -347,52 +355,79 @@ class ArmyListsController extends Controller {
 			);
 		}
 
-		//$data = Cache::read('_army_'.$id, 'army_lists');
-		//if(!$data){
+		$data = \Cache::read('ArmyLists', '_army_'.$options[0]);
+		if(!$data){
 			$data = $this->model->Find("first",
-			array(
-				"ArmyLists" => array(
-					array(
-						"fields" => array(
-							"id",
-							"name",
-							"descr",
-							"point_limit",
-							"hide",
-							"users_id",
-							"armies_id",
-							"created",
-							"modified"
-						),
-						"conditions" => $conditions,
-						"contains" => array(
-							"Users" => array(
-								"fields" => array(
-									"Users.id as `user_id`",
-									"Users.username"
-								),
-								"relation" => array(
-									"ArmyLists.users_id", "Users.id"
-								)
+				array(
+					"ArmyLists" => array(
+						array(
+							"fields" => array(
+								"id",
+								"name",
+								"descr",
+								"point_limit",
+								"hide",
+								"users_id",
+								"armies_id",
+								"created",
+								"modified"
 							),
-							"Armies" => array(
-								"fields" => array(
-									"armies.name as `army_name`"
+							"conditions" => $conditions,
+							"contains" => array(
+								"Users" => array(
+									"fields" => array(
+										"Users.id as `user_id`",
+										"Users.username"
+									),
+									"relation" => array(
+										"ArmyLists.users_id", "Users.id"
+									)
 								),
-								"relation" => array(
-									"ArmyLists.armies_id", "armies.id"
+								"Armies" => array(
+									"fields" => array(
+										"armies.name as `army_name`"
+									),
+									"relation" => array(
+										"ArmyLists.armies_id", "armies.id"
+									)
+								),
+								"ArmySquads" => array(
+									array(
+										"fields" => array(
+											"id",
+											"position",
+											"squads_id"
+										),
+										"contains" => array(
+											"ArmyUnits" => array(
+												"fields" => array(
+													"ArmyUnits.id as `armyunits_id`",
+													"ArmyUnits.count",
+													"ArmyUnits.units_id"
+												),
+												"contains" => array(
+													"ArmyWargears" => array(
+														"fields" => array(
+															"ArmyWargears.id as `armywargears_id`",
+															"ArmyWargears.wargears_id"
+														),
+														"contains" => array(
+															"Wargears" => array()
+														)
+
+													)
+												)
+											)
+										)
+									)
 								)
 							)
 						)
 					)
 				)
-			)
-		);
-        //    if(!empty($data)) {
-        //        Cache::write('_army_'.$id, $data, 'army_lists');
-        //    }
-		//}
-
+			);
+			\Cache::write('ArmyLists', '_army_'.$options[0], $data);
+		}
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
@@ -421,7 +456,8 @@ class ArmyListsController extends Controller {
 				"ArmyLists" => array(
 					array(
 						"fields" => array(
-							"id"
+							"id",
+							"hide"
 						),
 						"conditions" => array(
 							"users_id" => \Configure::User("id"),
@@ -445,6 +481,8 @@ class ArmyListsController extends Controller {
 				)
 			)
 		);
+		\Cache::delete('ArmyLists', "private");
+		\Cache::delete('ArmyLists', "public");
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 	}
@@ -504,7 +542,160 @@ class ArmyListsController extends Controller {
 		if($data["error"] === true) {
 			return \Frost\Configs\Response::setResponse(400, "Army Lists", array("errors" => $data["error"]));
 		} else {
+			\Cache::delete('ArmyLists', "private");
+			\Cache::delete('ArmyLists', "public");
+			\Cache::delete('ArmyLists', "_army_".$options[0]);
 			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 		}
+	}
+
+	/**
+	 * API save_units to saves a submitted army
+	 *
+	 * @return void
+	 */
+
+	public function save_units($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		if(!$this->requestType("POST")) {
+			throw new \WebException("Wrong method request", 405);
+		}
+
+		if(!\Configure::Logged()) {
+			throw new \WebException("Forbidden: Not logged in", 403);
+		}
+
+		$user_army = $this->model->find(
+			"first",
+			array(
+				"ArmyLists" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array(
+							"users_id" => \Configure::User("id"),
+							"id" => $options[0]
+						)
+					)
+				)
+			)
+		);
+
+		if(empty($user_army)) {
+			throw new \WebException("Forbidden: Army does not belong to you", 403);
+		}
+
+		$this->model->Delete(
+			array(
+				"ArmySquads" => array(
+					"conditions" => array(
+						"armylists_id" => $options[0]
+					)
+				)
+			)
+		);
+
+		$data = $this->model->Save($methodData);
+		if($data["error"] === true) {
+			return \Frost\Configs\Response::setResponse(400, "Army Lists", array("errors" => $data["error"]));
+		} else {
+			\Cache::delete('ArmyLists', "private");
+			\Cache::delete('ArmyLists', "public");
+			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
+		}
+	}
+
+	/**
+	 * API get_army to retrieve my army
+	 *
+	 * @return void
+	 */
+
+	public function get_army($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		if(!\Configure::Logged()) {
+			throw new \WebException("Forbidden: Not logged in", 403);
+		}
+
+		$user_army = $this->model->find(
+			"first",
+			array(
+				"ArmyLists" => array(
+					array(
+						"fields" => array(
+							"id"
+						),
+						"conditions" => array(
+							"users_id" => \Configure::User("id"),
+							"id" => $options[0]
+						)
+					)
+				)
+			)
+		);
+
+		if(empty($user_army)) {
+			throw new \WebException("Forbidden: Army does not belong to you", 403);
+		}
+
+		$this->model->Delete(
+			array(
+				"ArmySquads" => array(
+					"conditions" => array(
+						"armylists_id" => $options[0]
+					)
+				)
+			)
+		);
+
+
+		//$data = Cache::read('_army_'.$id, 'army_lists');
+		//if(!$data){
+			$data = $this->model->Find("first",
+			array(
+				"ArmySquads" => array(
+					array(
+						"fields" => array(
+							"id",
+							"position",
+							"squads_id"
+						),
+						"conditions" => array(
+							"armylists_id" => $options[0]
+						),
+						"contains" => array(
+							"ArmyUnits" => array(
+								"fields" => array(
+									"ArmyUnits.id as `armyunits_id`",
+									"ArmyUnits.count",
+									"ArmyUnits.units_id"
+								),
+								"contains" => array(
+									"ArmyWargears" => array(
+										"fields" => array(
+											"ArmyWargears.id as `armywargears_id`",
+											"ArmyWargears.wargears_id"
+										)
+
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		);
+        //    if(!empty($data)) {
+        //        Cache::write('_army_'.$id, $data, 'army_lists');
+        //    }
+		//}
+
+
+		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
 }

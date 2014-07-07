@@ -338,10 +338,9 @@ class Html {
 			$class = \Configure::read("Flash.class");
 
 			if(isset($message)) {
-				$output = '<div class="'.$class.' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'.$message.'</div>';
+				$output = '<div class="'.$class.' alert-dismissable"><span>'.$message.'</span><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>';
 				\Configure::delete("Flash");
 			}
-
 		}
 		return $output;
 	}

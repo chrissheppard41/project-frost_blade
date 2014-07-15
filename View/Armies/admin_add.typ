@@ -16,6 +16,8 @@
 		echo $this->Html->Input("races_id", "Armies", array('label' => 'Races', 'class' => "form-control", 'type' => "select", 'id' => "races"), $typ__['data']["Races"]);
 		echo $this->Html->Input("ArmyCharacteristics", "Armies", array('label' => 'Characteristics', 'class' => "form-control", 'type' => "select", 'id' => "races", "multiple"), $typ__['data']["ArmyCharacteristics"]);
 
+		echo $this->Html->Input("colours_id", "Armies", array('label' => 'Colours', 'class' => "form-control", 'type' => "select", 'id' => "colours"), $typ__['data']["Colours"]);
+
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
 		echo $this->Html->Form();
 	?>

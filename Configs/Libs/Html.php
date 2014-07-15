@@ -239,6 +239,7 @@ class Html {
 		$nameucf = ucfirst($name);
 		$output = '<div class="form-group">';
 		$outputExra = '';
+		$radio = '';
 		if(isset($options['label'])){
 			$output .= '	<label for="'.$model.''.$nameucf.'" class="control-label">'.$options['label'].'</label>';
 			unset($options['label']);
@@ -255,6 +256,8 @@ class Html {
 					$output .= '<select name="data['.$model.']['.$name.'][]"';
 			} else if($options['type'] == "textarea") {
 				$output .= '<textarea name="data['.$model.']['.$name.']"';
+			} else if($options['type'] == "radio") {
+
 			} else {
 				if($options['type'] == "checkbox")
 					$outputExra = '<input name="data['.$model.']['.$name.']" type="hidden" value="" />';
@@ -264,11 +267,13 @@ class Html {
 
 			foreach($options as $key => $values) {
 				if($key == "type" && $values == "select" || $values == "textarea") continue;
-				if($key == 0 && $values == "multiple")
+				if($key == 0 && $values == "multiple") {
 					$output .= ' multiple';
-				else
+				} else if($options["type"] == "radio") {
+					$radio .= ' '.$key.'="'.$values.'"';
+				} else {
 					$output .= ' '.$key.'="'.$values.'"';
-
+				}
 			}
 
 			if($options['type'] == "select") {
@@ -277,6 +282,7 @@ class Html {
 					$output .= '<option value="">Select an option</option>';
 				foreach($list as $key => $values) {
 					$found = false;
+
 					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$name])) {
 						if($values["id"] == $_POST['data'][$model][$name]) $found = true;
 						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name])) $found = true;
@@ -284,11 +290,24 @@ class Html {
 
 					$output .= '<option value="'.$values["id"].'"'.(($found)?" selected='selected'":"").'>'.$values["name"].'</option>';
 				}
-				$output .= '<select/>';
+				$output .= '</select>';
 			} else if($options['type'] == "textarea") {
 				$output .= '>';
 				if(isset($_POST['data'][$model][$name])) $output .= $_POST['data'][$model][$name];
 				$output .= '</textarea>';
+			} else if($options['type'] == "radio") {
+
+				foreach($list as $key => $values) {
+					$found = false;
+					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$name])) {
+						if($values["id"] == $_POST['data'][$model][$name]) $found = true;
+						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name])) $found = true;
+					}
+
+					$output .= '<input name="data['.$model.']['.$name.']" value="'.$values["id"].'"'.$radio.''.(($found)?" selected='selected'":"").' /> '.$values["name"].'<br />';
+				}
+
+
 			} else {
 				if(isset($_POST['data'][$model][$name])) {
 					if($options['type'] == "checkbox") {

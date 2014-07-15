@@ -24,12 +24,14 @@ class Route {
 			'squads/:?/:?' 			=> array("controller" => "SquadsController", "action" => "squads_race", "param" => array()),
 			'squads_units/:?/:?' 	=> array("controller" => "SquadsController", "action" => "squads_units", "param" => array()),
 			'armies/:?' 			=> array("controller" => "ArmyListsController", "action" => "armies", "param" => array()),
+			'armies_all' 			=> array("controller" => "ArmyListsController", "action" => "armies_all", "param" => array()),
 			'add/save' 				=> array("controller" => "ArmyListsController", "action" => "save_army", "param" => array()),
 			'view_army/:?'			=> array("controller" => "ArmyListsController", "action" => "view_army", "param" => array()),
 			'delete_army/:?'		=> array("controller" => "ArmyListsController", "action" => "delete_army", "param" => array()),
 			'edit/save/:?'			=> array("controller" => "ArmyListsController", "action" => "edit_save_army", "param" => array()),
 			'save_units/:?'			=> array("controller" => "ArmyListsController", "action" => "save_units", "param" => array()),
 			'get_army/:?'			=> array("controller" => "ArmyListsController", "action" => "get_army", "param" => array()),
+			'vote/:?/:?' 			=> array("controller" => "ArmyListsController", "action" => "vote", "param" => array()),
 			'types'					=> array("controller" => "TypesController", "action" => "unit_types", "param" => array())
 		);
 	}

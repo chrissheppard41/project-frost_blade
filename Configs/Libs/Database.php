@@ -468,7 +468,7 @@ class Database {
 				$arr = $returned['arr'];
 
 				$contains = $this->contains($data);
-				$sql .= strtolower(implode(", ", array_values(array_merge(array_map(function($str) { return $this->tab.".".$str; }, $data['fields']), $contains['fields']))));
+				$sql .= strtolower(implode(", ", array_values(array_merge(array_map(function($str) {if (strpos($str, 'COUNT(*)') !== FALSE) {return $str;}return $this->tab.".".$str;}, $data['fields']), $contains['fields']))));
 
 				$sql .= " FROM ".strtolower($this->tab)."";
 
@@ -486,6 +486,14 @@ class Database {
 
 					$sql .= " LIMIT ".((int)$page[0]*$page_count).",".(int)$page_count."";
 				}
+
+				if(!empty($data["order"])) {
+					$sql .= " ORDER BY ".$data["order"][0];
+				}
+				if(!empty($data["limit"])) {
+					$sql .= " LIMIT ".$data["limit"];
+				}
+
 				$sql .= ";";
 
 				$q = array(
@@ -693,7 +701,6 @@ class Database {
 		$join = "";
 		$fields = array();
 		$relationship = false;
-		$i = 0;
 
 		if(isset($contain["contains"])) {
 			foreach($contain["contains"] as $header => $value) {
@@ -703,7 +710,16 @@ class Database {
 					$relationship = true;
 				} else {
 					if(!empty($value)) {
-						$join .= " LEFT JOIN ".strtolower($header)." ON ".$value["relation"][0]."=".$value["relation"][1];
+						$join .= " LEFT JOIN ".strtolower($header)." ON";
+
+						$i = 0;
+						foreach($value["relation"] as $key => $va) {
+							if($i != 0) {
+								$join .= " AND";
+							}
+							$join .= " ".$key."=".$va;
+							$i++;
+						}
 						$fields = array_values(array_merge($fields, $value['fields']));
 					}
 				}
@@ -760,6 +776,29 @@ class Database {
 
 			$this->query($q);
 		}
+	}
+/**
+ * Call method
+ * Calls a store prodecure within the system
+ *
+ * @param $function (string)
+ * @param $params (array)
+ * @return
+ */
+	public function Call($function, $params = array()) {
+
+		$arr = array();
+		foreach($params as $key => $value) {
+			$arr[":key_".$key] = $value;
+		}
+
+		$sql_ = "CALL ".$function."(".implode(", ", array_keys($arr)).");";
+
+		$query = array(
+			"query" => $sql_,
+			"params" => $arr
+		);
+		$this->query($query);
 	}
 /**
  * Exists method

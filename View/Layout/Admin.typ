@@ -9,7 +9,7 @@
         echo $this->Html->Meta('robots', 'noindex, nofollow');
 
         /* Including CSS and favicon. Also outputting blocks of inline meta and CSS. */
-        echo $this->Html->Css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'build.min.css'));
+        echo $this->Html->Css(array('libs/bootstrap.min.css', 'libs/bootstrap.css'/*, 'build.min.css'*/));
         ?>
 </head>
 <body>
@@ -29,8 +29,8 @@
                         <?php echo $typ__view; ?>
                 </div>
                 <footer>
-                        <p class="pull-right">--- &copy; <?php echo date('Y'); ?></p>
-                        <p>Licensed for use by <?php echo Configure::read('Company.name'); ?>, developed by <strong>---</strong>.</p>
+                        <p class="pull-right">Chris Sheppard &copy; <?php echo date('Y'); ?></p>
+                        <p>Licensed for use by <?php echo Configure::read('Company.name'); ?>, developed by <strong>Chris Sheppard</strong>.</p>
                 </footer>
         </div>
         <!-- Closing mainContainer. -->

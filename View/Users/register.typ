@@ -1,8 +1,8 @@
-<?php
-//echo "<pre>".print_r($_POST, true)."</pre>";
-?>
-<div class="row">
-	<div class="span6 offset3">
+
+<section class="clearfix">
+	<article>
+		<h2>Register</h2>
+
 		<div id="loginView">
     		<div class="page-header">
 			    <h1>Register</h1>
@@ -23,5 +23,5 @@
 
 
 		</div>
-    </div>
-</div>
+    </article>
+</section>

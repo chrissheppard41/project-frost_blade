@@ -1,6 +1,6 @@
 <?php
 
-Configure::write("Company.name", "Army Tool");
+Configure::write("Company.name", "Army Display tool");
 
 
 if(isset($_SERVER['APPLICATION_ENV']) && !empty($_SERVER['APPLICATION_ENV'])) {

@@ -1,5 +1,5 @@
 <?php ?>
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" style="margin-top: 55px;">
 	<li class="<?php echo $this->Html->Highlight('/^\/admin\/ArmyLists/'); ?>">
 		<?php echo $this->Html->Url('Army Lists', array('controller' => 'ArmyLists', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 	</li>
@@ -19,6 +19,9 @@
 			</li>
 			<li class="<?php echo $this->Html->Highlight('/^\/admin\/operations/'); ?>">
 				<?php echo $this->Html->Url('Operations', array('controller' => 'operations', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			</li>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/colours/'); ?>">
+				<?php echo $this->Html->Url('Colours', array('controller' => 'colours', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 		</ul>
 	</li>

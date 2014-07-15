@@ -1,51 +1,50 @@
 <section class="clearfix">
-	<h2>View</h2>
-	<a href="#/" class="btn btn-danger">back</a>
+	<article>
+		<h2>View <span><a href="#/" class="back">Back</a></span></h2>
+		<a href="#/" class="btn btn-danger">back</a>
 
-
-	<div class="raceTypes view">
-		<div class="panel panel-default">
+		<div class="panel blue">
 			<div class="panel-heading">
 				<?php echo $this->Html->__t('Army Lists view'); ?>
-				<span class="pull-right">
-					<a href="#/edit/{{army.id}}" class="btn-sm btn-warning">Edit</a>
-					<a href="#/" class="btn-sm btn-danger" ng-confirm-click="Are you sure you want to delete this army?" ng-click="submit_delete(army.id)">Delete</a>
+				<span>
+					<a href="#/edit/{{army.id}}" class="edit">Edit</a>
+					<a href="#/" class="delete" ng-confirm-click="Are you sure you want to delete this army?" ng-click="submit_delete(army.id)">Delete</a>
 				</span>
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Id'); ?></span>
-					<span class="col-md-9">{{army.id}}</span>
+					<?php echo $this->Html->__t('Id'); ?>
+					<span>{{army.id}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Name'); ?></span>
+					<?php echo $this->Html->__t('Name'); ?>
 					<span class="col-md-9">{{army.name}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Description'); ?></span>
+					<?php echo $this->Html->__t('Description'); ?>
 					<span class="col-md-9">{{army.descr}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Point Limit'); ?></span>
+					<?php echo $this->Html->__t('Point Limit'); ?>
 					<span class="col-md-9">{{army.point_limit}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Hidden'); ?></span>
+					<?php echo $this->Html->__t('Hidden'); ?>
 					<span class="col-md-9">{{army.hide}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Army'); ?></span>
+					<?php echo $this->Html->__t('Army'); ?>
 					<span class="col-md-9">{{army.army_name}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Created'); ?></span>
+					<?php echo $this->Html->__t('Created'); ?>
 					<span class="col-md-9">{{dateMomment(army.created)}}</span>
 				</div>
 				<div class="row">
-					<span class="col-md-3"><?php echo $this->Html->__t('Modified'); ?></span>
+					<?php echo $this->Html->__t('Modified'); ?>
 					<span class="col-md-9">{{dateMomment(army.modified)}}</span>
 				</div>
 			</div>
 		</div>
-	</div>
+	</article>
 </section>

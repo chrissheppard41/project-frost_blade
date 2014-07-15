@@ -338,7 +338,7 @@ class SquadsController extends Controller {
 										"types.name as `type_name`"
 									),
 									"relation" => array(
-										"Squads.types_id", "types.id"
+										"Squads.types_id" => "types.id"
 									)
 								),
 								"SquadUnits" => array(

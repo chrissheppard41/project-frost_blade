@@ -11,6 +11,8 @@
 		<thead>
 			<tr>
 				<th><?php echo $this->Html->Pag_Sort('name');?></th>
+				<th><?php echo $this->Html->Pag_Sort('races');?></th>
+				<th><?php echo $this->Html->Pag_Sort('colours_id');?></th>
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
 				<th><?php echo $this->Html->Pag_Sort('modified');?></th>
 				<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
@@ -20,6 +22,8 @@
 			<?php foreach ($typ__['data']["Armies"] as $army){ ?>
 			<tr id="armyLists-<?php echo $army['id']; ?>" data-id="<?php echo $army['id']; ?>">
 				<td><?php echo $army['name']; ?></td>
+				<td><?php echo $this->Html->Url($army['races_name'], array('controller' => 'races', 'action' => 'view', "params" => array($army['races_id']), "admin" => true)); ?></td>
+				<td><?php echo $this->Html->Url($army['colours_name'], array('controller' => 'colours', 'action' => 'view', "params" => array($army['colours_id']), "admin" => true)); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $army['created']); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $army['modified']); ?></td>
 				<td class="actions">

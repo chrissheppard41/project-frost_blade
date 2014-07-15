@@ -25,6 +25,12 @@
 	  			</span>
 	  		</div>
 	  		<div class="row">
+	  			<span class="col-md-3"><?php echo $this->Html->__t("Colours"); ?></span>
+	  			<span class="col-md-9">
+	  				<?php echo $this->Html->Url($typ__["data"]["Armies"]["colour_name"], array("controller" => "colours", "action" => "view", "admin" => true, "params" => array($typ__["data"]["Armies"]["colour_id"]))); ?>
+	  			</span>
+	  		</div>
+	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Created"); ?></span>
 	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["Armies"]["created"]); ?></span>
 	  		</div>

@@ -11,6 +11,7 @@
 		<thead>
 			<tr>
 				<th><?php echo $this->Html->Pag_Sort('name');?></th>
+				<th><?php echo $this->Html->Pag_Sort('icon');?></th>
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
 				<th><?php echo $this->Html->Pag_Sort('modified');?></th>
 				<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
@@ -20,6 +21,7 @@
 			<?php foreach ($typ__['data']["Races"] as $race){ ?>
 			<tr id="armyLists-<?php echo $race['id']; ?>" data-id="<?php echo $race['id']; ?>">
 				<td><?php echo $race['name']; ?></td>
+				<td><img src="/Assets/img/icons/<?php echo $race['icon']; ?>.png" alt="<?php echo $race['icon']; ?>" style="background-color: #000" /></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $race['created']); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $race['modified']); ?></td>
 				<td class="actions">

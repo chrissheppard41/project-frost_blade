@@ -2,16 +2,16 @@
 	<a href="#/add" class="btn btn-success">Add</a>
 
 	<article class="width_50 float first">
-		<h2>Public army setups <span>9999 set ups</span></h2>
+		<h2>Public army setups <span>{{all_armies_count}} set ups</span></h2>
 		<ul class='army_display'>
 			<li ng-repeat="army in all_armies">
 				<div>
-					<a href="" class="blue">+</a>
-					<a href="" class="red">-</a>
+					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
+					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
 				</div>
 				<div>
-					<span class="army">&nbsp;</span>
-					<span class="count">99999</span>
+					<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
+					<span class="count">{{army.score}}</span>
 				</div>
 				<div>
 					<h3>
@@ -30,14 +30,14 @@
 	<article class="width_50 float">
 		<h2>Top army setups</h2>
 		<ul class='army_display'>
-			<li ng-repeat="army in all_armies">
+			<li ng-repeat="army in top_armies">
 				<div>
-					<a href="" class="blue">+</a>
-					<a href="" class="red">-</a>
+					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
+					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
 				</div>
 				<div>
-					<span class="army">&nbsp;</span>
-					<span class="count">99999</span>
+					<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
+					<span class="count">{{army.score}}</span>
 				</div>
 				<div>
 					<h3>
@@ -53,17 +53,20 @@
 			</li>
 		</ul>
 	</article>
+	<?php
+	if(\Configure::Logged()) {
+	?>
 	<article>
-		<h2>My army setups</h2>
+		<h2>My army setups <span>{{my_armies_count}} set ups <a href="#/add" class="add">Add</a></span></h2>
 		<ul class='army_display'>
 			<li ng-repeat="army in my_armies" id="myarmy_{{army.id}}">
 				<div>
-					<a href="" class="blue">+</a>
-					<a href="" class="red">-</a>
+					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
+					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
 				</div>
 				<div>
-					<span class="army blue"><i class="imperial">&nbsp;</i></span>
-					<span class="count">99999</span>
+					<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
+					<span class="count">{{army.score}}</span>
 				</div>
 				<div>
 					<h3>
@@ -90,4 +93,7 @@
 			</li>
 		<ul>
 	</article>
+	<?php
+	}
+	?>
 </section>

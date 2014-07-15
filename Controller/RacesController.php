@@ -44,6 +44,7 @@ class RacesController extends Controller {
 						"fields" => array(
 							"id",
 							"name",
+							"icon",
 							"created",
 							"modified"
 						),
@@ -75,6 +76,7 @@ class RacesController extends Controller {
 						"fields" => array(
 							"id",
 							"name",
+							"icon",
 							"created",
 							"modified"
 						),
@@ -133,7 +135,7 @@ class RacesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Races" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "Races" => array( array( "fields" => array( "id", "name", "icon"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -188,7 +190,8 @@ class RacesController extends Controller {
 						array(
 							"fields" => array(
 								"id",
-								"name"
+								"name",
+								"icon"
 							),
 							"contains" => array(
 								"Armies" => array()

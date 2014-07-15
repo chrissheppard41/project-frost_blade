@@ -231,8 +231,130 @@ class ArmyLists extends \Frost\Configs\Database {
  * @return hash (string)
  */
 
-    public function _generateCode($id) {
-        $salt = substr(md5(uniqid(rand(), true)), 0, 9);
-        return $salt . sha1($salt . time() . $id);
-    }
+	public function _generateCode($id) {
+		$salt = substr(md5(uniqid(rand(), true)), 0, 9);
+		return $salt . sha1($salt . time() . $id);
+	}
+
+
+/**
+ * army_lists method
+ * returns the army lists
+ *
+ * @param
+ * @return (bool)
+ */
+	public function army_lists($type, $user_id) {
+
+		if($type == "public") {
+			$conditions = array("armylists.hide" => 0);
+			$order = array();
+
+			$count = $this->find(
+				'first',
+				array(
+					"ArmyLists" => array(
+						array(
+							"fields" => array(
+								"COUNT(*) as `count`"
+							),
+							"conditions" => $conditions
+						)
+					)
+				)
+			);
+
+		} else if($type == "top") {
+			$conditions = array("armylists.hide" => 0);
+			$order = array("score ASC");
+		} else {
+			if(!\Configure::Logged()) {
+				throw new \WebException("Forbidden: Not logged in", 403);
+			}
+			$conditions = array("ArmyLists.users_id" => $user_id);
+			$order = array();
+
+			$count = $this->find(
+				'first',
+				array(
+					"ArmyLists" => array(
+						array(
+							"fields" => array(
+								"COUNT(*) as `count`"
+							),
+							"conditions" => $conditions
+						)
+					)
+				)
+			);
+		}
+
+		$data = $this->find(
+			'all',
+			array(
+				"ArmyLists" => array(
+					array(
+						"fields" => array(
+							"id",
+							"code",
+							"name",
+							"descr",
+							"point_limit",
+							"hide",
+							"score",
+							"users_id",
+							"armies_id",
+							"created",
+							"modified"
+						),
+						"conditions" => $conditions,
+						"order" => $order,
+						"limit" => 5,
+						"contains" => array(
+							"Armies" => array(
+								"fields" => array(
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"ArmyLists.armies_id" => "armies.id"
+								)
+							),
+							"Races" => array(
+								"fields" => array(
+									"races.name as `races_name`",
+									"races.icon"
+								),
+								"relation" => array(
+									"Armies.races_id" => "races.id"
+								)
+							),
+							"Colours" => array(
+								"fields" => array(
+									"colours.name as `colours_name`"
+								),
+								"relation" => array(
+									"Armies.colours_id" => "colours.id"
+								)
+							),
+							"Votes" => array(
+								"fields" => array(
+									"votes.vote"
+								),
+								"relation" => array(
+									"Votes.armylists_id" => "ArmyLists.id",
+									"Votes.users_id" => $user_id
+								)
+							)
+						)
+					)
+				)
+			)
+		);
+
+		if(isset($count["ArmyLists"]["count"])) {
+			$data["count"] = $count["ArmyLists"]["count"];
+		}
+		return $data;
+	}
+
 }

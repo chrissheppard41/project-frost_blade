@@ -20,7 +20,15 @@
 		echo $this->Html->meta('icon');*/
 	?>
 </head>
-<body id="army_default">
+<body id="army_default" ng-app="tool">
+
+	<div id="loadscreen">
+		<div id="logo">
+			<div ng-loadscreen id="color"></div>
+			<div id="img"></div>
+		</div>
+	</div>
+
 	<div class="container">
 		<header>
 			<h1>Army Display tool</h1>

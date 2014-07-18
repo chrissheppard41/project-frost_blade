@@ -20,8 +20,9 @@
 				<th><?php echo $this->Html->Pag_Sort('W'); ?></th>
 				<th><?php echo $this->Html->Pag_Sort('A'); ?></th>
 				<th><?php echo $this->Html->Pag_Sort('Ld'); ?></th>
-				<th><?php echo $this->Html->Pag_Sort('S'); ?></th>
+				<th><?php echo $this->Html->Pag_Sort('Sv'); ?></th>
 				<th><?php echo $this->Html->Pag_Sort('Is'); ?></th>
+				<th><?php echo $this->Html->Pag_Sort('Armour'); ?></th>
 				<th><?php echo $this->Html->Pag_Sort('Pts'); ?></th>
 
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
@@ -44,6 +45,7 @@
 				<td><?php echo $unit['leadership']; ?></td>
 				<td><?php echo $unit['armour_save']; ?></td>
 				<td><?php echo $unit['invulnerable_save']; ?></td>
+				<td><?php echo $unit['front_armour']; ?>/<?php echo $unit['side_armour']; ?>/<?php echo $unit['rear_armour']; ?></td>
 				<td><?php echo $unit['pts']; ?></td>
 
 				<td><?php echo $this->Html->Time("TimeAgo", $unit['created']); ?></td>

@@ -355,9 +355,10 @@ class Database {
  * @return (bool)
  */
 	public function Update($queries, $condition = array()) {
+		$output = true;
 		if(isset($queries[0])){
 			foreach($queries as $query) {
-				$this->UpdateQuery($query);
+				$output = $this->UpdateQuery($query);
 			}
 		} else {
 			if(!empty($condition)) {
@@ -368,10 +369,10 @@ class Database {
 					)
 				);
 			}
-			$this->UpdateQuery($queries);
+			$output = $this->UpdateQuery($queries);
 		}
 
-		return true;
+		return $output;
 	}
 /**
  * UpdateQuery method
@@ -440,7 +441,7 @@ class Database {
 				}
 			}
 		}
-
+		return true;
 	}
 
 
@@ -798,7 +799,10 @@ class Database {
 			"query" => $sql_,
 			"params" => $arr
 		);
-		$this->query($query);
+
+		if($results = $this->results($this->query($query))) {
+			return $results;
+		}
 	}
 /**
  * Exists method

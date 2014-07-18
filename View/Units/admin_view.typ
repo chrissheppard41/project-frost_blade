@@ -52,6 +52,24 @@
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Leadership"); ?></span>
 	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["leadership"]; ?></span>
 	  		</div>
+
+	  		<div class="row">
+	  			<span class="col-md-3"><?php echo $this->Html->__t("Front armour"); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["front_armour"]; ?></span>
+	  		</div>
+	  		<div class="row">
+	  			<span class="col-md-3"><?php echo $this->Html->__t("Side armour"); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["side_armour"]; ?></span>
+	  		</div>
+	  		<div class="row">
+	  			<span class="col-md-3"><?php echo $this->Html->__t("Rear armour"); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["rear_armour"]; ?></span>
+	  		</div>
+	  		<div class="row">
+	  			<span class="col-md-3"><?php echo $this->Html->__t("Hull hitpoints"); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["hull_hitpoints"]; ?></span>
+	  		</div>
+
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Armour save"); ?></span>
 	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["armour_save"]; ?></span>

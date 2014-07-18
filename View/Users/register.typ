@@ -1,12 +1,8 @@
-
 <section class="clearfix">
 	<article>
 		<h2>Register</h2>
 
 		<div id="loginView">
-    		<div class="page-header">
-			    <h1>Register</h1>
-			</div>
 
 			<?php echo $this->Html->Form(array("action" => "/users/register","class" => "form-vertical","id" => "UserAdminRegisterForm","method" => "post","accept-charset" => "utf-8")); ?>
 

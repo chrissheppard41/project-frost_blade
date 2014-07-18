@@ -4,7 +4,7 @@
 	<article class="width_50 float first">
 		<h2>Public army setups <span>{{all_armies_count}} set ups</span></h2>
 		<ul class='army_display'>
-			<li ng-repeat="army in all_armies">
+			<li ng-repeat="army in all_armies" ng-click="view(army.code)">
 				<div>
 					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
 					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>

@@ -261,4 +261,44 @@ class UsersController extends Controller {
 		}
 		return array("code" => 200, "message" => "User Register", "data" => array(), "errors" => null);
 	}
+
+/**
+ * profile method
+ * ROUTE: /users/profile
+ * Allows a user change their profile details
+ *
+ * @param
+ * @return (array)
+ */
+	public function profile($options, $methodData) {
+		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "condition"	=> array( "id" => \Configure::User("id") ) ) ) ) );
+
+		if($this->requestType("POST")) {
+			if($data["Users"]["username"] != $this->model->post["Users"]["username"] || $data["Users"]["email"] != $this->model->post["Users"]["email"]
+			&&  $this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
+			} else {
+				$data = $this->model->Update($this->model->post, array("id" => $options[0]));
+				if($data["error"] === true) {
+					$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
+				} else {
+					$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'users', 'action' => 'index', 'admin' => true));
+				}
+			}
+		}
+
+		$_POST["data"] = $data;
+		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
+	}
+/**
+ * reset_password method
+ * ROUTE: /users/reset_password
+ * Allows a guest to challenge for a lost password
+ *
+ * @param
+ * @return (array)
+ */
+	public function reset_password($options, $methodData) {
+		return array("code" => 200, "message" => "User Edit", "data" => null, "errors" => null);
+	}
 }

@@ -19,12 +19,12 @@
 
         <!-- Opening mainContainer. -->
         <div id="mainContainer" class="container">
-                <?php
-                echo $this->Html->Flash();
-                ?>
 
                 <?php echo $this->element("admin/sub_nav"); ?>
 
+                <?php
+                echo $this->Html->Flash();
+                ?>
                 <div id="main" role="main">
                         <?php echo $typ__view; ?>
                 </div>

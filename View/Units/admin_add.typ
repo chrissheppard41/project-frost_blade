@@ -25,6 +25,12 @@
 		echo $this->Html->Input("leadership", "Units", array('label' => 'Leadership', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "ld"));
 		echo $this->Html->Input("armour_save", "Units", array('label' => 'Armour save', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "as"));
 		echo $this->Html->Input("invulnerable_save", "Units", array('label' => 'Invulnerable save', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "is"));
+
+		echo $this->Html->Input("front_armour", "Units", array('label' => 'Front armour', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "fa"));
+		echo $this->Html->Input("side_armour", "Units", array('label' => 'Side armour', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "sa"));
+		echo $this->Html->Input("rear_armour", "Units", array('label' => 'Rear armour', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "ra"));
+		echo $this->Html->Input("hull_hitpoints", "Units", array('label' => 'Hull hitpoints', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "hp"));
+
 		echo $this->Html->Input("pts", "Units", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "a"));
 
 		echo $this->Html->Input("unittypes_id", "Units", array('label' => 'Unit Type', 'class' => "form-control", 'type' => "select", 'id' => "unittypes"), $typ__['data']["UnitTypes"]);

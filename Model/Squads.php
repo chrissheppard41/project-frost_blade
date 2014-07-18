@@ -61,6 +61,11 @@ class Squads extends \Frost\Configs\Database {
 						"units.invulnerable_save",
 						"units.pts",
 
+						"units.front_armour",
+						"units.side_armour",
+						"units.rear_armour",
+						"units.hull_hitpoints",
+
 						"units.created",
 						"units.modified",
 

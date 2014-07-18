@@ -19,7 +19,8 @@ class Units extends \Frost\Configs\Database {
 				"min" => 3,
 				"max" => 45,
 				"message" => "Between 3 to 45 characters"
-			),
+			)
+		),
 		'weapon_skill' => array(
 			'numeric' => array(
 				"message" => "The weapon skill value must be numeric"
@@ -84,6 +85,40 @@ class Units extends \Frost\Configs\Database {
 				"message" => "You must include your leadership value"
 			)
 		),
+
+		'front_armour' => array(
+			'numeric' => array(
+				"message" => "The front armour value must be numeric"
+			),
+			'notempty' => array(
+				"message" => "You must include your front armour value"
+			)
+		),
+		'side_armour' => array(
+			'numeric' => array(
+				"message" => "The side armour value must be numeric"
+			),
+			'notempty' => array(
+				"message" => "You must include your side armour value"
+			)
+		),
+		'rear_armour' => array(
+			'numeric' => array(
+				"message" => "The rear armour value must be numeric"
+			),
+			'notempty' => array(
+				"message" => "You must include your rear armour value"
+			)
+		),
+		'hull_hitpoints' => array(
+			'numeric' => array(
+				"message" => "The hull hitpoints value must be numeric"
+			),
+			'notempty' => array(
+				"message" => "You must include your hull hitpoints value"
+			)
+		),
+
 		'armour_save' => array(
 			'numeric' => array(
 				"message" => "The armour save value must be numeric"
@@ -112,7 +147,6 @@ class Units extends \Frost\Configs\Database {
 			'notempty' => array(
 				"message" => "You must include your unit type value"
 			)
-		)
 		)
 	);
 	public $post = array();

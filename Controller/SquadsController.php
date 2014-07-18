@@ -55,7 +55,7 @@ class SquadsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Squads.armies_id", "armies.id"
+									"Squads.armies_id" => "armies.id"
 								)
 							),
 							"Types" => array(
@@ -64,7 +64,7 @@ class SquadsController extends Controller {
 									"types.name as `type_name`"
 								),
 								"relation" => array(
-									"Squads.types_id", "types.id"
+									"Squads.types_id" => "types.id"
 								)
 							),
 						)
@@ -106,7 +106,7 @@ class SquadsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Squads.armies_id", "armies.id"
+									"Squads.armies_id" => "armies.id"
 								)
 							),
 							"Types" => array(
@@ -115,7 +115,7 @@ class SquadsController extends Controller {
 									"types.name as `type_name`"
 								),
 								"relation" => array(
-									"Squads.types_id", "types.id"
+									"Squads.types_id" => "types.id"
 								)
 							),
 							"Units" => array(),
@@ -125,7 +125,7 @@ class SquadsController extends Controller {
 				)
 			)
 		);
-
+//\Configure::pre($data);
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
@@ -187,6 +187,7 @@ class SquadsController extends Controller {
 			"Units" => array( array( "fields" => array( "id", "name"), "conditions" => array("armies_id" => $data["Squads"]["armies_id"]) ) ),
 			"Types" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
+
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
@@ -278,7 +279,7 @@ class SquadsController extends Controller {
 										"types.name as `type_name`"
 									),
 									"relation" => array(
-										"Squads.types_id", "types.id"
+										"Squads.types_id" => "types.id"
 									)
 								)
 							)

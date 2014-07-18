@@ -8,7 +8,7 @@
 class Validation {
 
 	public static function validate($p_index, $p_value, $p_rules, $p_model, $p_type = "add") {
-		//\Configure::pre($p_value, true);
+//\Configure::pre($p_rules, false);
 		$output = self::response(false, $p_index, null, $p_value[$p_index], false);
 		//id should never be part of any save/update query
 		if($p_index == "id")
@@ -16,9 +16,8 @@ class Validation {
 
 		if(isset($p_rules[$p_index])){
 			foreach($p_rules[$p_index] as $head => $value) {
-//\Configure::pre($head, false);
+//\Configure::pre($p_index, false);
 //\Configure::pre($value, false);
-
 				if(isset($value['ignore']) && in_array($p_type, $value['ignore'])) {
 
 					if($p_value[$p_index] == "") {
@@ -73,6 +72,7 @@ class Validation {
 				}
 				if($head == "numeric" && !self::numeric($p_value[$p_index])) {
 					$output = self::response(true, $p_index, $value["message"], $p_value[$p_index]);
+//\Configure::pre($output, false);
 					break;
 				}
 			}

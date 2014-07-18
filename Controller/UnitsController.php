@@ -54,6 +54,10 @@ class UnitsController extends Controller {
 							"leadership",
 							"armour_save",
 							"invulnerable_save",
+							"front_armour",
+							"side_armour",
+							"rear_armour",
+							"hull_hitpoints",
 							"pts",
 							"created",
 							"modified"
@@ -94,6 +98,10 @@ class UnitsController extends Controller {
 							"wounds",
 							"attacks",
 							"leadership",
+							"front_armour",
+							"side_armour",
+							"rear_armour",
+							"hull_hitpoints",
 							"armour_save",
 							"invulnerable_save",
 							"pts",
@@ -186,7 +194,7 @@ class UnitsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Units', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", "name", "weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "pts", "unitTypes_id", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", "name", "weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "pts", "unitTypes_id", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
 			"Squads" => array( array( "fields" => array( "id", "name") ) ),

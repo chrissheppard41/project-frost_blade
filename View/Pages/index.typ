@@ -1,4 +1,4 @@
-<div class="ang_tool" ng-app="tool">
+<div class="ang_tool">
 
 	<div ng-view></div>
 

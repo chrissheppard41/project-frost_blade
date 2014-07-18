@@ -278,6 +278,7 @@ class Html {
 
 			if($options['type'] == "select") {
 				$output .= '>';
+
 				if(!in_array("multiple", $options))
 					$output .= '<option value="">Select an option</option>';
 				foreach($list as $key => $values) {
@@ -285,7 +286,7 @@ class Html {
 
 					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$name])) {
 						if($values["id"] == $_POST['data'][$model][$name]) $found = true;
-						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name])) $found = true;
+						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name], "id")) $found = true;
 					}
 
 					$output .= '<option value="'.$values["id"].'"'.(($found)?" selected='selected'":"").'>'.$values["name"].'</option>';

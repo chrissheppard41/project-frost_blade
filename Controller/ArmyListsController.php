@@ -465,7 +465,7 @@ class ArmyListsController extends Controller {
 				"ArmyLists.hide" => 0
 			);
 		}
-
+		$user_id = (int)(\Configure::User("id") != null)?\Configure::User("id"):0;
 		$data = \Cache::read('ArmyLists', '_army_'.$options[0]);
 		if(!$data){
 			$data = $this->model->Find("first",
@@ -474,9 +474,11 @@ class ArmyListsController extends Controller {
 						array(
 							"fields" => array(
 								"id",
+								"code",
 								"name",
 								"descr",
 								"point_limit",
+								"score",
 								"hide",
 								"users_id",
 								"armies_id",
@@ -491,7 +493,7 @@ class ArmyListsController extends Controller {
 										"Users.username"
 									),
 									"relation" => array(
-										"ArmyLists.users_id", "Users.id"
+										"ArmyLists.users_id" => "Users.id"
 									)
 								),
 								"Armies" => array(
@@ -499,7 +501,33 @@ class ArmyListsController extends Controller {
 										"armies.name as `army_name`"
 									),
 									"relation" => array(
-										"ArmyLists.armies_id", "armies.id"
+										"ArmyLists.armies_id" => "armies.id"
+									)
+								),
+								"Races" => array(
+									"fields" => array(
+										"races.name as `races_name`",
+										"races.icon"
+									),
+									"relation" => array(
+										"Armies.races_id" => "races.id"
+									)
+								),
+								"Colours" => array(
+									"fields" => array(
+										"colours.name as `colours_name`"
+									),
+									"relation" => array(
+										"Armies.colours_id" => "colours.id"
+									)
+								),
+								"Votes" => array(
+									"fields" => array(
+										"votes.vote"
+									),
+									"relation" => array(
+										"Votes.armylists_id" => "ArmyLists.id",
+										"Votes.users_id" => $user_id
 									)
 								),
 								"ArmySquads" => array(
@@ -823,6 +851,7 @@ class ArmyListsController extends Controller {
 		$this->view = "Empty";
 		$this->returnType = "json";
 
+
 		if(!\Configure::Logged()) {
 			$this->Flash("<strong>Error</strong> You must log in first to complete this action", "alert alert-danger");
 			throw new \WebException("Forbidden: Not logged in", 403);
@@ -837,6 +866,8 @@ class ArmyListsController extends Controller {
 		\Cache::delete('ArmyLists', "private");
 		\Cache::delete('ArmyLists', "public");
 		\Cache::delete('ArmyLists', "top");
+
+		\Cache::delete('ArmyLists', "_army_".$data[0]["army_id"]);
 
 		\Cache::deleteDir('ArmyLists' . DS . 'Users');
 

@@ -119,16 +119,23 @@ class Configure {
  * in_array_r method
  * recursive method to search multidimensional  arrays
  *
- * @param $needle(string), $haystack(array), $strict(bool)
+ * @param $needle(string), $haystack(array), $field(string), $strict(bool)
  * @return
  */
-	public static function in_array_r($needle, $haystack, $strict = false) {
+	public static function in_array_r($needle, $haystack, $field = null, $strict = false) {
 		if(!empty($haystack)) {
 			if(is_array($haystack)) {
-				foreach ($haystack as $item) {
-					if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && self::in_array_r($needle, $item, $strict))) {
-						return true;
+				foreach ($haystack as $key => $item) {
+					if($field === null) {
+						if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && self::in_array_r($needle, $item, $field, $strict))) {
+							return true;
+						}
+					} else {
+						if(($key == $field && ($strict ? $item === $needle : $item == $needle)) || (is_array($item) && self::in_array_r($needle, $item, $field, $strict))) {
+							return true;
+						}
 					}
+
 				}
 			}
 		}

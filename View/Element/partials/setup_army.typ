@@ -6,13 +6,13 @@
 
 		<div ng-repeat="unit_types in unit_types" class="section">
 			<div class="col1">
-				<div class="panel {{unit_types.name.toLowerCase()}}">
-					<div class="panel-heading">{{unit_types.name}}</div>
+				<div class="panel {{unit_types.name | groups}}">
+					<div class="panel-heading">{{unit_types.name}} </div>
 					<div class="panel-body" ng-drop id="drop{{unit_types.name}}" ng-accept=".{{unit_types.name.toLowerCase()}}">
 						<aside ng-repeat="squad in squad_list | filter:{Group:unit_types.name}" class="drag_container unit_container" id="{{squad.getGroup()}}_{{squad.getId()}}">
-							<h3>{{squad.getName()}} <span>{{squad.getTotal()}} pts</span></h3>
+							<h3>{{squad.getName()}} <a href="" ng-click="removeSquad(squad.getId(), squad.getPosition())">Remove</a> <span>{{squad.getTotal()}} pts</span></h3>
 
-							<dl class="header">
+							<dl ng-hide="squad.getArmour()" class="header">
 								<dd>Count</dd>
 								<dd>WS</dd>
 								<dd>BS</dd>
@@ -26,10 +26,29 @@
 								<dd>Ls</dd>
 								<dd>Unit type</dd>
 							</dl>
+							<dl ng-show="squad.getArmour()" class="header">
+								<dd>Count</dd>
+								<dd>WS</dd>
+								<dd>BS</dd>
+								<dd>S</dd>
+								<dd>FA</dd>
+								<dd>SA</dd>
+								<dd>RA</dd>
+								<dd>I</dd>
+								<dd>A</dd>
+								<dd>HP</dd>
+								<dd>Ls</dd>
+								<dd>Unit type</dd>
+							</dl>
 
-							<dl ng-repeat="unit in squad.getUnits()">
+							<dl ng-hide="squad.getArmour()"  ng-repeat="unit in squad.getUnits()">
 								<dd>{{unit.getUnitAttr("name")}}</dd>
-								<dd>{{unit.getAttr("count")}}</dd>
+								<dd>
+									<button class="sub" ng-click="subSquad(squad, unit)" ng-disabled="unit.getAttr('count') == unit.getAttr('min_count')">-</button>
+									{{unit.getAttr("count")}}
+									<button class="add" ng-click="addSquad(squad, unit)" ng-disabled="unit.getAttr('count') == unit.getAttr('max_count')">+</button>
+								</dd>
+
 								<dd>{{unit.getUnitAttr("weapon_skill")}}</dd>
 								<dd>{{unit.getUnitAttr("ballistic_skill")}}</dd>
 								<dd>{{unit.getUnitAttr("strength")}}</dd>
@@ -39,7 +58,38 @@
 								<dd>{{unit.getUnitAttr("attacks")}}</dd>
 								<dd>{{unit.getUnitAttr("leadership")}}</dd>
 								<dd>{{unit.getUnitAttr("armour_save")}}+</dd>
-								<dd>Ls</dd>
+								<dd>{{unit.getUnitAttr("invulnerable_save")}}+</dd>
+								<dd>{{unit.getUnitAttr("unittype")}}</dd>
+
+								<dd>
+									<div class="wargears" ng-repeat="group in unit.getAttr('Groups')">
+										<span>{{group.name}}</span>
+										<span>
+											<select ng-options="g.pts+'pts - '+g.name for g in group.Wargears" ng-model="selectedItem"></select>
+										</span>
+										<a href="" ng-click="addWargear(squad, unit)">+</a>
+									</div>
+								</dd>
+							</dl>
+
+							<dl ng-show="squad.getArmour()"  ng-repeat="unit in squad.getUnits()">
+								<dd>{{unit.getUnitAttr("name")}}</dd>
+								<dd>
+									<button class="sub" ng-click="subSquad(squad, unit)" ng-disabled="unit.getAttr('count') == unit.getAttr('min_count')">-</button>
+									{{unit.getAttr("count")}}
+									<button class="add" ng-click="addSquad(squad, unit)" ng-disabled="unit.getAttr('count') == unit.getAttr('max_count')">+</button>
+								</dd>
+
+								<dd>{{unit.getUnitAttr("weapon_skill")}}</dd>
+								<dd>{{unit.getUnitAttr("ballistic_skill")}}</dd>
+								<dd>{{unit.getUnitAttr("strength")}}</dd>
+								<dd>{{unit.getUnitAttr("front_armour")}}</dd>
+								<dd>{{unit.getUnitAttr("side_armour")}}</dd>
+								<dd>{{unit.getUnitAttr("rear_armour")}}</dd>
+								<dd>{{unit.getUnitAttr("initiative")}}</dd>
+								<dd>{{unit.getUnitAttr("attacks")}}</dd>
+								<dd>{{unit.getUnitAttr("hull_hitpoints")}}</dd>
+								<dd>{{unit.getUnitAttr("invulnerable_save")}}+</dd>
 								<dd>{{unit.getUnitAttr("unittype")}}</dd>
 
 								<dd>
@@ -77,12 +127,13 @@
 								</div>
 							</div>
 						</aside>
-						<div class="panel-footer"><span>Drop here</span></div>
+
 					</div>
+					<div class="panel-footer"><span>Drop here</span></div>
 				</div>
 			</div>
 			<div class="col2">
-				<div class="panel {{unit_types.name.toLowerCase()}}">
+				<div class="panel {{unit_types.name | groups}}">
 					<div class="panel-heading">{{unit_types.name}} units</div>
 					<div class="panel-body">
 						<ul>

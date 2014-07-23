@@ -103,7 +103,7 @@ class UsersController extends Controller {
 							"created",
 							"modified"
 						),
-						"condition" => array("id" => $options[0])
+						"conditions" => array("id" => $options[0])
 					)
 				)
 			)
@@ -148,7 +148,7 @@ class UsersController extends Controller {
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
-		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "condition"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 
 		if($this->requestType("POST")) {
 			if($data["Users"]["username"] != $this->model->post["Users"]["username"] || $data["Users"]["email"] != $this->model->post["Users"]["email"]
@@ -271,7 +271,7 @@ class UsersController extends Controller {
  * @return (array)
  */
 	public function profile($options, $methodData) {
-		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "condition"	=> array( "id" => \Configure::User("id") ) ) ) ) );
+		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => \Configure::User("id") ) ) ) ) );
 
 		if($this->requestType("POST")) {
 			if($data["Users"]["username"] != $this->model->post["Users"]["username"] || $data["Users"]["email"] != $this->model->post["Users"]["email"]
@@ -300,5 +300,200 @@ class UsersController extends Controller {
  */
 	public function reset_password($options, $methodData) {
 		return array("code" => 200, "message" => "User Edit", "data" => null, "errors" => null);
+	}
+/**
+ * verified method
+ * ROUTE: /users/verified/:slug
+ * Verifies a users account
+ *
+ * @param
+ * @return (array)
+ */
+	public function verified($options, $methodData) {
+		$this->view = "Empty";
+		$data = $this->model->Find("first",
+			array(
+				"Users" => array(
+					array(
+						"fields" => array(
+							"email_verified"
+						),
+						"conditions" => array("slug" => $options[0])
+					)
+				)
+			)
+		);
+
+		if(!empty($data["Users"]) && $data["Users"]["email_verified"] == 0) {
+			$this->model->Update(array("Users" => array("email_verified" => 1)), array("slug" => $options[0]));
+			$this->Flash("<strong>Success</strong>: Your account is now active, please log in.", "alert alert-success", "/");
+		}
+		$this->Flash("<strong>Failure</strong>: There was a problem activiting your account, please try again.", "alert alert-danger", "/");
+	}
+// API methods
+
+
+/**
+ * login_api method
+ * ROUTE: /user/login
+ * Allows a user to register with fb and log in
+ *
+ * @param
+ * @return (array)
+ */
+	public function login_api($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		if(!$this->requestType("POST")) {
+			throw new \WebException("Wrong method request", 405);
+		}
+
+		$data = $this->model->log_user();
+
+		if(isset($data["error"]) && $data["error"] === true) {
+			return array("code" => 403, "message" => "User Log in", "data" => null, "errors" => array(array(ucfirst($data['field']), $data['message'])));
+		} else {
+			if($data) {
+				\Configure::Auth($data);
+				return array("code" => 200, "message" => "User Log in", "data" => array("user_id"=>$data["id"], "username"=>$data["username"]), "errors" => null);
+			} else {
+				return array("code" => 403, "message" => "User Log in", "data" => array(), "errors" => array("fail" => "Incorrect log in details"));
+			}
+		}
+	}
+
+/**
+ * Register_api method
+ * ROUTE: /user/register
+ * Allows a user to register with fb and log in
+ *
+ * @param
+ * @return (array)
+ */
+	public function register_api($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		if(!$this->requestType("POST")) {
+			throw new \WebException("Wrong method request", 405);
+		}
+
+		if($this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+			return array("code" => 409, "message" => "User Register", "data" => null, "errors" => array(array("User already exists", "The Email/Username you provided is currently being used")));
+		} else {
+			$data = $this->model->Save();
+
+			if($data["error"] === true) {
+				return array("code" => 403, "message" => "User Log in", "data" => null, "errors" => array(array(ucfirst($data['field']), $data['message'])));
+			} else {
+				$dataS = $this->model->Find("first",
+					array(
+						"Users" => array(
+							array(
+								"fields" => array(
+									"slug",
+								),
+								"conditions" => array("id" => $this->model->last_id)
+							)
+						)
+					)
+				);
+
+				$message = "Dear user,\n\nTo activate your Army display tool account please click this link below and then log in.\n\n".HOST_URL."user/register_verify/".$dataS["Users"]["slug"]."\n\nRegards\nArmy display tool team";
+				//\Frost\Configs\Email::send("chrissheppard@rehabstudio.com", "Army display tool verification", $message, "From: do-not-reply@armydisplaytool.com");
+
+				return array("code" => 200, "message" => "User Log in", "errors" => null, "data" => null);
+			}
+		}
+	}
+/**
+ * reset_password_api method
+ * ROUTE: /user/lost_password
+ * Allows a guest to challenge for a lost password
+ *
+ * @param
+ * @return (array)
+ */
+	public function lost_password_api($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		if(!$this->requestType("POST")) {
+			throw new \WebException("Wrong method request", 405);
+		}
+
+		$data = $this->model->Find("first",
+			array(
+				"Users" => array(
+					array(
+						"fields" => array(
+							"id",
+						),
+						"conditions" => array("email" => $this->model->post["Users"]["email"])
+					)
+				)
+			)
+		);
+
+		if(!isset($data["Users"])) {
+			return array("code" => 404, "message" => "User lost password", "data" => null, "errors" => array(array("Email", "The email you provided does not exist")));
+		}
+		$words = array(
+			"iimlrap",
+			"cosha",
+			"lkaeddrar",
+			"relad",
+			"recnon",
+			"srsetis",
+			"tnqrusoii",
+		);
+		$password = $words[mt_rand(0, (count($words)-1))].microtime();
+		$crypt_pass = sha1(crypt($password, CRYPTKEY.$this->model->post["Users"]["email"]));
+		$this->model->Update(array("Users" => array("password" => $crypt_pass, "email" => $this->model->post["Users"]["email"])), array("email" => $this->model->post["Users"]["email"]));
+
+		$message = "Dear user,\n\nYour new password is: ".$password."\n\nRegards\nArmy display tool team";
+		//\Frost\Configs\Email::send("chrissheppard@rehabstudio.com", "Army display tool lost password", $message, "From: do-not-reply@armydisplaytool.com");
+
+		return array("code" => 200, "message" => "User lost password", "data" => null, "errors" => null);
+	}
+
+/**
+ * profile_api method
+ * ROUTE: /user/profile_api
+ * Allows a user to update their profile
+ *
+ * @param
+ * @return (array)
+ */
+	public function profile_api($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		if($this->requestType("POST")) {
+			$data = $this->model->Update($this->model->post, array("id" => \Configure::User("id")));
+			if($data["error"] === true) {
+				return array("code" => 200, "message" => "Profile", "data" => null, "errors" => array(array(ucfirst($data['field']), $data['message'])));
+			} else {
+				return array("code" => 200, "message" => "Profile", "data" => null, "errors" => null);
+			}
+		} else if($this->requestType("GET")) {
+			$data = $this->model->Find("first",
+				array(
+					"Users" => array(
+						array(
+							"fields" => array(
+								"id",
+								"email"
+							),
+							"conditions" => array("id" => \Configure::User("id"))
+						)
+					)
+				)
+			);
+			return array("code" => 200, "message" => "Profile", "data" => $data, "errors" => null);
+		} else {
+			throw new \WebException("Wrong method request", 405);
+		}
 	}
 }

@@ -450,10 +450,6 @@ class ArmyListsController extends Controller {
 		$this->view = "Empty";
 		$this->returnType = "json";
 
-		if(!\Configure::Logged()) {
-			throw new \WebException("Forbidden: Not logged in", 403);
-		}
-
 		if(is_numeric($options[0])) {
 			$conditions = array(
 				"ArmyLists.id" => (int)$options[0],
@@ -465,8 +461,9 @@ class ArmyListsController extends Controller {
 				"ArmyLists.hide" => 0
 			);
 		}
+
 		$user_id = (int)(\Configure::User("id") != null)?\Configure::User("id"):0;
-		$data = \Cache::read('ArmyLists', '_army_'.$options[0]);
+		$data = \Cache::read('ArmyLists', '_army_'.$user_id);
 		if(!$data){
 			$data = $this->model->Find("first",
 				array(
@@ -565,7 +562,13 @@ class ArmyListsController extends Controller {
 					)
 				)
 			);
-			\Cache::write('ArmyLists', '_army_'.$options[0], $data);
+			\Cache::write('ArmyLists', '_army_'.$user_id, $data);
+		}
+
+		if((int)$data["ArmyLists"]["hide"] === 1) {
+			if(!\Configure::Logged()) {
+				throw new \WebException("Forbidden: Not logged in", 403);
+			}
 		}
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));

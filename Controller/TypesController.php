@@ -176,9 +176,9 @@ class TypesController extends Controller {
 		$this->view = "Empty";
 		$this->returnType = "json";
 
-        if(!\Configure::Logged()) {
+        /*if(!\Configure::Logged()) {
 			throw new \WebException("Forbidden: Not logged in", 403);
-		}
+		}*/
 
         $data = \Cache::read('Types', 'all_types');
         if(!$data){

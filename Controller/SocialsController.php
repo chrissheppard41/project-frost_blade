@@ -29,9 +29,9 @@ class SocialsController extends Controller {
 		$this->view = "Empty";
 		$this->returnType = "json";
 
-		if(!\Configure::Logged()) {
+		/*if(!\Configure::Logged()) {
 			throw new \WebException("Forbidden: Not logged in", 403);
-		}
+		}*/
 
 		$time = time();
 		$nonce = time() . rand(1000, 9999);

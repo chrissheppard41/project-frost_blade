@@ -16,6 +16,7 @@ require "Libs/Session.php";
 require "Libs/Configure.php";
 require "Libs/Validation.php";
 require "Libs/Response.php";
+require "Libs/Email.php";
 require "Bootstrap.php";
 require (PATH."Controller/Controller.php");
 

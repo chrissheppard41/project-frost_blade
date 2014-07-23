@@ -233,7 +233,7 @@ class Html {
  * @param $options(array)
  * @return (string)
   **/
-	public function Input($name, $model, $options = array(), $list = array()) {
+	public function Input($name, $model, $options = array(), $list = array(), $angular = false) {
 //\Configure::pre($_POST['data'][$model][$name], false);
 
 		$nameucf = ucfirst($name);
@@ -249,21 +249,25 @@ class Html {
 			if(isset($options['name']))
 				unset($options['name']);
 
+			if(!$angular) {
+				$name = 'data['.$model.']['.$name.']';
+			}
 			if($options['type'] == "select") {
 				if(!in_array("multiple", $options))
-					$output .= '<select name="data['.$model.']['.$name.']"';
+					$output .= '<select name="'.$name.'"';
 				else
-					$output .= '<select name="data['.$model.']['.$name.'][]"';
+					$output .= '<select name="'.$name.'[]"';
 			} else if($options['type'] == "textarea") {
-				$output .= '<textarea name="data['.$model.']['.$name.']"';
+				$output .= '<textarea name="'.$name.'"';
 			} else if($options['type'] == "radio") {
 
 			} else {
 				if($options['type'] == "checkbox")
-					$outputExra = '<input name="data['.$model.']['.$name.']" type="hidden" value="" />';
+					$outputExra = '<input name="'.$name.'" type="hidden" value="" />';
 
-				$output .= $outputExra.'<input name="data['.$model.']['.$name.']"';
+				$output .= $outputExra.'<input name="'.$name.'"';
 			}
+
 
 			foreach($options as $key => $values) {
 				if($key == "type" && $values == "select" || $values == "textarea") continue;
@@ -305,7 +309,7 @@ class Html {
 						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name])) $found = true;
 					}
 
-					$output .= '<input name="data['.$model.']['.$name.']" value="'.$values["id"].'"'.$radio.''.(($found)?" selected='selected'":"").' /> '.$values["name"].'<br />';
+					$output .= '<input name="'.$name.'" value="'.$values["id"].'"'.$radio.''.(($found)?" selected='selected'":"").' /> '.$values["name"].'<br />';
 				}
 
 

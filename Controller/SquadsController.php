@@ -315,9 +315,9 @@ class SquadsController extends Controller {
 			throw new \WebException("Forbidden: Bad request", 400);
 		}
 
-		if(!\Configure::Logged()) {
+		/*if(!\Configure::Logged()) {
 			throw new \WebException("Forbidden: Not logged in", 403);
-		}
+		}*/
 
 		$data = \Cache::read("Squads", "squad_data_".$options[0]);
 		if(!$data) {

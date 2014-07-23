@@ -23,6 +23,6 @@
 				)
 			); ?>
 		<?php echo $this->Html->Form(); ?>
-    </article>
+	</article>
 </section>
 

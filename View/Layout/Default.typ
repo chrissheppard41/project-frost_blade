@@ -33,8 +33,10 @@
 		<header>
 			<h1>Army Display tool</h1>
 
+			<ng-include src='"pages/partials/user_area"'></ng-include>
+
 			<?php
-			if(\Configure::Logged()) {
+			/*if(\Configure::Logged()) {
 			?>
 			<div>
 				<span class="button">
@@ -51,14 +53,14 @@
 			<div>
 				<span class="button">
 					<?php
-						echo $this->Html->Url($this->Html->__t('Login'), array('controller' => 'users', 'action' => 'login'), array('class' => 'blue'));
+						echo $this->Html->Url($this->Html->__t('Login'), "#/user/login", array('class' => 'blue'));
 						echo $this->Html->Url($this->Html->__t('Register'), array('controller' => 'users', 'action' => 'register'), array('class' => 'green'));
 					?>
 				</span>
-				<span class="user">Welcome: Guest</span>
+				<span class="user">Welcome: {{current_user}}</span>
 			</div>
 			<?php
-			}
+			}*/
 			?>
 
 		</header>

@@ -7,11 +7,11 @@
 <?php
 	if(!empty($this->Session->read("Auth.user.id"))) {
 		$this->Html->Script(
-			'var $sid = '.$this->Session->read("Auth.user.id").';'
+			'var $sid = '.$this->Session->read("Auth.user.id").';var $suser = "'.$this->Session->read("Auth.user.username").'";'
 		);
 	} else {
 		$this->Html->Script(
-			'var $sid = 0;'
+			'var $sid = 0;var $suser = "Guest";'
 		);
 	}
 

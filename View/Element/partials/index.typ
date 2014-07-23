@@ -30,7 +30,7 @@
 	<article class="width_50 float">
 		<h2>Top army setups</h2>
 		<ul class='army_display'>
-			<li ng-repeat="army in top_armies">
+			<li ng-repeat="army in top_armies" ng-click="view(army.code)">
 				<div>
 					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
 					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
@@ -53,10 +53,8 @@
 			</li>
 		</ul>
 	</article>
-	<?php
-	if(\Configure::Logged()) {
-	?>
-	<article>
+
+	<article ng-show="logged_in">
 		<h2>My army setups <span>{{my_armies_count}} set ups <a href="#/add" class="add">Add</a></span></h2>
 		<ul class='army_display'>
 			<li ng-repeat="army in my_armies" id="myarmy_{{army.id}}">
@@ -93,7 +91,4 @@
 			</li>
 		<ul>
 	</article>
-	<?php
-	}
-	?>
 </section>

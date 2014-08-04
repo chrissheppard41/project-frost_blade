@@ -1,0 +1,1 @@
+var myApp = angular.module('tool', ["ngRoute", "ngSanitize"]);

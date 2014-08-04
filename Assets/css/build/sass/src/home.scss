@@ -1,0 +1,90 @@
+html {
+	background: #000000 url("../img/bg-img.png") no-repeat top center fixed;
+
+	body#army_default {
+		.container {
+			margin: 0 auto 0 auto;
+			width: 1001px;
+			height: 100px;
+
+			header {
+				background-color: rgba(82,58,46,.70);
+				height: 70px;
+				weight: 100%;
+
+				border-radius: 0;
+
+				margin-bottom: 15px;
+
+				@include shadow( 0px, 0px, 20px, $color:#000000 );
+
+				h1 {
+					font-size: 48px;
+					font-family: $head-stack;
+					color: $whiteText;
+					height: 50px;
+
+					padding: 10px;
+
+					text-shadow: 5px 5px 5px #000000;
+
+					float: left;
+				}
+
+				div {
+					height: 50px;
+					padding: 10px;
+					float: right;
+
+					span.button {
+						display: block;
+						height: 28px;
+
+						a.blue {
+							@include buttons($blueBorder, $blueBorderHover);
+						}
+						a.green {
+							@include buttons($greenBorder, $greenBorderHover);
+						}
+						a.orange {
+							@include buttons($orangeBorder, $orangeBorderHover);
+						}
+						a.red {
+							@include buttons($redBorder, $redBorderHover);
+						}
+					}
+					span.user {
+						display: block;
+						height: 22px;
+						line-height: 34px;
+
+						font-size: 14px;
+						font-family: $default-stack;
+						color: $whiteText;
+						text-align: right;
+					}
+				}
+			}
+
+			footer {
+				background-color: rgba(82,58,46,.70);
+				height: 13px;
+				weight: 100%;
+
+				border-radius: 0;
+
+				@include shadow( 0px, 0px, 20px, $color:#000000 );
+
+				padding: 10px;
+
+				span {
+					font-size: 14px;
+					font-family: $default-stack;
+					color: #FFFFFF;
+
+					line-height: 14px;
+				}
+			}
+		}
+	}
+}

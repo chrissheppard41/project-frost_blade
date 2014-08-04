@@ -1,0 +1,138 @@
+@import "src/libs/reset.scss";
+@import "src/libs/mixins.scss";
+
+// BEGIN FONTS
+/* @include declareFontFace( "light", "webfonts/futura-condensedlight-web" );
+@include declareFontFace( "normal", "webfonts/futura-condensed-web" );
+@include declareFontFace( "bold", "webfonts/futura-condensedbold-web" );
+@include declareFontFace( "black-bold", "webfonts/futura-condensedextrabold-web" );
+@include declareFontFace( "text", "webfonts/opensans-light-web" );
+
+$light-stack: "light", Arial, sans-serif;
+$normal-stack: "normal", Arial, sans-serif;
+$bold-stack: "bold", Arial, sans-serif;
+$black-stack: "black-bold", Arial, sans-serif;
+$text-stack: "text", Arial, sans-serif; */
+// END FONTS
+
+@include declareFontFace( "head", "fonts/caslon-antique" );
+@include declareFontFace( "default", "fonts/helvetica" );
+$head-stack: "head", Arial, sans-serif;
+$default-stack: "default", Arial, sans-serif;
+
+// BEGIN COLORS
+$backBrown: #523a2e;
+$backGrey: #949494;
+
+// Button colours
+$blueBorder: #5bc0de;
+$blueBorderHover: #39b3d7;
+$greenBorder: #5cb85c;
+$greenBorderHover: #47a447;
+$redBorder: #d9534f;
+$redBorderHover: #d2322d;
+
+
+
+
+$darkblueBorder: #428bca;
+$darkblueBorderHover: #3276b1;
+$orangeBorder: #f0ad4e;
+$orangeBorderHover: #ec971f;
+
+
+
+$hqborder: #a94442;
+$eliteborder: #8a6d3b;
+$troopborder: #31708f;
+$fastborder: #3c763d;
+$heavyborder: #593c76;
+
+$hqsubborder: #ff6b6b;
+$elitesubborder: #faebcc;
+$troopsubborder: #bce8f1;
+$fastsubborder: #d6e9c6;
+$heavysubborder: #d3c6e9;
+
+$defaultBorder: #000000;
+
+
+$greyText: #d7d7d7;
+$whiteText: #ffffff;
+// END COLORS
+
+html {
+	height: 100%;
+	//overflow: hidden;
+	font-size: 0;
+
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	position: relative;
+	background: none;
+	height: 100%;
+	//overflow-x: hidden;
+	//overflow-y: hidden;
+	margin: 0px;
+	padding: 0px;
+
+	font-size: 0;
+	vertical-align: top;
+}
+
+h1, h2, h3, p, span, div {
+	// disable annoying text selection cursor
+	cursor: default;
+	margin: 0px;
+	padding: 0px;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.float {
+	display: inline-block
+}
+
+@import "src/load.scss";
+@import "src/buttons.scss";
+@import "src/panels.scss";
+@import "src/home.scss";
+@import "src/note.scss";
+@import "src/setup.scss";
+@import "src/drag.scss";
+@import "src/login.scss";
+
+
+
+/* ul.clearList {
+	padding: 0px;
+	margin: 0px;
+	list-style:none;
+}
+
+
+.a-drop-highlight {
+	background-color: #000;
+	height: 100px;
+	width: 1170px;
+}
+
+.a-drag {
+	background-color: #aaa;
+	height: 100px;
+	width: 1170px;
+}
+
+
+.drag_container {
+	.unit_data {
+		.content {
+			//display: none;
+		}
+	}
+} */

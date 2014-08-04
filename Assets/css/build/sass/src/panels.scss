@@ -1,0 +1,52 @@
+.panel {
+	width: 100%;
+	border: 2px solid $backBrown;
+	@include round( 6px );
+	margin-top: 10px;
+	color: $whiteText;
+	font-family: $default-stack;
+	font-size:18px;
+
+	.panel-heading {
+		height: 20px;
+		padding: 10px;
+		border-bottom: inherit;
+		font-family: $head-stack;
+		font-size:24px;
+		@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+
+
+		span {
+			display: block;
+			float: right;
+
+			font-size: 18px;
+			line-height: 28px;
+			margin-top: -5px;
+		}
+	}
+
+	.panel-body {
+		width:100%;
+		padding: 10px;
+		font-size:14px;
+
+		div {
+			clear: both;
+			padding: 2px 10px;
+			span {
+				display: block;
+				float: right;
+
+				width: 70%;
+			}
+		}
+	}
+
+	&.blue {
+		border-color: $blueBorder;
+		.panel-heading {
+			@include gradientTexture( $blueBorder, $backGrey, "../img/pinstripe_70.png" );
+		}
+	}
+}

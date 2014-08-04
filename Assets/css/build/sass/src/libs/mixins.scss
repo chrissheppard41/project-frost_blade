@@ -1,0 +1,212 @@
+/**
+ * Generate font-face declaration for font kits.
+ */
+@mixin declareFontFace( $fontname, $filename, $weight:"normal", $style:"normal" ) {
+	@font-face {
+		font-family: $fontname;
+
+		src:url( $filename + ".eot" );
+		src:url( $filename + ".eot?#iefix" ) format( "embedded-opentype" ),
+			url( $filename + ".svg#" + $fontname ) format( "svg" ),
+			url( $filename + ".ttf" ) format( "truetype" ),
+			url( $filename + ".woff" ) format( "woff" );
+
+		font-weight: $weight;
+		font-style: $style;
+	};
+}
+
+/**
+ * Drop shadow
+ */
+@mixin shadow( $x, $y, $blur:2px, $color:#000000 ) {
+	-ms-box-shadow: $x $y $blur $color;
+	-moz-box-shadow: $x $y $blur $color;
+	-webkit-box-shadow: $x $y $blur $color;
+	box-shadow: $x $y $blur $color;
+}
+
+/**
+ * Transitions
+ */
+@mixin transition( $border-color, $box-shadow ) {
+	-webkit-transition: $border-color,$box-shadow;
+	-moz-transition: $border-color,$box-shadow;
+	-o-transition: $border-color,$box-shadow;
+	transition: $border-color,$box-shadow;
+}
+/**
+ * Box sizing
+ */
+@mixin box-sizing( $type ) {
+	-moz-box-sizing: $type;
+	-webkit-box-sizing: $type;
+	box-sizing: $type;
+}
+
+/**
+ * Rounded corners
+ */
+@mixin round( $radius:4px ) {
+	-ms-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-webkit-border-radius: $radius;
+	border-radius: $radius;
+}
+/**
+ * Rounded top corners
+ */
+@mixin roundTop( $radius:4px ) {
+	-ms-border-top-right-radius: $radius;
+	-moz-border-top-right-radius: $radius;
+	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+
+	-ms-border-top-left-radius: $radius;
+	-moz-border-top-left-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+}
+/**
+ * Rounded bottom corners
+ */
+@mixin roundBottom( $radius:4px ) {
+	-ms-border-bottom-right-radius: $radius;
+	-moz-border-bottom-right-radius: $radius;
+	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+
+	-ms-border-bottom-left-radius: $radius;
+	-moz-border-bottom-left-radius: $radius;
+	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+}
+
+/**
+ * Default buttons
+ */
+@mixin buttons($border, $hover) {
+	display: inline-block;
+	padding: 6px 10px;
+	height: 12px;
+	line-height: 16px;
+
+	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	border: 2px solid $border;
+
+	@include round( 6px );
+
+	font-family: $head-stack;
+	font-size: 18px;
+	text-decoration: none;
+	color: $greyText;
+
+	min-width: 56px;
+	text-align: center;
+
+	margin-left: 6px;
+
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: content-box;
+
+	&:after {
+	}
+
+	&:before {
+	}
+
+	&:hover {
+		color: $whiteText;
+		border: 2px solid $hover;
+		@include gradientTexture( $hover, $backGrey, "../img/pinstripe_70.png" );
+	}
+}
+
+/**
+ * Upvote/downvote buttons
+ */
+@mixin buttons_small($border, $hover, $display: block, $line:20px) {
+	display: $display;
+	padding: 0px;
+	margin: 0px;
+	height: 20px;
+	width: 20px;
+	line-height: $line;
+
+	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	border: 2px solid $border;
+
+	@include round( 6px );
+
+	font-family: $default-stack;
+	font-size: 34px;
+	text-decoration: none;
+	color: $greyText;
+
+	text-align: center;
+
+	margin-top: 4px;
+
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: content-box;
+
+	min-width: 20px;
+
+	&:after {
+	}
+
+	&:before {
+	}
+
+	&:hover {
+		color: $whiteText;
+		border: 2px solid $hover;
+		@include gradientTexture( $hover, $backGrey, "../img/pinstripe_70.png" );
+	}
+	&.active {
+		color: $whiteText;
+		border: 2px solid $hover;
+		@include gradientTexture( $hover, $backGrey, "../img/pinstripe_70.png" );
+	}
+}
+
+/**
+ * Img buttons
+ */
+@mixin buttons_img($border) {
+	display: block;
+
+	padding: 0px;
+	height: 20px;
+	width: 20px;
+
+	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	border: 2px solid $border;
+
+	@include round( 6px );
+
+	margin: 4px auto 0 auto;
+}
+
+/**
+ * Top > down gradient with texture pattern
+ */
+@mixin gradientTexture($from, $to, $texture, $topimage:"") {
+	background-color: $from; /* Old browsers */
+	background-image: $topimage, url($texture); /* Old browsers */
+
+	background-image: url($texture), -moz-linear-gradient(top,  $from 0%, $to 100%); /* FF3.6+ */
+	background-image: url($texture), -webkit-gradient(linear, left top, left bottom, color-stop(0%, $from), color-stop(100%, $to)); /* Chrome,Safari4+ */
+	background-image: url($texture), -webkit-linear-gradient(top, $from 0%, $to 100%); /* Chrome10+,Safari5.1+ */
+	background-image: url($texture), -o-linear-gradient(top, $from 0%, $to 100%); /* Opera 11.10+ */
+	background-image: url($texture), -ms-linear-gradient(top, $from 0%, $to 100%); /* IE10+ */
+	background-image: url($texture), linear-gradient(to bottom, $from 0%, $to 100%); /* W3C */
+
+	background-repeat: repeat, no-repeat;
+}

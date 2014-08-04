@@ -1,0 +1,50 @@
+$width_logo: 420px;
+$height_logo: 155px;
+
+html {
+	body {
+		#loadscreen {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+
+			background-color: #000;
+
+			width: 100%;
+			height: 100%;
+
+			#logo {
+				position: relative;
+				top: 50%;
+				left: 50%;
+
+				margin-top: -($height_logo/2);
+				margin-left: -($width_logo/2);
+
+				width: $width_logo;
+				height: $height_logo;
+
+				background-color: #fff;
+
+				div#color {
+					position: absolute;
+					bottom: 0;
+					left: 0;
+
+					background-color: #b8221d;
+					width: $width_logo;
+					height: 0;
+				}
+				div#img {
+					position: absolute;
+					top: 0;
+					left: 0;
+
+					background: url("../img/imperial.png");
+					width: $width_logo;
+					height: $height_logo;
+				}
+			}
+		}
+	}
+}

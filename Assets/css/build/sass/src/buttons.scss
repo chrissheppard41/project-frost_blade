@@ -1,0 +1,12 @@
+a.view {
+	@include buttons($darkblueBorder, $darkblueBorderHover);
+}
+a.edit {
+	@include buttons($orangeBorder, $orangeBorderHover);
+}
+a.setup {
+	@include buttons($blueBorder, $blueBorderHover);
+}
+a.delete {
+	@include buttons($redBorder, $redBorderHover);
+}

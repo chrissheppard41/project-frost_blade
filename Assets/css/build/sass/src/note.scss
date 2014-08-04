@@ -1,0 +1,54 @@
+.alert {
+	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	border: 2px solid $whiteText;
+
+	height: 11px;
+	line-height: 12px;
+
+	@include round( 6px );
+
+	margin-bottom: 15px;
+
+	font-family: $default-stack;
+	font-size: 14px;
+	color: $whiteText;
+
+	padding: 10px;
+
+	button {
+		background: none;
+		border: none;
+
+		white-space: nowrap;
+		vertical-align: middle;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: content-box;
+
+		padding: 0;
+		margin: -1px 0 0;
+
+		font-size: 20px;
+		color: inherit;
+		line-height: 12px;
+
+		float: right;
+	}
+	&.form {
+		margin: 10px 0 0;
+	}
+}
+
+
+.alert.alert-info {
+	border: 2px solid $blueBorder;
+	color: $blueBorder;
+}
+.alert.alert-danger {
+	border: 2px solid $redBorder;
+	color: $redBorder;
+}
+.alert.alert-success {
+	border: 2px solid $greenBorder;
+	color: $greenBorder;
+}

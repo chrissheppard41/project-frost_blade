@@ -117,8 +117,8 @@
 						</div>
 						<div class="votes">
 							<span>
-								<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
-								<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
+								<a href="" class="blue{{army.vote | active:'up'}} up_" ng-click="votes(army.code, 'up')">+</a>
+								<a href="" class="red{{army.vote | active:'down'}} down_" ng-click="votes(army.code, 'down')">-</a>
 							</span>
 							<span>
 								<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>

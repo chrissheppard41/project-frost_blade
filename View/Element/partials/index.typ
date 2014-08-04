@@ -4,25 +4,25 @@
 	<article class="width_50 float first">
 		<h2>Public army setups <span>{{all_armies_count}} set ups</span></h2>
 		<ul class='army_display'>
-			<li ng-repeat="army in all_armies" ng-click="view(army.code)">
+			<li ng-repeat="army in all_armies">
 				<div>
 					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
 					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
 				</div>
-				<div>
-					<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
-					<span class="count">{{army.score}}</span>
-				</div>
-				<div>
+				<div class="half" ng-click="view(army.code)">
+					<div>
+						<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
+						<span class="count">{{army.score}}</span>
+					</div>
 					<h3>
 						{{army.name}}
 						<span>By Lorem Ipsum, Modified {{dateMomment(army.modified)}}</span>
 					</h3>
-				</div>
-				<div>
-					<span>
-						{{army.point_limit}} pts
-					</span>
+					<div>
+						<span>
+							{{army.point_limit}} pts
+						</span>
+					</div>
 				</div>
 			</li>
 		</ul>
@@ -30,26 +30,28 @@
 	<article class="width_50 float">
 		<h2>Top army setups</h2>
 		<ul class='army_display'>
-			<li ng-repeat="army in top_armies" ng-click="view(army.code)">
+			<li ng-repeat="army in top_armies">
 				<div>
 					<a href="" class="blue{{army.vote | active:'up'}}" ng-click="votes(army.code, 'up')">+</a>
 					<a href="" class="red{{army.vote | active:'down'}}" ng-click="votes(army.code, 'down')">-</a>
 				</div>
-				<div>
-					<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
-					<span class="count">{{army.score}}</span>
-				</div>
-				<div>
+
+				<div class="half" ng-click="view(army.code)">
+					<div>
+						<span class="army {{army.colours_name}}"><i class="icon_{{army.icon}}">&nbsp;</i></span>
+						<span class="count">{{army.score}}</span>
+					</div>
 					<h3>
 						{{army.name}}
 						<span>By Lorem Ipsum, Modified {{dateMomment(army.modified)}}</span>
 					</h3>
+					<div>
+						<span>
+							{{army.point_limit}} pts
+						</span>
+					</div>
 				</div>
-				<div>
-					<span>
-						{{army.point_limit}} pts
-					</span>
-				</div>
+
 			</li>
 		</ul>
 	</article>

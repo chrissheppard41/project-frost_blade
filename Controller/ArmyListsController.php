@@ -385,15 +385,15 @@ class ArmyListsController extends Controller {
 
 		$user_id = (int)(\Configure::User("id") != null)?\Configure::User("id"):0;
 
-		$data = \Cache::read('ArmyLists'.DS.'Users', "armies_".$user_id);
-		if(!$data){
+		//$data = \Cache::read('ArmyLists'.DS.'Users', "armies_".$user_id);
+		//if(!$data){
 			$data["top"] = $this->model->army_lists("top", $user_id);
 			$data["public"] = $this->model->army_lists("public", $user_id);
 			if($user_id != 0) {
 				$data["private"] = $this->model->army_lists("private", $user_id);
 			}
-			\Cache::write('ArmyLists'.DS.'Users', "armies_".$user_id, $data);
-		}
+		//	\Cache::write('ArmyLists'.DS.'Users', "armies_".$user_id, $data);
+		//}
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
@@ -463,7 +463,7 @@ class ArmyListsController extends Controller {
 		}
 
 		$user_id = (int)(\Configure::User("id") != null)?\Configure::User("id"):0;
-		$data = \Cache::read('ArmyLists', '_army_'.$user_id);
+		$data = \Cache::read('ArmyLists', '_army_'.$options[0].'_'.$user_id);
 		if(!$data){
 			$data = $this->model->Find("first",
 				array(
@@ -562,7 +562,7 @@ class ArmyListsController extends Controller {
 					)
 				)
 			);
-			\Cache::write('ArmyLists', '_army_'.$user_id, $data);
+			\Cache::write('ArmyLists', '_army_'.$options[0].'_'.$user_id, $data);
 		}
 
 		if((int)$data["ArmyLists"]["hide"] === 1) {
@@ -870,7 +870,8 @@ class ArmyListsController extends Controller {
 		\Cache::delete('ArmyLists', "public");
 		\Cache::delete('ArmyLists', "top");
 
-		\Cache::delete('ArmyLists', "_army_".$data[0]["army_id"]);
+		\Cache::delete('ArmyLists', "_army_".$data[0]["army_id"]."_".\Configure::User("id"));
+		\Cache::delete('ArmyLists', "_army_".$data[0]["army_code"]."_".\Configure::User("id"));
 
 		\Cache::deleteDir('ArmyLists' . DS . 'Users');
 

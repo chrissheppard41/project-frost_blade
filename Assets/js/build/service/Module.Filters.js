@@ -39,7 +39,35 @@ myApp.filter('truncate', function () {
     .filter('groups', function () {
         return function (input, delimiter) {
             return (input.toLowerCase()).replace(" ", "");
+        };
+    })
+    .filter('date', function () {
+        return function (input, delimiter) {
+            return moment(input, 'YYYY-MM-DD HH:mm:ss').fromNow();
+        };
+    })
+    .filter('range', function() {
+        return function(input, total, page) {
+            total--;
 
+            var buffer = 3,
+                start = page - buffer,
+                end = page + buffer;
 
+            if(start < 0) {
+                end -= (start);
+                start = 0;
+            }
+
+            if(end >= total) {
+                start -= (end - total);
+                if(start < 0) start = 0;
+                end = total;
+            }
+
+            for (var i = start, j = end; i <= j; i++)
+                input.push(i);
+
+            return input;
         };
     });

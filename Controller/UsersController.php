@@ -358,7 +358,7 @@ class UsersController extends Controller {
 				\Configure::Auth($data);
 				return array("code" => 200, "message" => "User Log in", "data" => array("user_id"=>$data["id"], "username"=>$data["username"]), "errors" => null);
 			} else {
-				return array("code" => 403, "message" => "User Log in", "data" => array(), "errors" => array("fail" => "Incorrect log in details"));
+				return array("code" => 403, "message" => "User Log in", "data" => array(), "errors" => array(array("Failure", "Incorrect log in details")));
 			}
 		}
 	}

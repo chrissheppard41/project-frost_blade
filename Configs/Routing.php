@@ -32,6 +32,8 @@ class Route {
 			'save_units/:?'			=> array("controller" => "ArmyListsController", "action" => "save_units", "param" => array()),
 			'get_army/:?'			=> array("controller" => "ArmyListsController", "action" => "get_army", "param" => array()),
 			'vote/:?/:?' 			=> array("controller" => "ArmyListsController", "action" => "vote", "param" => array()),
+			'armies_public'			=> array("controller" => "ArmyListsController", "action" => "armies_public", "param" => array()),
+			'armies_personal'		=> array("controller" => "ArmyListsController", "action" => "armies_personal", "param" => array()),
 			'types'					=> array("controller" => "TypesController", "action" => "unit_types", "param" => array()),
 			'user/login'			=> array("controller" => "UsersController", "action" => "login_api", "param" => array()),
 			'user/register'			=> array("controller" => "UsersController", "action" => "register_api", "param" => array()),

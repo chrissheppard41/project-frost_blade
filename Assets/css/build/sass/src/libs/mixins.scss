@@ -1,4 +1,57 @@
 /**
+ * Wrap css block with media query.
+ */
+@mixin media( $media ) {
+	// Project specific breakpoints
+	@if $media == desktop {
+		//@media only screen and ( min-width: 721px ) { @content; }
+		@media only screen and ( min-width: 1025px ) { @content; }
+	}
+
+	@if $media == mobile {
+		//@media only screen and ( max-width:  720px ) { @content; }
+		//@media only screen and ( max-height: 640px ) { @content; }
+		@media only screen and ( max-width: 1024px ) { @content; }
+	}
+	@if $media == small-mobile {
+		@media only screen and ( max-width:  375px ) { @content; }
+		//@media only screen and ( max-height: 640px ) { @content; }
+	}
+
+	@if $media == tablet_ {
+		@media only screen and ( min-width:  600px ) { @content; }
+		//@media only screen and ( max-height: 640px ) { @content; }
+	}
+
+	// Generic breakpoints
+	@if $media == phone {
+		@media only screen and ( max-width: 479px ) { @content; }
+	}
+
+	@if $media == small-phone {
+		@media only screen and ( max-height: 455px ) { @content; }
+	}
+	@else if $media == large-phone {
+		@media only screen and ( max-width: 767px ) { @content; }
+	}
+	@else if $media == tablet {
+		@media only screen and ( max-width: 959px ) { @content; }
+	}
+	@else if $media == large-tablet {
+		@media only screen and ( max-width: 1023px ) { @content; }
+	}
+	@else if $media == laptop {
+		@media only screen and ( max-width: 1279px ) { @content; }
+	}
+	@else if $media == small-height-screen {
+		@media only screen and ( max-height: 670px ) { @content; }
+	}
+	@else if $media == large {
+		@media only screen and ( min-width: 1280px ) { @content; }
+	}
+}
+
+/**
  * Generate font-face declaration for font kits.
  */
 @mixin declareFontFace( $fontname, $filename, $weight:"normal", $style:"normal" ) {
@@ -91,7 +144,7 @@
 	height: 12px;
 	line-height: 16px;
 
-	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	@include gradientTexture( $backBrown, $backGrey, "/Assets/img/pinstripe_70.png" );
 	border: 2px solid $border;
 
 	@include round( 6px );
@@ -121,7 +174,7 @@
 	&:hover {
 		color: $whiteText;
 		border: 2px solid $hover;
-		@include gradientTexture( $hover, $backGrey, "../img/pinstripe_70.png" );
+		@include gradientTexture( $hover, $backGrey, "/Assets/img/pinstripe_70.png" );
 	}
 }
 
@@ -133,10 +186,12 @@
 	padding: 0px;
 	margin: 0px;
 	height: 20px;
+	min-height: 20px;
+	max-height: 20px;
 	width: 20px;
 	line-height: $line;
 
-	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	@include gradientTexture( $backBrown, $backGrey, "/Assets/img/pinstripe_70.png" );
 	border: 2px solid $border;
 
 	@include round( 6px );
@@ -167,12 +222,12 @@
 	&:hover {
 		color: $whiteText;
 		border: 2px solid $hover;
-		@include gradientTexture( $hover, $backGrey, "../img/pinstripe_70.png" );
+		@include gradientTexture( $hover, $backGrey, "/Assets/img/pinstripe_70.png" );
 	}
 	&.active {
 		color: $whiteText;
 		border: 2px solid $hover;
-		@include gradientTexture( $hover, $backGrey, "../img/pinstripe_70.png" );
+		@include gradientTexture( $hover, $backGrey, "/Assets/img/pinstripe_70.png" );
 	}
 }
 
@@ -186,7 +241,7 @@
 	height: 20px;
 	width: 20px;
 
-	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	@include gradientTexture( $backBrown, $backGrey, "/Assets/img/pinstripe_70.png" );
 	border: 2px solid $border;
 
 	@include round( 6px );

@@ -1,6 +1,10 @@
-myApp.controller('SetupCtrl', ["$scope", "$routeParams", "$location", "list", "squadbuilder", function($scope, $routeParams, $location, list, squadbuilder) {
+myApp.controller('SetupCtrl', ["$scope", "$rootScope", "$routeParams", "$location", "list", "squadbuilder", function($scope, $rootScope, $routeParams, $location, list, squadbuilder) {
 	$scope.user_id = $sid;
 	$scope.squad_list = [];
+
+	if(!$rootScope.logged_in) {
+		window.location.href = "#/";
+	}
 
 	$scope.routeParams = $routeParams;
 	$scope.armycost = 0;
@@ -41,6 +45,7 @@ myApp.controller('SetupCtrl', ["$scope", "$routeParams", "$location", "list", "s
 	};
 
 	$scope.squadBuilder = function(group, element, drop) {
+		//console.log(group, element, drop);
 		squadbuilder.build($scope, group, element, drop);
 	};
 

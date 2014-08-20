@@ -31,7 +31,7 @@
 
 	<div class="container">
 		<header>
-			<h1>Army Display tool</h1>
+			<h1><a href="#/">Army Display tool</a></h1>
 
 			<ng-include src='"pages/partials/user_area"'></ng-include>
 
@@ -72,6 +72,17 @@
 
 		<footer>
 			<span>&copy; Chris Sheppard, <?php echo date('Y'); ?></span>
+
+			<ul>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+			</ul>
 		</footer>
 	</div>
 

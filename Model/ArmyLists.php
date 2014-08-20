@@ -248,7 +248,7 @@ class ArmyLists extends \Frost\Configs\Database {
 
 		if($type == "public") {
 			$conditions = array("armylists.hide" => 0);
-			$order = array();
+			$order = array("id DESC");
 
 			$count = $this->find(
 				'first',
@@ -266,7 +266,7 @@ class ArmyLists extends \Frost\Configs\Database {
 
 		} else if($type == "top") {
 			$conditions = array("armylists.hide" => 0);
-			$order = array("score ASC");
+			$order = array("score DESC");
 		} else {
 			if(!\Configure::Logged()) {
 				throw new \WebException("Forbidden: Not logged in", 403);
@@ -311,6 +311,14 @@ class ArmyLists extends \Frost\Configs\Database {
 						"order" => $order,
 						"limit" => 5,
 						"contains" => array(
+							"Users" => array(
+								"fields" => array(
+									"Users.username"
+								),
+								"relation" => array(
+									"ArmyLists.users_id" => "Users.id"
+								)
+							),
 							"Armies" => array(
 								"fields" => array(
 									"armies.name as `army_name`"

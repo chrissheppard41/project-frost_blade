@@ -35,7 +35,7 @@ var SquadList = (function() {
 				}
 
 				postSquad[s_index] = {
-					squads_id: Squads[s_index].getId(),
+					squads_id: Squads[s_index].getSquadId(),
 					armylists_id: Squads[s_index].getArmyList(),
 					position: Squads[s_index].getPosition(),
 					ArmyUnits: postUnit

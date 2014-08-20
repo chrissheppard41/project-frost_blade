@@ -36,6 +36,9 @@ section {
 						a {
 							@include buttons($redBorder, $redBorderHover);
 							margin-top: -11px;
+							@include media(small-mobile) {
+								padding: 6px 3px;
+							}
 						}
 
 						span {
@@ -51,7 +54,7 @@ section {
 							display: block;
 							width:100%;
 							height: 2px;
-							background: url("../img/div_80.png") no-repeat;
+							background: url("/Assets/img/div_80.png") no-repeat;
 							margin-top: 2px;
 						}
 					}
@@ -65,36 +68,93 @@ section {
 						dd {
 							display: inline-block;
 							width: 29px;
-							height: 24px;
+							min-height: 24px;
 							line-height: 24px;
 
+							margin: 0 -2px;
+							padding: 0;
 							text-align: center;
 
 							&:first-child {
 								width: 160px;
 								text-align: left;
+								@include media(mobile) {
+									width: 100%;
+									text-align: center;
+									font-size: 16px;
+								}
 							}
 							&:nth-child(2) {
 								width: 74px;
+								@include media(mobile) {
+									width: 18%;
+								}
 							}
 							&:nth-child(13) {
 								width: 80px;
+								@include media(mobile) {
+									width: 22%;
+								}
 							}
 
 							&:nth-child(14) {
 								width: 100%;
 								height: auto;
 								line-height: normal;
+								@include media(small-mobile) {
+									font-size: 16px;
+								}
 							}
 
 							.add {
 								@include buttons_small($blueBorder, $blueBorderHover, inline-block);
 								margin: 0;
+								i {
+									display: block;
+									width: 20px;
+									height: 20px;
+									background: url("/Assets/img/plus.png") no-repeat;
+									@include media(mobile) {
+										width: 18px;
+										background-position: top center;
+									}
+								}
+								@include media(mobile) {
+									width: 18px;
+									min-width: 18px;
+								}
+								@include media(small-mobile) {
+									float:right;
+								}
 							}
 
 							.sub {
 								@include buttons_small($redBorder, $redBorderHover, inline-block, 14px);
 								margin: 0;
+								i {
+									display: block;
+									width: 20px;
+									height: 20px;
+									background: url("/Assets/img/minus.png") no-repeat;
+									@include media(mobile) {
+										width: 18px;
+										background-position: top center;
+									}
+								}
+								@include media(mobile) {
+									width: 18px;
+									min-width: 18px;
+								}
+								@include media(small-mobile) {
+									float:right;
+								}
+							}
+							@include media(mobile) {
+								width: 6%;
+								font-size: 14px;
+							}
+							@include media(small-mobile) {
+								font-size: 10px;
 							}
 						}
 
@@ -107,12 +167,32 @@ section {
 								&:first-child {
 									width: 74px;
 									margin-left: 162px;
+									@include media(mobile) {
+										margin-left: 0px;
+										width: 18%;
+									}
 								}
 								&:nth-child(2) {
 									width: 32px;
+									@include media(mobile) {
+										width: 6%;
+									}
 								}
 								&:last-child {
 									width: 80px;
+									@include media(mobile) {
+										width: 22%;
+									}
+								}
+								@include media(mobile) {
+									font-size: 14px;
+									width: 6%;
+								}
+								@include media(tablet_) {
+									font-size: 18px;
+								}
+								@include media(small-mobile) {
+									font-size: 10px;
 								}
 							}
 						}
@@ -120,6 +200,7 @@ section {
 
 					div.wargears {
 						margin-top: 10px;
+						padding: 0;
 						span {
 							display:inline-block;
 							float: none;
@@ -131,15 +212,38 @@ section {
 								padding-right:10px;
 								line-height: 34px;
 								text-align: right;
+
+								@include media(mobile) {
+									width: 100%;
+									text-align: center;
+									padding: 0;
+								}
 							}
 							&:nth-child(2) {
 								width: 308px;
+								@include media(mobile) {
+									width: 100%;
+								}
 							}
 
 						}
 						a {
 							@include buttons_small($blueBorder, $blueBorderHover);
 							display: inline-block;
+							i {
+								display: block;
+								width: 20px;
+								height: 20px;
+								background: url("/Assets/img/plus.png") no-repeat;
+
+								@include media(mobile) {
+									width: 100%;
+									background-position: top center;
+								}
+							}
+							@include media(mobile) {
+								width: 99%;
+							}
 						}
 					}
 
@@ -165,14 +269,42 @@ section {
 										display: inline-block;
 										line-height: 13px;
 										margin: 2px 0;
+										i {
+											display: block;
+											width: 20px;
+											height: 20px;
+											background: url("/Assets/img/minus.png") no-repeat;
+										}
 									}
 								}
+							}
+							@include media(mobile) {
+								width: 100%;
 							}
 						}
 
 					}
 				}
+				@include media(mobile) {
+					width: 100%;
+				}
 
+				.click {
+					.panel-body {
+						padding: 0;
+					}
+
+					ul {
+						li {
+							padding: 10px;
+							cursor: pointer;
+						}
+					}
+
+					@include media(desktop) {
+						display: none;
+					}
+				}
 			}
 			.col2 {
 				//float: right;
@@ -220,10 +352,21 @@ section {
 						float: none;
 						a.blue {
 							@include buttons_small($blueBorder, $blueBorderHover);
+							i {
+								display: block;
+								width: 20px;
+								height: 20px;
+								background: url("/Assets/img/plus.png") no-repeat;
+							}
 						}
 						a.red {
 							@include buttons_small($redBorder, $redBorderHover);
-							line-height: 14px;
+							i {
+								display: block;
+								width: 20px;
+								height: 20px;
+								background: url("/Assets/img/minus.png") no-repeat;
+							}
 						}
 					}
 					span:nth-child(2) {
@@ -250,6 +393,16 @@ section {
 						line-height: 56px;
 					}
 				}
+
+				@include media(mobile) {
+					width: 100%;
+				}
+
+				&.drags {
+					@include media(mobile) {
+						display: none;
+					}
+				}
 			}
 
 
@@ -265,7 +418,7 @@ section {
 				}
 				.panel-footer {
 					@include roundBottom( 4px );
-					@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+					@include gradientTexture( $backBrown, $backGrey, "/Assets/img/pinstripe_70.png" );
 					height: 60px;
 					line-height: 60px;
 
@@ -278,17 +431,20 @@ section {
 					span {
 						display:inline-block;
 						float: none;
-						width: 164px;
+						width: 181px;
 
 						&:before, &:after {
 							content: "";
 							display: inline-block;
 							width:20px;
 							height: 18px;
-							background: url("../img/icons/up.png") no-repeat center top;
+							background: url("/Assets/img/icons/up.png") no-repeat center top;
 							margin-top: 0;
 							padding: 0 9px;
 						}
+					}
+					@include media(mobile) {
+						display: none;
 					}
 				}
 

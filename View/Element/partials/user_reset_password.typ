@@ -1,6 +1,6 @@
 <section class="clearfix">
 	<article>
-		<h2>Lost password</h2>
+		<h2>Lost password <span><a href="javascript:history.go(-1)" class="back">Back</a></span></h2>
 
 		<div id="loginView">
 

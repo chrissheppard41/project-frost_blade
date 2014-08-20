@@ -1,12 +1,33 @@
 a.view {
 	@include buttons($darkblueBorder, $darkblueBorderHover);
+	@include media(small-mobile) {
+		font-size: 14px;
+		min-width: 34px;
+	}
 }
 a.edit {
 	@include buttons($orangeBorder, $orangeBorderHover);
+	@include media(small-mobile) {
+		font-size: 14px;
+		min-width: 34px;
+	}
 }
 a.setup {
 	@include buttons($blueBorder, $blueBorderHover);
+	@include media(small-mobile) {
+		font-size: 14px;
+		min-width: 34px;
+	}
 }
 a.delete {
 	@include buttons($redBorder, $redBorderHover);
+	@include media(small-mobile) {
+		font-size: 14px;
+		min-width: 34px;
+	}
+}
+
+
+a.lightblue {
+	@include buttons($lightblueBorder, $lightblueBorderHover);
 }

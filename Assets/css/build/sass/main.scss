@@ -16,9 +16,9 @@ $text-stack: "text", Arial, sans-serif; */
 // END FONTS
 
 @include declareFontFace( "head", "fonts/caslon-antique" );
-@include declareFontFace( "default", "fonts/helvetica" );
+@include declareFontFace( "base", "fonts/helvetica" );
 $head-stack: "head", Arial, sans-serif;
-$default-stack: "default", Arial, sans-serif;
+$default-stack: "base", Arial, sans-serif;
 
 // BEGIN COLORS
 $backBrown: #523a2e;
@@ -32,6 +32,10 @@ $greenBorderHover: #47a447;
 $redBorder: #d9534f;
 $redBorderHover: #d2322d;
 
+$lightblueBorder: #4ef0df;
+$lightblueBorderHover: #39d7c6;
+$yellowBorder: #f0ea4e;
+$yellowBorderHover: #d7d139;
 
 
 
@@ -59,6 +63,7 @@ $defaultBorder: #000000;
 
 $greyText: #d7d7d7;
 $whiteText: #ffffff;
+$blackText: #000000;
 // END COLORS
 
 html {
@@ -88,6 +93,7 @@ h1, h2, h3, p, span, div {
 	cursor: default;
 	margin: 0px;
 	padding: 0px;
+	font-family: $default-stack;
 }
 
 .hidden {
@@ -102,37 +108,9 @@ h1, h2, h3, p, span, div {
 @import "src/buttons.scss";
 @import "src/panels.scss";
 @import "src/home.scss";
+@import "src/lists.scss";
 @import "src/note.scss";
 @import "src/setup.scss";
 @import "src/drag.scss";
 @import "src/login.scss";
-
-
-
-/* ul.clearList {
-	padding: 0px;
-	margin: 0px;
-	list-style:none;
-}
-
-
-.a-drop-highlight {
-	background-color: #000;
-	height: 100px;
-	width: 1170px;
-}
-
-.a-drag {
-	background-color: #aaa;
-	height: 100px;
-	width: 1170px;
-}
-
-
-.drag_container {
-	.unit_data {
-		.content {
-			//display: none;
-		}
-	}
-} */
+@import "src/print.scss";

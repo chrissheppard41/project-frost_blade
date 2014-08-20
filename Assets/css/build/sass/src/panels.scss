@@ -5,7 +5,8 @@
 	margin-top: 10px;
 	color: $whiteText;
 	font-family: $default-stack;
-	font-size:18px;
+	font-size: 18px;
+	@include box-sizing( border-box );
 
 	.panel-heading {
 		height: 20px;
@@ -13,7 +14,7 @@
 		border-bottom: inherit;
 		font-family: $head-stack;
 		font-size:24px;
-		@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+		@include gradientTexture( $backBrown, $backGrey, "/Assets/img/pinstripe_70.png" );
 
 
 		span {
@@ -46,7 +47,7 @@
 	&.blue {
 		border-color: $blueBorder;
 		.panel-heading {
-			@include gradientTexture( $blueBorder, $backGrey, "../img/pinstripe_70.png" );
+			@include gradientTexture( $blueBorder, $backGrey, "/Assets/img/pinstripe_70.png" );
 		}
 	}
 }

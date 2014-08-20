@@ -1,6 +1,6 @@
 <section class="clearfix">
 	<article>
-		<h2>Edit <span><a href="#/" class="back">Back</a></span></h2>
+		<h2>Edit <span><a href="javascript:history.go(-1)" class="back">Back</a></span></h2>
 		<div class="error">{{formMessage}}</div>
 
 		<form ng-submit="submit_edit()" class="form-horizontal" name="edit_army_list" id="ArmyList#Form" method="POST" accept-charset="utf-8">
@@ -53,17 +53,10 @@
 					<span class="error" ng-show="edit_army_list.points_limit.$error.number">Must contain numbers</span>
 				</span>
 			</span>
-			<span class="form-group">
-				<label for="hide" class="col-lg-2 control-label text-right">Hidden</label>
-				<span class="col-lg-1 pull-left">
-					<input type="checkbox"
-					ng-model="hide"
-					name="hide"
-					ng-true-value="1"
-					ng-false-value="0"
-					class="form-control"
-				/>
-				</span>
+			<span class="checkbox">
+				<span for="hide__" class="label">Hidden</span>
+				<input type="checkbox" ng-model="hide" id="squaredFour" name="hide" ng-true-value="1" ng-false-value="0" />
+				<label for="squaredFour"></label>
 			</span>
 			<span class="form-group">
 				<button class="btn btn-primary">Save</button>

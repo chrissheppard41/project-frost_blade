@@ -322,6 +322,14 @@ class ArmyListsController extends Controller {
 							"order" => $order,
 							"limit" => 5,
 							"contains" => array(
+								"Users" => array(
+									"fields" => array(
+										"Users.username"
+									),
+									"relation" => array(
+										"ArmyLists.users_id" => "Users.id"
+									)
+								),
 								"Armies" => array(
 									"fields" => array(
 										"armies.name as `army_name`"
@@ -430,13 +438,14 @@ class ArmyListsController extends Controller {
 		$methodData["ArmyLists"]['users_id'] = \Configure::User('id');
 
 		$data = $this->model->Save($methodData);
+
 		if($data["error"] === true) {
-			return \Frost\Configs\Response::setResponse(400, "Army Lists", array("errors" => $data["error"]));
+			return \Frost\Configs\Response::setResponse(400, "Army Lists", array("errors" => array(array(ucfirst($data['field']), $data['message']))));
 		} else {
 			\Cache::delete('ArmyLists', "private");
 			\Cache::delete('ArmyLists', "public");
 			\Cache::delete('ArmyLists', "top");
-			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
+			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => array("id" => $this->model->last_id)));
 		}
 	}
 
@@ -717,7 +726,8 @@ class ArmyListsController extends Controller {
 				"ArmyLists" => array(
 					array(
 						"fields" => array(
-							"id"
+							"id",
+							"code"
 						),
 						"conditions" => array(
 							"users_id" => \Configure::User("id"),
@@ -749,6 +759,10 @@ class ArmyListsController extends Controller {
 			\Cache::delete('ArmyLists', "private");
 			\Cache::delete('ArmyLists', "public");
 			\Cache::delete('ArmyLists', "top");
+
+			\Cache::deleteWildcard('ArmyLists', "_army_".$options[0]."_*");
+			\Cache::deleteWildcard('ArmyLists', "_army_".$user_army["ArmyLists"]["code"]."_*");
+
 			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 		}
 	}
@@ -840,6 +854,161 @@ class ArmyListsController extends Controller {
         //    }
 		//}
 
+
+		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
+	}
+
+	/**
+	 * API armies_public to retrieve my army
+	 *
+	 * @return void
+	 */
+
+	public function armies_public($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		$user_id = (int)(\Configure::User("id") != null)?\Configure::User("id"):0;
+		$data = $this->model->find(
+			"all",
+			array(
+				"ArmyLists" => array(
+					array(
+						"fields" => array(
+							"name",
+							"descr",
+							"point_limit",
+							"score",
+							"code",
+							"created",
+							"modified"
+						),
+						"conditions" => array(
+							"hide" => 0
+						),
+						"contains" => array(
+							"Users" => array(
+								"fields" => array(
+									"Users.username"
+								),
+								"relation" => array(
+									"ArmyLists.users_id" => "Users.id"
+								)
+							),
+							"Armies" => array(
+								"fields" => array(
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"ArmyLists.armies_id" => "armies.id"
+								)
+							),
+							"Races" => array(
+								"fields" => array(
+									"races.name as `races_name`",
+									"races.icon"
+								),
+								"relation" => array(
+									"Armies.races_id" => "races.id"
+								)
+							),
+							"Colours" => array(
+								"fields" => array(
+									"colours.name as `colours_name`"
+								),
+								"relation" => array(
+									"Armies.colours_id" => "colours.id"
+								)
+							),
+							"Votes" => array(
+								"fields" => array(
+									"votes.vote"
+								),
+								"relation" => array(
+									"Votes.armylists_id" => "ArmyLists.id",
+									"Votes.users_id" => $user_id
+								)
+							)
+						)
+					)
+				)
+			)
+		);
+
+		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
+	}
+
+	public function armies_personal($options, $methodData) {
+		$this->view = "Empty";
+		$this->returnType = "json";
+
+		$user_id = (int)(\Configure::User("id") != null)?\Configure::User("id"):0;
+		$data = $this->model->find(
+			"all",
+			array(
+				"ArmyLists" => array(
+					array(
+						"fields" => array(
+							"name",
+							"descr",
+							"point_limit",
+							"score",
+							(($user_id != 0)?"id":"code"),
+							"hide",
+							"created",
+							"modified"
+						),
+						"conditions" => array(
+							"ArmyLists.users_id" => (int)$user_id
+						),
+						"contains" => array(
+							"Users" => array(
+								"fields" => array(
+									"Users.username"
+								),
+								"relation" => array(
+									"ArmyLists.users_id" => "Users.id"
+								)
+							),
+							"Armies" => array(
+								"fields" => array(
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"ArmyLists.armies_id" => "armies.id"
+								)
+							),
+							"Races" => array(
+								"fields" => array(
+									"races.name as `races_name`",
+									"races.icon"
+								),
+								"relation" => array(
+									"Armies.races_id" => "races.id"
+								)
+							),
+							"Colours" => array(
+								"fields" => array(
+									"colours.name as `colours_name`"
+								),
+								"relation" => array(
+									"Armies.colours_id" => "colours.id"
+								)
+							),
+							"Votes" => array(
+								"fields" => array(
+									"votes.vote"
+								),
+								"relation" => array(
+									"Votes.armylists_id" => "ArmyLists.id",
+									"Votes.users_id" => $user_id
+								)
+							)
+						)
+					)
+				)
+			)
+		);
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}

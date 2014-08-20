@@ -5,6 +5,8 @@ myApp.config(['$routeProvider', function($routeProvider) {
       when('/view/:id', {templateUrl: 'pages/partials/view_army', controller: "ViewCtrl"}).
       when('/edit/:id', {templateUrl: 'pages/partials/edit_army', controller: "EditCtrl"}).
       when('/setup/:id', {templateUrl: 'pages/partials/setup_army', controller: "SetupCtrl"}).
+      when('/lists', {templateUrl: 'pages/partials/list', controller: "ListCtrl"}).
+      when('/my_lists', {templateUrl: 'pages/partials/my_list', controller: "ListCtrl"}).
       when('/user/login', {templateUrl: 'pages/partials/user_login', controller: "UserCtrl"}).
       when('/user/register', {templateUrl: 'pages/partials/user_register', controller: "UserCtrl"}).
       when('/user/confirm_register', {templateUrl: 'pages/partials/user_register_post', controller: "UserCtrl"}).

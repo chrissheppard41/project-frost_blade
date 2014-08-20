@@ -1,5 +1,5 @@
 .alert {
-	@include gradientTexture( $backBrown, $backGrey, "../img/pinstripe_70.png" );
+	@include gradientTexture( $backBrown, $backGrey, "/Assets/img/pinstripe_70.png" );
 	border: 2px solid $whiteText;
 
 	height: 11px;

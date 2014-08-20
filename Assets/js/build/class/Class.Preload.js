@@ -7,6 +7,7 @@ var Loader = (function() {
 		loaded: 0,
 		percent: 0,
 		element: 0,
+		scope: 0,
 		init: function(ele){
 			var cssFiles = document.styleSheets;
 			this.element = ele;
@@ -70,6 +71,9 @@ var Loader = (function() {
 		end: function() {
 			if (this.chatty) console.log( 'Loader: Finished...' );
 			this.element.attr("class", "boom");
+			$(this.element).parent().parent().delay( 500 ).fadeOut("slow", function(){
+				this.remove();
+			});
 		},
 		filterSources: function() {
 

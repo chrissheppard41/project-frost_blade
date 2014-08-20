@@ -1,5 +1,9 @@
-myApp.controller('AddCtrl', ["$scope", "$routeParams", "$location", "list", function($scope, $routeParams, $location, list) {
+myApp.controller('AddCtrl', ["$scope", "$rootScope", "$routeParams", "$location", "list", "displayErrors", function($scope, $rootScope, $routeParams, $location, list, displayErrors) {
 	$scope.user_id = $sid;
+
+	if(!$rootScope.logged_in) {
+		window.location.href = "#/";
+	}
 
 	console.log("Add");
 
@@ -73,9 +77,9 @@ myApp.controller('AddCtrl', ["$scope", "$routeParams", "$location", "list", func
 
 					$scope.add_resets();
 
-					$location.path('#/');
+					window.location.href = "#/setup/"+data.data.id;
 				} else {
-					$scope.displayFormmessages(data);
+					$scope.formMessage = displayErrors.formErrors(data.errors);
 				}
 			});
 		}

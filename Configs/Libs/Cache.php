@@ -63,6 +63,20 @@ class Cache {
 			}
 		}
 	}
+/**
+ * deleteWildcard method
+ * Deletes a cache file based on $config(folder) and $name(filename)
+ *
+ * @param $config (string), $name (string)
+ * @return (Array)
+ */
+	public static function deleteWildcard($config, $name) {
+		//chdir (ROOT);
+		$filename = APP_ROOT . "tmp" . DS . "cache" . DS . $config . DS . $name;
+		foreach(glob($filename) as $f) {
+			unlink($f);
+		}
+	}
 
 /**
  * deleteDir method

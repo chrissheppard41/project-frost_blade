@@ -2,6 +2,7 @@ myApp.factory('displayErrors', [function(){
 	return {
 		formErrors: function(arr) {
 			var output = "";
+
 			if(arr.message === undefined) {
 				for(var i = 0, l = arr.length; i < l; i++) {
 					if(i !== 0) output += "<br />";

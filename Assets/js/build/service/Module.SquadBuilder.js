@@ -4,57 +4,62 @@ myApp.factory('squadbuilder', [function(){
 			SquadList.cleanSquad();
 			var armysquads = $scope.army.ArmySquads;
 			var squads = $scope.squads;
-			for(var ii = 0, jj = armysquads.length; ii < jj; ii++) {
 
-				for(var i = 0, j = squads.length; i < j; i++) {
-					if($scope.squads[i].id == armysquads[ii].squads_id) {
-						var cost = 0;
-						var Units = [];
-						var squad = new Squad();
+			if(armysquads !== undefined) {
+				for(var ii = 0, jj = armysquads.length; ii < jj; ii++) {
 
-						var squadunit = squads[i].SquadUnits;
-						for(var unit_index in squadunit) {
-							var unit_count = armysquads[ii].ArmyUnits[unit_index].count;
-							cost = cost + (parseInt(squadunit[unit_index].Units.pts, 0) * parseInt(unit_count, 0));
+					for(var i = 0, j = squads.length; i < j; i++) {
+						if($scope.squads[i].id == armysquads[ii].squads_id) {
+							var cost = 0;
+							var Units = [];
+							var squad = new Squad();
 
-							if(squadunit[unit_index].Units.front_armour !== "0") squad.setArmour(true);
-							var unit = new Unit(squadunit[unit_index]);
-							unit.setAttr("count", unit_count);
-							Units.push(unit);
+							var squadunit = squads[i].SquadUnits;
+							for(var unit_index in squadunit) {
+								var unit_count = armysquads[ii].ArmyUnits[unit_index].count;
+								cost = cost + (parseInt(squadunit[unit_index].Units.pts, 0) * parseInt(unit_count, 0));
 
-							squad.buildCharacteristics(squadunit[unit_index].Units.UnitCharacteristics);
-							squad.buildWargears(squadunit[unit_index].Units.Wargears);
+								if(squadunit[unit_index].Units.front_armour !== 0) squad.setArmour(true);
+
+								var unit = new Unit(squadunit[unit_index]);
+								unit.setAttr("count", unit_count);
+								Units.push(unit);
+
+								squad.buildCharacteristics(squadunit[unit_index].Units.UnitCharacteristics);
+								squad.buildWargears(squadunit[unit_index].Units.Wargears);
 
 
-							if(armysquads[ii].ArmyUnits[unit_index].ArmyWargears !== undefined) {
-								var wargears = armysquads[ii].ArmyUnits[unit_index].ArmyWargears;
-								for(var iii = 0, jjj = wargears.length; iii < jjj; iii++) {
-									var group = squadunit[unit_index].Groups;
-									if(group !== undefined) {
-										for(var a = 0, b = group.length; a < b; a++) {
-											for(var c = 0, d = group[a].Wargears.length; c < d; c++) {
-												if(wargears[iii].wargears_id === group[a].Wargears[c].id) {
-													Wargear.add(squad, unit, group[a].Wargears[c]);
-													break;
+								if(armysquads[ii].ArmyUnits[unit_index].ArmyWargears !== undefined) {
+									var wargears = armysquads[ii].ArmyUnits[unit_index].ArmyWargears;
+									for(var iii = 0, jjj = wargears.length; iii < jjj; iii++) {
+										var group = squadunit[unit_index].Groups;
+										if(group !== undefined) {
+											for(var a = 0, b = group.length; a < b; a++) {
+												for(var c = 0, d = group[a].Wargears.length; c < d; c++) {
+													if(wargears[iii].wargears_id === group[a].Wargears[c].id) {
+														Wargear.add(squad, unit, group[a].Wargears[c]);
+														break;
+													}
 												}
 											}
 										}
 									}
 								}
 							}
+							squad.setId(ii);
+							squad.setPosition(parseInt(armysquads[ii].position, 0));
+							squad.setSquadId(squads[i].id);
+							//squad.setGroup(squads[i].type_name);
+							squad.Group = squads[i].type_name;
+							squad.addTotal(cost);
+							squad.setUnits(Units);
+							squad.setArmyList($scope.routeParams.id);
+							squad.setName(squads[i].name);
+
+							SquadList.setSquad(squad);
+
+							break;
 						}
-						squad.setId(ii);
-						squad.setPosition(parseInt(armysquads[ii].position, 0));
-						//squad.setGroup(squads[i].type_name);
-						squad.Group = squads[i].type_name;
-						squad.addTotal(cost);
-						squad.setUnits(Units);
-						squad.setArmyList($scope.routeParams.id);
-						squad.setName(squads[i].name);
-
-						SquadList.setSquad(squad);
-
-						break;
 					}
 				}
 			}
@@ -68,17 +73,23 @@ myApp.factory('squadbuilder', [function(){
 			var Units = [];
 			var squad = new Squad();
 
+			if(drop === -1) {
+				drop = SquadList.getSquad().length;
+			}
+
 			for(var unit_index in $scope.currentDraggedSquad.SquadUnits) {
 				cost = cost + (parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].Units.pts, 0) * parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].min_count, 0));
 
 				Units.push(new Unit($scope.currentDraggedSquad.SquadUnits[unit_index]));
-				if($scope.currentDraggedSquad.SquadUnits[unit_index].Units.front_armour !== "0") squad.setArmour(true);
+				if($scope.currentDraggedSquad.SquadUnits[unit_index].Units.front_armour !== 0) squad.setArmour(true);
+
 				squad.buildCharacteristics($scope.currentDraggedSquad.SquadUnits[unit_index].Units.UnitCharacteristics);
 				squad.buildWargears($scope.currentDraggedSquad.SquadUnits[unit_index].Units.Wargears);
 			}
 
 			//squad.setId($scope.currentDraggedSquad.id);
 			squad.setId(SquadList.getSquad().length);
+			squad.setSquadId($scope.currentDraggedSquad.id);
 			squad.setPosition(drop);
 			squad.setGroup(group);
 			squad.addTotal(cost);
@@ -95,7 +106,7 @@ myApp.factory('squadbuilder', [function(){
 				SquadList.orderSquads();
 			});
 
-			element.remove();
+			//element.remove();
 		}
 	};
 }]);

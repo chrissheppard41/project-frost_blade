@@ -19,6 +19,7 @@ class Database {
 	function __construct() {
 		$this->connection = Connection::PDO();
 		$this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		//$this->connection->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
 	}
 
 /**

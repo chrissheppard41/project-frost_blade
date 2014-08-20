@@ -27,7 +27,7 @@ myApp.factory('vote', ["list", function(list){
 					//error here
 					//$scope.message = list.errors;
 					if(list.data.code == 403) {
-						window.location.href = '/users/login';
+						window.location.href = '#/user/login';
 					}
 				}
 			});
@@ -48,7 +48,7 @@ myApp.factory('vote', ["list", function(list){
 					//error here
 					//$scope.message = list.errors;
 					if(list.data.code == 403) {
-						window.location.href = '/users/login';
+						window.location.href = '#/user/login';
 					}
 				}
 			});

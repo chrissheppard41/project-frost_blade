@@ -4,6 +4,8 @@
 	<p ng-show="logged_in">
 		<span class="button">
 			<?php
+				echo $this->Html->Url($this->Html->__t('View setups'), "#/lists", array('class' => 'lightblue'));
+
 				echo $this->Html->Url($this->Html->__t('Logout'), array('controller' => 'users', 'action' => 'logout'), array('class' => 'red'));
 				echo $this->Html->Url($this->Html->__t('Profile'), "#/user/profile", array('class' => 'orange'));
 			?>
@@ -14,6 +16,8 @@
 	<p ng-hide="logged_in">
 		<span class="button">
 			<?php
+				echo $this->Html->Url($this->Html->__t('View setups'), "#/lists", array('class' => 'lightblue'));
+
 				echo $this->Html->Url($this->Html->__t('Login'), "#/user/login", array('class' => 'blue'));
 				echo $this->Html->Url($this->Html->__t('Register'), "#/user/register", array('class' => 'green'));
 			?>

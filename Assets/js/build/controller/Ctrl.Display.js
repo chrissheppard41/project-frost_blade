@@ -27,10 +27,6 @@ myApp.controller('DisplayCtrl', ["$scope", "$http", "list", "$rootScope", "$loca
 		window.location.href = "#/view/"+code;
 	};
 
-	$scope.dateMomment = function(value) {
-		return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow();
-	};
-
 	$scope.submit_delete = function(id) {
 
 		var promise_delete = list.getAsync('DELETE', '/delete_army/'+id+'.json', {});

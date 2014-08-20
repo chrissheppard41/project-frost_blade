@@ -1,8 +1,8 @@
 <section class="clearfix">
 	<article>
-		<h2>Add <span><a href="#/" class="back">Back</a></span></h2>
+		<h2>Add <span><a href="javascript:history.go(-1)" class="back">Back</a></span></h2>
 
-		<div class="error" ng-bind-html-unsafe="formMessage">{{formMessage}}</div>
+		<div class="alert alert-danger alert-dismissable form" ng-show="formMessage"><span ng-bind-html="formMessage"></span></div>
 
 		<form ng-submit="submit_add()" class="form-horizontal" name="add_army_list" id="ArmyList#Form" method="POST" accept-charset="utf-8">
 			<p class="add_step_1">
@@ -24,11 +24,10 @@
 					</select>
 				</span>
 			</p>
-			<p class="add_step_3" ng-hide="step_3_view">
-				<ul>
-					<li ng-repeat="squad in squads" id="{{squad.id}}">{{squad.type_name}} - {{squad.name}}</li>
-				</ul>
-			</p>
+			<h3 class="add_step_3" ng-hide="step_3_view">Available units</h3>
+			<ul class="add_step_3" ng-hide="step_3_view">
+				<li ng-repeat="squad in squads" id="{{squad.id}}">{{squad.type_name}} - {{squad.name}}</li>
+			</ul>
 			<p class="add_step_4" ng-hide="step_3_view">
 				<span class="form-group required">
 					<label for="name" class="control-label">Name<span class="error" ng-show="add_army_list.name.$error.required"> *</span></label>
@@ -69,19 +68,17 @@
 					<span class="error" ng-show="add_army_list.points_limit.$error.minlength">Your name must be longer than 3 characters</span>
 					<span class="error" ng-show="add_army_list.points_limit.$error.maxlength">Your name cannot be longer than 11 characters</span>
 				</span>
-				<span class="form-group">
-					<label for="hide" class="col-lg-2 control-label text-right">Hidden</label>
-					<input type="checkbox"
-						ng-model="hide"
-						name="hide"
-						ng-true-value="1"
-						ng-false-value="0"
-						class="form-control"
-					/>
+
+				<span class="checkbox">
+					<span for="hide__" class="label">Hidden</span>
+					<input type="checkbox" ng-model="hide" id="squaredFour" name="hide" ng-true-value="1" ng-false-value="0" />
+					<label for="squaredFour"></label>
 				</span>
+
 				<span class="form-group">
 					<button class="btn btn-primary">Save</button>
 				</span>
+			</p>
 		</form>
 	</article>
 </section>

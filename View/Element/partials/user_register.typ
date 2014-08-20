@@ -1,6 +1,6 @@
 <section class="clearfix">
 	<article>
-		<h2>Register <span><a href="#/" class="back">Back</a></span></h2>
+		<h2>Register <span><a href="javascript:history.go(-1)" class="back">Back</a></span></h2>
 
 		<div class="alert alert-danger alert-dismissable form" ng-show="formMessage"><span ng-bind-html="formMessage"></span></div>
 

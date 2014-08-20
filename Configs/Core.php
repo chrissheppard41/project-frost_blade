@@ -200,7 +200,7 @@ class Core {
 
 		switch($request) {
 			case "json":
-				$output = json_encode($action_data);
+				$output = json_encode($action_data, JSON_NUMERIC_CHECK);
 				//$output = $this->crypt->encrypt($this->response($action_data['code'], $action_data['message'], $action_data));
 			break;
 			case "error":

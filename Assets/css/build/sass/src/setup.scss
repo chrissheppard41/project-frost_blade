@@ -7,7 +7,7 @@ html {
 				article {
 					background-color: rgba(82,58,46,.70);
 					height: 100%;
-					width: 981px;
+					width: 100%;
 
 					border-radius: 0;
 
@@ -16,6 +16,8 @@ html {
 					@include shadow( 0px, 0px, 20px, $color:#000000 );
 
 					padding: 10px;
+
+    				@include box-sizing(border-box);
 
 					h2 {
 						font-size: 24px;
@@ -27,6 +29,10 @@ html {
 						//height: 38px;
 						padding-top: 14px;
 
+						@include media(small-mobile) {
+							font-size: 18px;
+						}
+
 						span {
 							display: block;
 							float: right;
@@ -37,10 +43,48 @@ html {
 							a.add {
 								@include buttons($greenBorder, $greenBorderHover);
 								margin-top: -24px;
+								@include media(small-mobile) {
+									padding: 6px 0;
+									min-width: 46px;
+									font-size: 16px;
+								}
 							}
 							a.back {
 								@include buttons($redBorder, $redBorderHover);
 								margin-top: -24px;
+								@include media(small-mobile) {
+									padding: 6px 0;
+									min-width: 46px;
+									font-size: 16px;
+								}
+							}
+							a.toggle {
+								@include buttons($orangeBorder, $orangeBorderHover);
+								margin-top: -24px;
+								@include media(small-mobile) {
+									//padding: 6px 0;
+									min-width: 46px;
+									font-size: 16px;
+								}
+							}
+							a.yellow {
+								@include buttons($yellowBorder, $yellowBorderHover);
+								margin-top: -24px;
+								@include media(small-mobile) {
+									//padding: 6px 0;
+									min-width: 46px;
+									font-size: 16px;
+								}
+							}
+							@include media(small-mobile) {
+								font-size: 15px;
+								line-height: 18px;
+							}
+						}
+						em,
+						small {
+							@include media(mobile) {
+								display: none;
 							}
 						}
 
@@ -49,7 +93,7 @@ html {
 							display: block;
 							width:100%;
 							height: 2px;
-							background: url("../img/div_100.png") no-repeat;
+							background: url("/Assets/img/div_100.png") no-repeat;
 							margin-top: 2px;
 						}
 					}
@@ -66,7 +110,7 @@ html {
 						li {
 							display: block;
 							width: 100%;
-							height: 66px;
+							min-height: 66px;
 							//cursor: pointer;
 
 							div {
@@ -77,17 +121,34 @@ html {
 							}
 							div:first-child {
 								width: 26px;
+								//width: 2.5%;
 
 								a.blue {
 									@include buttons_small($blueBorder, $blueBorderHover);
+									i {
+										display: block;
+										width: 20px;
+										height: 20px;
+										background: url("/Assets/img/plus.png") no-repeat;
+									}
 								}
 								a.red {
 									@include buttons_small($redBorder, $redBorderHover);
-									line-height: 14px;
+									i {
+										display: block;
+										width: 20px;
+										height: 20px;
+										background: url("/Assets/img/minus.png") no-repeat;
+									}
+								}
+
+								@include media(mobile) {
+									width: 7%;
 								}
 							}
 							div:nth-child(2) {
 								width: 67px;
+								//width: 7%;
 
 								.army {
 									@include buttons_img($defaultBorder);
@@ -99,87 +160,133 @@ html {
 									text-align: center;
 									margin-top: 10px;
 								}
-							}
-							div:nth-child(3) {
-								width: 300px;
-								h3 {
-									margin-top: 10px;
-									font-size: 18px;
-									span {
-										display: block;
-										margin-top: 4px;
-										width: 345px;
-										font-size: 14px;
-									}
-									i {
-										display: inline-block;
-										background: url("../img/icons/padlock.png") no-repeat;
-										width: 9px;
-										height: 12px;
-										margin-top: 3px;
-									}
+
+								@include media(mobile) {
+									width: 14%;
 								}
 							}
-							div:nth-child(4) {
-								width: 35px;
+							h3 {
+								display: inline-block;
+								width: 300px;
+								//width: 30%;
+								margin-top: 10px;
+								font-size: 18px;
+								small {
+									display: block;
+									margin-top: 4px;
+									//width: 300px;
+									width: 100%;
+									font-size: 14px;
+								}
+								i {
+									display: inline-block;
+									background: url("/Assets/img/icons/padlock.png") no-repeat;
+									width: 9px;
+									height: 12px;
+									margin-top: 3px;
+								}
+
+								@include media(mobile) {
+									width: 64%;
+								}
+								@include media(small-mobile) {
+									font-size: 14px;
+								}
+							}
+							var {
+								display: inline-block;
+								width: 50px;
+								//width: 6%;
 								font-size: 16px;
 								margin-top: 14px;
 								text-align: center;
+
+								@include media(mobile) {
+									width: 15%;
+								}
+								@include media(small-mobile) {
+									font-size: 14px;
+								}
 							}
 							div:nth-child(5) {
-								margin-left: 35px;
-								width: 174px;
+								//margin-left: 1%;
+								margin-left: 10px;
+								width: 184px;
+								//width: 18%;
 								font-size: 16px;
 								margin-top: 14px;
+
+								@include media(mobile) {
+									display: none;
+								}
 							}
 							div:nth-child(6) {
 								width: 344px;
+								//width: 35.5%;;
 								font-size: 16px;
 								margin-top: 14px;
+								text-align: right;
+
+								@include media(mobile) {
+									width: 100%;
+									text-align: center;
+								}
 							}
 
-							div.half {
-								width: 447px !important;
+							a.half {
+								display: inline-block;
+								//width: 447px !important;
+								color: $whiteText;
 
-								div:first-child {
-									width: 67px;
+								width: 380px;
+								//width: 81%;
+								min-height: 56px;
 
-									.army {
-										@include buttons_img($defaultBorder);
-									}
-									.count {
-										display: block;
-
-										font-size: 14px;
-										text-align: center;
-										margin-top: 10px;
-									}
-								}
 
 								h3 {
 									display: inline-block;
 									width: 345px;
+									//width: 85%;
 									margin-top: 10px;
 									font-size: 18px;
-									span {
+									cursor: pointer;
+									small {
 										display: block;
 										margin-top: 4px;
-										width: 345px;
+										width: 100%;
 										font-size: 14px;
 									}
 									i {
 										display: inline-block;
-										background: url("../img/icons/padlock.png") no-repeat;
+										background: url("/Assets/img/icons/padlock.png") no-repeat;
 										width: 9px;
 										height: 12px;
 										margin-top: 3px;
 									}
+									@include media(mobile) {
+										width: 85%;
+									}
+									@include media(small-mobile) {
+										font-size: 14px;
+									}
 								}
-								div:nth-child(3) {
+								var {
+									display: inline-block;
 									width: 35px;
+									//width: 15%;
 									font-size: 16px;
 									margin-top: 14px;
 									text-align: center;
+
+									@include media(mobile) {
+										width: 15%;
+									}
+									@include media(small-mobile) {
+										font-size: 14px;
+									}
+								}
+								@include media(mobile) {
+									width: 79%;
 								}
 							}
 
@@ -197,7 +304,7 @@ html {
 								display: block;
 								height: 1px;
 								width: 100%;
-								background: url("../img/div_100.png") no-repeat;
+								background: url("/Assets/img/div_100.png") no-repeat;
 								margin-top: 7px;
 							}
 							&:hover {
@@ -205,30 +312,42 @@ html {
 							}
 						}
 					}
+
+					@include media(mobile) {
+						width: 100%;
+					}
 				}
 				article.width_50 {
-					width: 473px;
+					width: 493px;
 					h2 {
 						padding-top: 0;
 
 						&:after {
 							content: "";
-							background: url("../img/div_50.png") no-repeat;
+							background: url("/Assets/img/div_50.png") no-repeat;
+							@include media(mobile) {
+								background: url("/Assets/img/div_100.png") no-repeat;
+							}
 						}
 					}
 					ul.army_display {
 						li {
 							div:first-child {
-								width: 26px;
+								//width: 26px;
+								width: 5%;
 							}
 							div:nth-child(2) {
-								width: 67px;
+								//width: 67px;
+								width: 14%;
 							}
 							div:nth-child(3) {
-								width: 345px;
+								//width: 345px;
+								width: 90%;
 							}
 							div:nth-child(4) {
-								width: 35px;
+								//width: 35px;
+								width: 10%;
+
 							}
 
 							&:after {
@@ -236,17 +355,48 @@ html {
 								display: block;
 								height: 1px;
 								width: 100%;
-								background: url("../img/divm_50.png") no-repeat;
+								background: url("/Assets/img/divm_50.png") no-repeat;
 								margin-top: 7px;
+
+								@include media(mobile) {
+									background: url("/Assets/img/div_100.png") no-repeat;
+								}
 							}
 						}
 					}
 
+					@include media(mobile) {
+						width: 100%;
+					}
 				}
 				article.width_50.first {
 					margin-right: 15px;
+					@include media(mobile) {
+						margin-right: 0px;
+					}
 				}
 			}
+		}
+		h3.add_step_3 {
+			display: block;
+			width: 100%;
+			margin: 10px 0;
+			font-size: 24px;
+			font-family: $head-stack;
+			color: $whiteText;
+
+		}
+		ul.add_step_3 {
+			display: block;
+			width: 100%;
+
+			li {
+				margin: 10px 0;
+				font-size: 14px;
+				font-family: $default-stack;
+				color: $whiteText;
+			}
+
 		}
 	}
 }

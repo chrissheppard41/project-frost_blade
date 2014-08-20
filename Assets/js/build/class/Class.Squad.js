@@ -1,5 +1,6 @@
 function Squad() {
 	var Id = 0;
+	var SquadId = 0;
 	var Units = [];
 	this.Group = "";
 	var ArmyList = "";
@@ -15,6 +16,12 @@ function Squad() {
 	};
 	this.getId = function() {
 		return Id;
+	};
+	this.setSquadId = function(_SquadId) {
+		SquadId = _SquadId;
+	};
+	this.getSquadId = function() {
+		return SquadId;
 	};
 	this.setArmyList = function(_ArmyList) {
 		ArmyList = _ArmyList;

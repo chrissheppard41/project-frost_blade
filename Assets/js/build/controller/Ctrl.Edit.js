@@ -1,5 +1,9 @@
-myApp.controller('EditCtrl', ["$scope", "$routeParams", "$location", "list", function($scope, $routeParams, $location, list) {
+myApp.controller('EditCtrl', ["$scope", "$rootScope", "$routeParams", "$location", "list", function($scope, $rootScope, $routeParams, $location, list) {
 	$scope.user_id = $sid;
+
+	if(!$rootScope.logged_in) {
+		window.location.href = "#/";
+	}
 
 	$scope.routeParams = $routeParams;
 	console.log("Edit", $scope.routeParams.id);

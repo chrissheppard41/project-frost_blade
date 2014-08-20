@@ -9,7 +9,8 @@ var	gulp = require('gulp'),
 	concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
     ngAnnotate = require('gulp-ng-annotate'),
-    steamify = require('gulp-streamify');
+    steamify = require('gulp-streamify'),
+    optipng = require('imagemin-optipng');
 
 
 gulp.task('css', function() {
@@ -61,9 +62,13 @@ gulp.task('concat', function() {
 });
 
 gulp.task('image', function () {
-    gulp.src('images/*')
-        .pipe(imagemin())
-        .pipe(gulp.dest('images'));
+    gulp.src('img/**/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [optipng()]
+        }))
+        .pipe(gulp.dest('img'));
 });
 
 gulp.task('watch', function() {

@@ -60,7 +60,7 @@ class ArmyListsController extends Controller {
 									"Users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id", "Users.id"
+									"ArmyLists.users_id" => "Users.id"
 								)
 							),
 							"Armies" => array(
@@ -68,7 +68,7 @@ class ArmyListsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id", "armies.id"
+									"ArmyLists.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -116,7 +116,7 @@ class ArmyListsController extends Controller {
 									"Users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id", "Users.id"
+									"ArmyLists.users_id" => "Users.id"
 								)
 							),
 							"Armies" => array(
@@ -124,7 +124,7 @@ class ArmyListsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id", "armies.id"
+									"ArmyLists.armies_id" => "armies.id"
 								)
 							)
 						)

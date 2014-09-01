@@ -11,7 +11,7 @@
 		<thead>
 			<tr>
 				<th><?php echo $this->Html->Pag_Sort('name');?></th>
-				<th><?php echo $this->Html->Pag_Sort('pts');?></th>
+				<!--th><?php //echo $this->Html->Pag_Sort('pts');?></th-->
 				<th><?php echo $this->Html->Pag_Sort('army');?></th>
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
 				<th><?php echo $this->Html->Pag_Sort('modified');?></th>
@@ -22,7 +22,7 @@
 			<?php foreach ($typ__['data']["Wargears"] as $wargear){ ?>
 			<tr id="armyLists-<?php echo $wargear['id']; ?>" data-id="<?php echo $wargear['id']; ?>">
 				<td><?php echo $wargear['name']; ?></td>
-				<td><?php echo $wargear['pts']; ?></td>
+				<!--td><?php //echo $wargear['pts']; ?></td-->
 				<td><?php echo $this->Html->Url($wargear["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($wargear["army_id"]))); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $wargear['created']); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $wargear['modified']); ?></td>

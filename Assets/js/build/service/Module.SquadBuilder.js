@@ -17,7 +17,8 @@ myApp.factory('squadbuilder', [function(){
 							var squadunit = squads[i].SquadUnits;
 							for(var unit_index in squadunit) {
 								var unit_count = armysquads[ii].ArmyUnits[unit_index].count;
-								cost = cost + (parseInt(squadunit[unit_index].Units.pts, 0) * parseInt(unit_count, 0));
+								//cost = cost + (parseInt(squadunit[unit_index].Units.pts, 0) * parseInt(unit_count, 0));
+								cost = cost + (parseInt(squadunit[unit_index].pts, 0) * parseInt(unit_count, 0));
 
 								if(squadunit[unit_index].Units.front_armour !== 0) squad.setArmour(true);
 
@@ -25,8 +26,8 @@ myApp.factory('squadbuilder', [function(){
 								unit.setAttr("count", unit_count);
 								Units.push(unit);
 
-								squad.buildCharacteristics(squadunit[unit_index].Units.UnitCharacteristics);
-								squad.buildWargears(squadunit[unit_index].Units.Wargears);
+								squad.buildCharacteristics(squadunit[unit_index].UnitCharacteristics);
+								squad.buildWargears(squadunit[unit_index].Wargears);
 
 
 								if(armysquads[ii].ArmyUnits[unit_index].ArmyWargears !== undefined) {
@@ -75,16 +76,19 @@ myApp.factory('squadbuilder', [function(){
 
 			if(drop === -1) {
 				drop = SquadList.getSquad().length;
+			} else {
+				element.remove();
 			}
 
 			for(var unit_index in $scope.currentDraggedSquad.SquadUnits) {
-				cost = cost + (parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].Units.pts, 0) * parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].min_count, 0));
+				//cost = cost + (parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].Units.pts, 0) * parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].min_count, 0));
+				cost = cost + (parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].pts, 0) * parseInt($scope.currentDraggedSquad.SquadUnits[unit_index].min_count, 0));
 
 				Units.push(new Unit($scope.currentDraggedSquad.SquadUnits[unit_index]));
 				if($scope.currentDraggedSquad.SquadUnits[unit_index].Units.front_armour !== 0) squad.setArmour(true);
 
-				squad.buildCharacteristics($scope.currentDraggedSquad.SquadUnits[unit_index].Units.UnitCharacteristics);
-				squad.buildWargears($scope.currentDraggedSquad.SquadUnits[unit_index].Units.Wargears);
+				squad.buildCharacteristics($scope.currentDraggedSquad.SquadUnits[unit_index].UnitCharacteristics);
+				squad.buildWargears($scope.currentDraggedSquad.SquadUnits[unit_index].Wargears);
 			}
 
 			//squad.setId($scope.currentDraggedSquad.id);
@@ -105,8 +109,6 @@ myApp.factory('squadbuilder', [function(){
 				$scope.armycost = SquadList.getTotal();
 				SquadList.orderSquads();
 			});
-
-			//element.remove();
 		}
 	};
 }]);

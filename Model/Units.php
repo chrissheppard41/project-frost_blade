@@ -135,14 +135,6 @@ class Units extends \Frost\Configs\Database {
 				"message" => "You must include your invulnerable save value"
 			)
 		),
-		'pts' => array(
-			'numeric' => array(
-				"message" => "The points value must be numeric"
-			),
-			'notempty' => array(
-				"message" => "You must include your points value"
-			)
-		),
 		'unitTypes_id' => array(
 			'notempty' => array(
 				"message" => "You must include your unit type value"
@@ -152,28 +144,12 @@ class Units extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		/*"Squads" => array(
+		"Squads" => array(
 			"type" => "HABTM",
 			"linktable" => "squadunits",
 			"lefttable" => "squads",
 			"leftcols" => array("squads.id","squads.name","squads.created","squads.modified"),
 			"linkColumn" => "squads_id",
-			"baseColumn" => "units_id"
-		),*/
-		"UnitCharacteristics" => array(
-			"type" => "HABTM",
-			"linktable" => "unitqualities",
-			"lefttable" => "unitcharacteristics",
-			"leftcols" => array("unitcharacteristics.id","unitcharacteristics.name","unitcharacteristics.created","unitcharacteristics.modified"),
-			"linkColumn" => "unitcharacteristics_id",
-			"baseColumn" => "units_id"
-		),
-		"Wargears" => array(
-			"type" => "HABTM",
-			"linktable" => "unitwargears",
-			"lefttable" => "wargears",
-			"leftcols" => array("wargears.id","wargears.name","wargears.created","wargears.modified"),
-			"linkColumn" => "wargears_id",
 			"baseColumn" => "units_id"
 		)
 	);

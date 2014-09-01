@@ -4,10 +4,11 @@ function Unit(UnitInfo) {
 		min_count: parseInt(UnitInfo.min_count, 0),
 		max_count: parseInt(UnitInfo.max_count, 0),
 		count: parseInt(UnitInfo.min_count, 0),
+		pts: parseInt(UnitInfo.pts, 0),
 		Groups: UnitInfo.Groups,
 		Equiped: [],
 		Unit: {
-			name: UnitInfo.Units.name,
+			name: UnitInfo.name,
 			unittype: UnitInfo.Units.unittype,
 			weapon_skill: parseInt(UnitInfo.Units.weapon_skill, 0),
 			ballistic_skill: parseInt(UnitInfo.Units.ballistic_skill, 0),
@@ -23,7 +24,7 @@ function Unit(UnitInfo) {
 			side_armour: parseInt(UnitInfo.Units.side_armour, 0),
 			rear_armour: parseInt(UnitInfo.Units.rear_armour, 0),
 			hull_hitpoints: parseInt(UnitInfo.Units.hull_hitpoints, 0),
-			pts: parseInt(UnitInfo.Units.pts, 0)
+			//pts: parseInt(UnitInfo.Units.pts, 0)
 		}
 
 	};

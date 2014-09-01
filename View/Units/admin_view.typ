@@ -2,7 +2,7 @@
 //\Configure::pre($typ__);
 ?>
 <div class="page-header">
-	<h1><?php echo $this->Html->Url($this->Html->__t("Units"), array("action" => "index", "admin" => true)); ?> - <?php echo $typ__["data"]["Units"]["name"]; ?></h1>
+	<h1><?php echo $this->Html->Url($this->Html->__t("Units"), array("action" => "index", "admin" => true)); ?> - View unit</h1>
 </div>
 
 <div class="raceTypes view">
@@ -15,10 +15,10 @@
 	  		</span>
 	  	</div>
 	  	<div class="panel-body">
-	  		<div class="row">
-	  			<span class="col-md-3"><?php echo $this->Html->__t("Name"); ?></span>
-	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["name"]; ?></span>
-	  		</div>
+	  		<!--div class="row">
+	  			<span class="col-md-3"><?php //echo $this->Html->__t("Name"); ?></span>
+	  			<span class="col-md-9"><?php //echo $typ__["data"]["Units"]["name"]; ?></span>
+	  		</div-->
 
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Weapon skill"); ?></span>
@@ -37,12 +37,12 @@
 	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["toughness"]; ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo $this->Html->__t("Initiative"); ?></span>
-	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["initiative"]; ?></span>
-	  		</div>
-	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Wounds"); ?></span>
 	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["wounds"]; ?></span>
+	  		</div>
+	  		<div class="row">
+	  			<span class="col-md-3"><?php echo $this->Html->__t("Initiative"); ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["initiative"]; ?></span>
 	  		</div>
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Attacks"); ?></span>
@@ -77,10 +77,6 @@
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Invulnerable save"); ?></span>
 	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["invulnerable_save"]; ?></span>
-	  		</div>
-	  		<div class="row">
-	  			<span class="col-md-3"><?php echo $this->Html->__t("Points"); ?></span>
-	  			<span class="col-md-9"><?php echo $typ__["data"]["Units"]["pts"]; ?></span>
 	  		</div>
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Unit type"); ?></span>
@@ -125,35 +121,6 @@
 				<?php echo $this->Html->Url($this->Html->__t('View'), array('controller' => 'squads', 'action' => 'view', "params" => array($Units['id']), "admin" => true), array('class' => 'btn-sm btn-primary')); ?>
 				<?php echo $this->Html->Url($this->Html->__t('Edit'), array('controller' => 'squads', 'action' => 'edit', "params" => array($Units['id']), "admin" => true), array('class' => 'btn-sm btn-warning')); ?>
 				<?php echo $this->Html->UrlPost($this->Html->__t('Delete'), array('controller' => 'squads', 'action' => 'delete', "params" => array($Units['id']), "admin" => true), array('class' => 'btn-sm btn-danger'), $this->Html->__t('Are you sure you want to delete this record?')); ?>
-			</td>
-		</tr>
-	<?php } ?>
-	</table>
-<?php } ?>
-
-</div>
-
-
-<div class="related">
-	<h3><?php echo $this->Html->__t('Related Wargears');?></h3>
-	<?php if (!empty($typ__["data"]["Units"]["Wargears"])){ ?>
-	<table class="table table-striped table-bordered table-listings">
-	<tr>
-		<th><?php echo $this->Html->__t('Name'); ?></th>
-		<th><?php echo $this->Html->__t('Created'); ?></th>
-		<th><?php echo $this->Html->__t('Modified'); ?></th>
-		<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
-	</tr>
-	<?php
-		foreach ($typ__["data"]["Units"]["Wargears"] as $wargears){ ?>
-		<tr>
-			<td><?php echo $wargears['name'];?></td>
-			<td><?php echo $this->Html->Time("TimeAgo", $wargears['created']);?></td>
-			<td><?php echo $this->Html->Time("TimeAgo", $wargears['modified']);?></td>
-			<td class="actions">
-				<?php echo $this->Html->Url($this->Html->__t('View'), array('controller' => 'wargears', 'action' => 'view', "params" => array($wargears['id']), "admin" => true), array('class' => 'btn-sm btn-primary')); ?>
-				<?php echo $this->Html->Url($this->Html->__t('Edit'), array('controller' => 'wargears', 'action' => 'edit', "params" => array($wargears['id']), "admin" => true), array('class' => 'btn-sm btn-warning')); ?>
-				<?php echo $this->Html->UrlPost($this->Html->__t('Delete'), array('controller' => 'wargears', 'action' => 'delete', "params" => array($wargears['id']), "admin" => true), array('class' => 'btn-sm btn-danger'), $this->Html->__t('Are you sure you want to delete this record?')); ?>
 			</td>
 		</tr>
 	<?php } ?>

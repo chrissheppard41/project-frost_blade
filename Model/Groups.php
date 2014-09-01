@@ -29,7 +29,7 @@ class Groups extends \Frost\Configs\Database {
 			"type" => "HABTM",
 			"linktable" => "wargeargroups",
 			"lefttable" => "wargears",
-			"leftcols" => array("wargears.id","wargears.name","wargears.created","wargears.modified"),
+			"leftcols" => array("wargears.id","wargears.name","wargears.created","wargears.modified","wargeargroups.id as `wargeargroups_id`","wargeargroups.pts"),
 			"linkColumn" => "wargears_id",
 			"baseColumn" => "groups_id"
 		),
@@ -46,7 +46,19 @@ class Groups extends \Frost\Configs\Database {
 					"linkColumn" => "squads_id"
 				)
 			)
-		)
+		),
+		/*"WargearGroups" => array(
+			"type" => "HM",
+			"linktable" => null,
+			"lefttable" => "wargeargroups",
+			"leftcols" => array(
+				"WargearGroups.id",
+				"WargearGroups.groups_id",
+				"WargearGroups.wargears_id",
+			),
+			"linkColumn" => "groups_id",
+			"baseColumn" => null,
+		)*/
 	);
 
 	function __construct($options, $inputted_params){

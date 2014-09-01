@@ -43,7 +43,7 @@ class UnitsController extends Controller {
 					array(
 						"fields" => array(
 							"id",
-							"name",
+							//"name",
 							"weapon_skill",
 							"ballistic_skill",
 							"strength",
@@ -58,7 +58,6 @@ class UnitsController extends Controller {
 							"side_armour",
 							"rear_armour",
 							"hull_hitpoints",
-							"pts",
 							"created",
 							"modified"
 						),
@@ -89,7 +88,7 @@ class UnitsController extends Controller {
 					array(
 						"fields" => array(
 							"id",
-							"name",
+							//"name",
 							"weapon_skill",
 							"ballistic_skill",
 							"strength",
@@ -104,35 +103,30 @@ class UnitsController extends Controller {
 							"hull_hitpoints",
 							"armour_save",
 							"invulnerable_save",
-							"pts",
 							"created",
 							"modified"
 						),
 						"conditions" => array("Units.id" => $options[0]),
 						"contains" => array(
 							"Squads" => array(),
-							"UnitCharacteristics" => array(),
 							"UnitTypes" => array(
 								"fields" => array(
 									"unittypes.id as `unittype_id`",
 									"unittypes.name as `unittype_name`"
 								),
 								"relation" => array(
-									"units.unittypes_id",
-									"unittypes.id"
+									"units.unittypes_id" => "unittypes.id"
 								)
 							),
 							"Armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
-									"armies.name as `army_name`"
+									 "armies.name as `army_name`"
 								),
 								"relation" => array(
-									"units.armies_id",
-									"armies.id"
+									"units.armies_id" => "armies.id"
 								)
-							),
-							"Wargears" => array()
+							)
 						)
 					)
 				)
@@ -164,8 +158,6 @@ class UnitsController extends Controller {
 		$data = $this->model->Find("all", array(
 			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
 			"Squads" => array( array( "fields" => array( "id", "name") ) ),
-			"UnitCharacteristics" => array( array( "fields" => array( "id", "name") ) ),
-			"Wargears" => array( array( "fields" => array( "id", "name") ) ),
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) );
 
@@ -194,12 +186,10 @@ class UnitsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Units', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", "name", "weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "pts", "unitTypes_id", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", /*"name", */"weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "unitTypes_id", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
 			"Squads" => array( array( "fields" => array( "id", "name") ) ),
-			"UnitCharacteristics" => array( array( "fields" => array( "id", "name") ) ),
-			"Wargears" => array( array( "fields" => array( "id", "name"), "conditions" => array("armies_id" => $data["Units"]["armies_id"]) ) ),
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;

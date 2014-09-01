@@ -17,8 +17,8 @@ class Types extends \Frost\Configs\Database {
 			),
 			"between" => array(
 				"min" => 2,
-				"max" => 15,
-				"message" => "Between 2 to 15 characters"
+				"max" => 21,
+				"message" => "Between 2 to 21 characters"
 			)
 		)
 	);

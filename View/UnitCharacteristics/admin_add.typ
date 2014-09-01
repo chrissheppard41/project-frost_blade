@@ -12,6 +12,9 @@
 					"accept-charset" => "utf-8"
 				));
 		echo $this->Html->Input("name", "UnitCharacteristics", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "UserName"));
+
+		echo $this->Html->Input("armies_id", "UnitCharacteristics", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
+
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
 		echo $this->Html->Form();
 	?>

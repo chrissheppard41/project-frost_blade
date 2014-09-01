@@ -55,8 +55,7 @@ class GroupsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"groups.armies_id",
-									"armies.id"
+									"groups.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -100,8 +99,7 @@ class GroupsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"groups.armies_id",
-									"armies.id"
+									"groups.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -129,11 +127,11 @@ class GroupsController extends Controller {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
 				\Cache::delete("Squads", "squad_data_".$methodData["data"]["Groups"]["armies_id"]);
-				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'view', 'params' => array($this->model->last_id), 'admin' => true));
 			}
 		}
 		$data = $this->model->Find("all", array(
-			"Wargears" => array( array( "fields" => array( "id", "name") ) ),
+			"Wargears" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) );
 
@@ -157,12 +155,12 @@ class GroupsController extends Controller {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
 				\Cache::delete("Squads", "squad_data_".$methodData["data"]["Groups"]["armies_id"]);
-				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'view', 'params' => array($options[0]), 'admin' => true));
 			}
 		}
 		$data = $this->model->Find("first", array( "Groups" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "Wargears" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"Wargears" => array( array( "fields" => array( "id", "name"), "conditions" => array("armies_id" => $data["Groups"]["armies_id"]) ) ),
+			"Wargears" => array( array( "fields" => array( "id", "name"), "conditions" => array("armies_id" => $data["Groups"]["armies_id"]), "order" => array("name") ) ),
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;

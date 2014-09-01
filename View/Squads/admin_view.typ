@@ -55,7 +55,7 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 <div class="raceTypes view">
 	<div class="panel <?php echo $panel; ?>">
 		<div class="panel-heading">
-			<?php echo $this->Html->__t("Squad Unit information"); ?> - <?php echo $squadunit['Units']['name'];?>
+			<?php echo $this->Html->__t("Squad Unit information"); ?> - <?php echo $squadunit['name'];?>
 			<span class="pull-right">
 				<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "squadunits", "action" => "edit", "admin" => true, "params" => array($squadunit["id"], $typ__["data"]["Squads"]["id"])), array("class" => "btn-sm btn-warning")); ?>
 				<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "controller" => "squadunits", "action" => "delete", "params" => array($squadunit["id"], $typ__["data"]["Squads"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
@@ -66,7 +66,7 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 					<tr>
 						<th><?php echo $this->Html->__t('Name'); ?></th>
 						<?php
-						if($squadunit['Units']['front_armour'] === 0) {
+						if($squadunit['Units']['front_armour'] == 0) {
 						?>
 						<th><?php echo $this->Html->__t('WS'); ?></th>
 						<th><?php echo $this->Html->__t('BS'); ?></th>
@@ -78,7 +78,7 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 						<th><?php echo $this->Html->__t('Ld'); ?></th>
 						<th><?php echo $this->Html->__t('S'); ?></th>
 						<th><?php echo $this->Html->__t('Is'); ?></th>
-						<th><?php echo $this->Html->__t('Pts'); ?></th>
+						<!--th><?php //echo $this->Html->__t('Pts'); ?></th-->
 						<?php
 						} else {
 						?>
@@ -91,7 +91,7 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 						<th><?php echo $this->Html->__t('I'); ?></th>
 						<th><?php echo $this->Html->__t('A'); ?></th>
 						<th><?php echo $this->Html->__t('HP'); ?></th>
-						<th><?php echo $this->Html->__t('Pts'); ?></th>
+						<!--th><?php //echo $this->Html->__t('Pts'); ?></th-->
 						<?php
 						}
 						?>
@@ -102,9 +102,9 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 					</tr>
 
 					<tr>
-						<td><?php echo $squadunit['Units']['name'];?></td>
+						<td><?php echo $squadunit['name'];?></td>
 						<?php
-						if($squadunit['Units']['front_armour'] === 0) {
+						if($squadunit['Units']['front_armour'] == 0) {
 						?>
 						<td><?php echo $squadunit['Units']['weapon_skill'];?></td>
 						<td><?php echo $squadunit['Units']['ballistic_skill'];?></td>
@@ -116,7 +116,7 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 						<td><?php echo $squadunit['Units']['leadership'];?></td>
 						<td><?php echo $squadunit['Units']['armour_save'];?></td>
 						<td><?php echo $squadunit['Units']['invulnerable_save'];?></td>
-						<td><?php echo $squadunit['Units']['pts'];?></td>
+						<!--td><?php //echo $squadunit['Units']['pts'];?></td-->
 						<?php
 						} else {
 						?>
@@ -129,7 +129,7 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 						<td><?php echo $squadunit['Units']['initiative'];?></td>
 						<td><?php echo $squadunit['Units']['attacks'];?></td>
 						<td><?php echo $squadunit['Units']['hull_hitpoints'];?></td>
-						<td><?php echo $squadunit['Units']['pts'];?></td>
+						<!--td><?php //echo $squadunit['Units']['pts'];?></td-->
 						<?php
 						}
 						?>
@@ -151,12 +151,12 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 				<span class="col-md-9">
 					<ul class="list-group">
 					<?php
-					if(!empty($squadunit["Units"]["Wargears"])) {
+					if(!empty($squadunit["Wargears"])) {
 
-						foreach($squadunit["Units"]["Wargears"] as $wargear) {?>
+						foreach($squadunit["Wargears"] as $wargear) {?>
 							<li class="list-group-item"><?php echo $wargear["name"]; ?>
 								<span class="pull-right">
-									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "units", "action" => "edit", "admin" => true, "params" => array($squadunit['Units']['id'])), array("class" => "btn-sm btn-warning")); ?>
+									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "wargears", "action" => "edit", "admin" => true, "params" => array($wargear['id'])), array("class" => "btn-sm btn-warning")); ?>
 								</span>
 							</li>
 						<?php } ?>
@@ -174,11 +174,99 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 				<span class="col-md-9">
 					<ul class="list-group">
 					<?php
-					if(!empty($squadunit["Units"]["UnitCharacteristics"])) {
-						foreach($squadunit["Units"]["UnitCharacteristics"] as $uc) {?>
+					if(!empty($squadunit["UnitCharacteristics"])) {
+						foreach($squadunit["UnitCharacteristics"] as $uc) {?>
 							<li class="list-group-item"><?php echo $uc["name"]; ?>
 								<span class="pull-right">
-									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "units", "action" => "edit", "admin" => true, "params" => array($squadunit['Units']['id'])), array("class" => "btn-sm btn-warning")); ?>
+									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "UnitCharacteristics", "action" => "edit", "admin" => true, "params" => array($uc['id'])), array("class" => "btn-sm btn-warning")); ?>
+								</span>
+							</li>
+						<?php }
+						} else {
+							?>
+							<li class="list-group-item">None</li>
+							<?php
+						}
+					?>
+					</ul>
+				</span>
+			</div>
+			<div class="row">
+				<span class="col-md-3"><?php echo $this->Html->__t("Psyker abilities"); ?></span>
+				<span class="col-md-9">
+					<ul class="list-group">
+					<?php
+					if(!empty($squadunit["Psykers"])) {
+						foreach($squadunit["Psykers"] as $py) {?>
+							<li class="list-group-item"><?php echo $py["name"]; ?>
+								<span class="pull-right">
+									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "psykers", "action" => "edit", "admin" => true, "params" => array($py['id'])), array("class" => "btn-sm btn-warning")); ?>
+								</span>
+							</li>
+						<?php }
+						} else {
+							?>
+							<li class="list-group-item">None</li>
+							<?php
+						}
+					?>
+					</ul>
+				</span>
+			</div>
+			<div class="row">
+				<span class="col-md-3"><?php echo $this->Html->__t("Race relics"); ?></span>
+				<span class="col-md-9">
+					<ul class="list-group">
+					<?php
+					if(!empty($squadunit["Relics"])) {
+						foreach($squadunit["Relics"] as $rr) {?>
+							<li class="list-group-item"><?php echo $rr["name"]; ?>
+								<span class="pull-right">
+									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "psykers", "action" => "edit", "admin" => true, "params" => array($rr['id'])), array("class" => "btn-sm btn-warning")); ?>
+								</span>
+							</li>
+						<?php }
+						} else {
+							?>
+							<li class="list-group-item">None</li>
+							<?php
+						}
+					?>
+					</ul>
+				</span>
+			</div>
+			<div class="row">
+				<span class="col-md-3"><?php echo $this->Html->__t("Warlord traits"); ?></span>
+				<span class="col-md-9">
+					<ul class="list-group">
+					<?php
+					if(!empty($squadunit["Warlords"])) {
+						foreach($squadunit["Warlords"] as $wt) {?>
+							<li class="list-group-item"><?php echo $wt["name"]; ?>
+								<span class="pull-right">
+									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "psykers", "action" => "edit", "admin" => true, "params" => array($wt['id'])), array("class" => "btn-sm btn-warning")); ?>
+								</span>
+							</li>
+						<?php }
+						} else {
+							?>
+							<li class="list-group-item">None</li>
+							<?php
+						}
+					?>
+					</ul>
+				</span>
+			</div>
+			<div class="row">
+				<span class="col-md-3"><?php echo $this->Html->__t("Transport capacity"); ?></span>
+				<span class="col-md-9">
+					<ul class="list-group">
+					<?php
+					if(!empty($squadunit["Transports"])) {
+						foreach($squadunit["Transports"] as $tc) {?>
+							<li class="list-group-item"><?php echo $tc["name"]; ?>
+								<span class="pull-right">
+									<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "psykers", "action" => "edit", "admin" => true, "params" => array($tc['id'])), array("class" => "btn-sm btn-warning")); ?>
 								</span>
 							</li>
 						<?php }
@@ -227,6 +315,10 @@ if(isset($typ__["data"]["Squads"]["SquadUnits"])) {
 			<div class="row">
 				<span class="col-md-3"><?php echo $this->Html->__t("Max Squad count"); ?></span>
 				<span class="col-md-9"><?php echo $squadunit["max_count"]; ?></span>
+			</div>
+			<div class="row">
+				<span class="col-md-3"><?php echo $this->Html->__t("Unit type"); ?></span>
+				<span class="col-md-9"><?php echo $squadunit["Units"]["unittype"]; ?></span>
 			</div>
 			<div class="row">
 				<span class="col-md-3"><?php echo $this->Html->__t("Created"); ?></span>

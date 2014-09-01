@@ -11,6 +11,9 @@ var Wargear = (function(){
 					case "*":
 						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, (_obj.getUnitAttr(_item.UnitUpgrades.effected_column) * _item.UnitUpgrades.factor));
 					break;
+					case "=":
+						//_obj.setUnitAttr(_item.UnitUpgrades.effected_column, _item.UnitUpgrades.factor);
+					break;
 				}
 			}
 
@@ -26,6 +29,9 @@ var Wargear = (function(){
 					break;
 					case "*":
 						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, (_obj.getUnitAttr(_item.UnitUpgrades.effected_column) / _item.UnitUpgrades.factor));
+					break;
+					case "=":
+						//_obj.setUnitAttr(_item.UnitUpgrades.effected_column, _item.UnitUpgrades.factor);
 					break;
 				}
 			}

@@ -55,7 +55,7 @@ class ArmiesController extends Controller {
 									"races.name as `races_name`"
 								),
 								"relation" => array(
-									"Armies.races_id", "races.id"
+									"Armies.races_id" => "races.id"
 								)
 							),
 							"Colours" => array(
@@ -63,7 +63,7 @@ class ArmiesController extends Controller {
 									"colours.name as `colours_name`"
 								),
 								"relation" => array(
-									"Armies.colours_id", "colours.id"
+									"Armies.colours_id" => "colours.id"
 								)
 							)
 						),
@@ -111,8 +111,7 @@ class ArmiesController extends Controller {
 									"races.name as `race_name`"
 								),
 								"relation" => array(
-									"armies.races_id",
-									"races.id"
+									"armies.races_id" => "races.id"
 								)
 							),
 							"Colours" => array(
@@ -121,8 +120,7 @@ class ArmiesController extends Controller {
 									"colours.name as `colour_name`"
 								),
 								"relation" => array(
-									"armies.colours_id",
-									"colours.id"
+									"armies.colours_id" => "colours.id"
 								)
 							)
 						)

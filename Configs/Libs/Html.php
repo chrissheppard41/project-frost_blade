@@ -234,8 +234,7 @@ class Html {
  * @return (string)
   **/
 	public function Input($name, $model, $options = array(), $list = array(), $angular = false) {
-//\Configure::pre($_POST['data'][$model][$name], false);
-
+		$_name = $name;
 		$nameucf = ucfirst($name);
 		$output = '<div class="form-group">';
 		$outputExra = '';
@@ -288,9 +287,9 @@ class Html {
 				foreach($list as $key => $values) {
 					$found = false;
 
-					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$name])) {
-						if($values["id"] == $_POST['data'][$model][$name]) $found = true;
-						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name], "id")) $found = true;
+					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$_name])) {
+						if($values["id"] == $_POST['data'][$model][$_name]) $found = true;
+						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$_name], "id")) $found = true;
 					}
 
 					$output .= '<option value="'.$values["id"].'"'.(($found)?" selected='selected'":"").'>'.$values["name"].'</option>';
@@ -298,15 +297,15 @@ class Html {
 				$output .= '</select>';
 			} else if($options['type'] == "textarea") {
 				$output .= '>';
-				if(isset($_POST['data'][$model][$name])) $output .= $_POST['data'][$model][$name];
+				if(isset($_POST['data'][$model][$_name])) $output .= $_POST['data'][$model][$_name];
 				$output .= '</textarea>';
 			} else if($options['type'] == "radio") {
 
 				foreach($list as $key => $values) {
 					$found = false;
-					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$name])) {
-						if($values["id"] == $_POST['data'][$model][$name]) $found = true;
-						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$name])) $found = true;
+					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$_name])) {
+						if($values["id"] == $_POST['data'][$model][$_name]) $found = true;
+						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$_name])) $found = true;
 					}
 
 					$output .= '<input name="'.$name.'" value="'.$values["id"].'"'.$radio.''.(($found)?" selected='selected'":"").' /> '.$values["name"].'<br />';
@@ -314,12 +313,13 @@ class Html {
 
 
 			} else {
-				if(isset($_POST['data'][$model][$name])) {
+				if(isset($_POST['data'][$model][$_name])) {
 					if($options['type'] == "checkbox") {
-						if((bool)$_POST['data'][$model][$name] === true)
+						if((bool)$_POST['data'][$model][$_name] === true)
 							$output .= ' checked="checked"';
-					} else
-						$output .= ' value="'.$_POST['data'][$model][$name].'"';
+					} else {
+						$output .= ' value="'.$_POST['data'][$model][$_name].'"';
+					}
 				}
 
 				$output .= ' />';
@@ -327,6 +327,84 @@ class Html {
 		}
 		$output .= '</div>';
 				return $output;
+	}
+
+/**
+ * MultiSearch method
+ * Generates a form multi select field in a nicely formatted way along with a search
+ *
+ * @param $options(array)
+ * @return (string)
+  **/
+	public function MultiSearch($name, $model, $options = array(), $list = array(), $angular = false) {
+		$_name = $name;
+		$nameucf = ucfirst($name);
+		$output = '<div class="form-group">';
+		$outputExra = '';
+		$radio = '';
+		$id = "";
+		if(isset($options['label'])){
+			$output .= '	<label for="'.$model.''.$nameucf.'" class="control-label">'.$options['label'].'</label>';
+			unset($options['label']);
+		}
+
+		if(isset($options)) {
+			if(isset($options['name']))
+				unset($options['name']);
+
+			if(!$angular) {
+				$name = 'data['.$model.']['.$name.']';
+			}
+			if($options['type'] == "select") {
+				if(!in_array("multiple", $options))
+					$output .= '<select name="'.$name.'"';
+				else
+					$output .= '<select name="'.$name.'[]"';
+			}
+
+
+			foreach($options as $key => $values) {
+				if($key == "type" && $values == "select" || $values == "textarea") continue;
+				if($key == 0 && $values == "multiple") {
+					$output .= ' multiple';
+				} else {
+					$output .= ' '.$key.'="'.$values.'"';
+					if($key == "id") {
+						$id = $values;
+					}
+				}
+			}
+
+			if($options['type'] == "select") {
+				$output .= '>';
+
+				if(!in_array("multiple", $options))
+					$output .= '<option value="">Select an option</option>';
+				foreach($list as $key => $values) {
+					$found = false;
+
+					if(isset($_POST) && !empty($_POST) && isset($_POST['data'][$model][$_name])) {
+						if($values["id"] == $_POST['data'][$model][$_name]) $found = true;
+						else if(\Configure::in_array_r($values["id"], $_POST['data'][$model][$_name], "id")) $found = true;
+					}
+
+					$output .= '<option value="'.$values["id"].'"'.(($found)?" selected='selected'":"").'>'.$values["name"].'</option>';
+				}
+				$output .= '</select>';
+			}
+		}
+		$output .= '</div>';
+		if($id != "") {
+			$output .= '<script>
+		        $("#'.$id.'").chosen({
+		            disable_search_threshold: 10,
+		            no_results_text: "Oops, nothing found!",
+		            width: "100%"
+		        });
+	        </script>';
+		}
+
+		return $output;
 	}
 
 /**

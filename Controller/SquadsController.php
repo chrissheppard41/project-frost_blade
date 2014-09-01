@@ -145,16 +145,17 @@ class SquadsController extends Controller {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
 				\Cache::delete("Squads". DS ."Armies", "_army_".$methodData["data"]["Squads"]["armies_id"]);
-				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'view', 'params' => array($this->model->last_id), 'admin' => true));
 			}
 		}
+
+		$join = '*, CONCAT(UnitTypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
+
 		$data = $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) ),
-			"Units" => array( array( "fields" => array( "id", "name") ) ),
+			"Units" => array( array( "fields" => array( "id", $join), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "unittypes.id" ) ) ), "order" => array("UnitTypes.name", "UnitTypes.weapon_skill") ) ),
 			"Types" => array( array( "fields" => array( "id", "name") ) )
 		) );
-
-
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
@@ -176,15 +177,17 @@ class SquadsController extends Controller {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
 				\Cache::delete("Squads". DS ."Armies", "_army_".$methodData["data"]["Squads"]["armies_id"]);
-				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'index', 'admin' => true));
+				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'view', 'params' => array($this->model->last_id), 'admin' => true));
 			}
 		}
 		$data = $this->model->Find("first", array( "Squads" => array( array( "fields" => array( "id", "name", "armies_id", "types_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "Units" => array() ) ) ) ) );
 		$_POST["data"] = $data;
 
+		$join = '*, CONCAT(UnitTypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
+
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) ),
-			"Units" => array( array( "fields" => array( "id", "name"), "conditions" => array("armies_id" => $data["Squads"]["armies_id"]) ) ),
+			"Units" => array( array( "fields" => array( "id", $join), "conditions" => array("armies_id" => $data["Squads"]["armies_id"]), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "UnitTypes.id" ) ) ), "order" => array("UnitTypes.name") ) ),
 			"Types" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 

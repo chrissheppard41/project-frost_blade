@@ -95,6 +95,7 @@ class Database {
 		$table = ucfirst($this->table);
 		foreach($this->post as $key => $value) {
 			$returnval = null;
+
 			if(isset($value[0])) {
 				$returnval = $this->deepsave($key, $value, 0, $this->relationships);
 			} else {
@@ -125,24 +126,42 @@ class Database {
 			"created, ".
 			"modified) VALUES ";
 		$i = 0;
-		foreach($value as $val) {
-			if($i != 0) $query["query"] .= ", ";
 
+		if(is_array($value)) {
+			foreach($value as $val) {
+				if($i != 0) $query["query"] .= ", ";
+
+				$query["query"] .= "(".
+					":".$i.$this->relationships[$table]["linkColumn"].", ".
+					":".$i.$this->relationships[$table]["baseColumn"].", ".
+					":".$i."created, ".
+					":".$i."modified".
+					")";
+
+				$query["params"] = array_merge($query["params"], array(
+					":".$i.$this->relationships[$table]["linkColumn"] => $val,
+					":".$i.$this->relationships[$table]["baseColumn"] => $id,
+					":".$i."created" => date("Y-m-d H:i:s"),
+					":".$i."modified" => date("Y-m-d H:i:s"))
+				);
+				$i++;
+			}
+		} else {
 			$query["query"] .= "(".
-				":".$i.$this->relationships[$table]["linkColumn"].", ".
-				":".$i.$this->relationships[$table]["baseColumn"].", ".
-				":".$i."created, ".
-				":".$i."modified".
+				":".$this->relationships[$table]["linkColumn"].", ".
+				":".$this->relationships[$table]["baseColumn"].", ".
+				":"."created, ".
+				":"."modified".
 				")";
 
 			$query["params"] = array_merge($query["params"], array(
-				":".$i.$this->relationships[$table]["linkColumn"] => $val,
-				":".$i.$this->relationships[$table]["baseColumn"] => $id,
-				":".$i."created" => date("Y-m-d H:i:s"),
-				":".$i."modified" => date("Y-m-d H:i:s"))
+				":".$this->relationships[$table]["linkColumn"] => $value,
+				":".$this->relationships[$table]["baseColumn"] => $id,
+				":"."created" => date("Y-m-d H:i:s"),
+				":"."modified" => date("Y-m-d H:i:s"))
 			);
-			$i++;
 		}
+
 		$query["query"] .= ";";
 
 		$this->query($query);
@@ -279,6 +298,7 @@ class Database {
 			"query" => $sql,
 			"params" => $arr
 		);
+
 		$this->query($query);
 		$this->last_id = $this->returnLastId();
 

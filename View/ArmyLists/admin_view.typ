@@ -1,6 +1,6 @@
 <?php ?>
 <div class="page-header">
-	<h1><?php echo $this->Html->Url($this->Html->__t('Army Lists'), array('action' => 'index')); ?> - <?php echo $typ__["data"]['ArmyLists']['name']; ?></h1>
+	<h1><?php echo $this->Html->Url($this->Html->__t('Army Lists'), array('action' => 'index', "admin" => true)); ?> - <?php echo $typ__["data"]['ArmyLists']['name']; ?></h1>
 </div>
 
 <div class="raceTypes view">

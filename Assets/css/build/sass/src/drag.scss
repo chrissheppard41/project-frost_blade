@@ -67,7 +67,7 @@ section {
 
 						dd {
 							display: inline-block;
-							width: 29px;
+							width: 34px;
 							min-height: 24px;
 							line-height: 24px;
 
@@ -166,7 +166,7 @@ section {
 								font-family: $head-stack;
 								&:first-child {
 									width: 74px;
-									margin-left: 162px;
+									margin-left: 160px;
 									@include media(mobile) {
 										margin-left: 0px;
 										width: 18%;
@@ -298,6 +298,12 @@ section {
 						li {
 							padding: 10px;
 							cursor: pointer;
+							border-bottom-style: solid;
+							border-bottom-width: 2px;
+
+							&:last-child {
+								border-bottom: none;
+							}
 						}
 					}
 
@@ -469,7 +475,7 @@ section {
 					.a-drop-highlight {
 						border-color: $hqborder;
 					}
-					aside {
+					li, aside {
 						border-color: $hqborder;
 					}
 					.ui-draggable-dragging {
@@ -484,7 +490,7 @@ section {
 					.a-drop-highlight {
 						border-color: $eliteborder;
 					}
-					aside {
+					li, aside {
 						border-color: $eliteborder;
 					}
 					.ui-draggable-dragging {
@@ -499,7 +505,7 @@ section {
 					.a-drop-highlight {
 						border-color: $troopborder;
 					}
-					aside {
+					li, aside {
 						border-color: $troopborder;
 					}
 					.ui-draggable-dragging {
@@ -514,7 +520,7 @@ section {
 					.a-drop-highlight {
 						border-color: $fastborder;
 					}
-					aside {
+					li, aside {
 						border-color: $fastborder;
 					}
 					.ui-draggable-dragging {
@@ -529,11 +535,26 @@ section {
 					.a-drop-highlight {
 						border-color: $heavyborder;
 					}
-					aside {
+					li, aside {
 						border-color: $heavyborder;
 					}
 					.ui-draggable-dragging {
 						border-color: $heavyborder;
+					}
+				}
+				&.dedicatedtransports {
+					border-color: $dedicatedborder;
+					.panel-footer {
+						border-color: $dedicatedborder;
+					}
+					.a-drop-highlight {
+						border-color: $dedicatedborder;
+					}
+					li, aside {
+						border-color: $dedicatedborder;
+					}
+					.ui-draggable-dragging {
+						border-color: $dedicatedborder;
 					}
 				}
 			}

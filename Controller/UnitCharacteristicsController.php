@@ -47,7 +47,18 @@ class UnitCharacteristicsController extends Controller {
 							"created",
 							"modified"
 						),
-						"pagination" => 10
+						"pagination" => 10,
+						"contains" => array(
+							"Armies" => array(
+								"fields" => array(
+									"armies.id as `army_id`",
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"UnitCharacteristics.armies_id" => "armies.id"
+								)
+							)
+						)
 					)
 				)
 			)
@@ -75,11 +86,22 @@ class UnitCharacteristicsController extends Controller {
 						"fields" => array(
 							"id",
 							"name",
+							"armies_id",
 							"created",
 							"modified"
 						),
-						"conditions" => array("id" => $options[0]),
-						"contains" => array( "Armies" => array() )
+						"conditions" => array("UnitCharacteristics.id" => $options[0]),
+						"contains" => array(
+							"Armies" => array(
+								"fields" => array(
+									"armies.id as `army_id`",
+									"armies.name as `army_name`"
+								),
+								"relation" => array(
+									"UnitCharacteristics.armies_id" => "armies.id"
+								)
+							)
+						)
 					)
 				)
 			)
@@ -107,7 +129,12 @@ class UnitCharacteristicsController extends Controller {
 			}
 		}
 
-		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
+		$data = $this->model->Find("all", array(
+			"Armies" => array( array( "fields" => array( "id", "name") ) )
+		) );
+
+
+		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
  * admin_edit method
@@ -129,9 +156,12 @@ class UnitCharacteristicsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'UnitCharacteristics', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "UnitCharacteristics" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "UnitCharacteristics" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
-		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
+		$dataE = array_merge($data, $this->model->Find("all", array(
+			"Armies" => array( array( "fields" => array( "id", "name") ) )
+		) ) );
+		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
  * admin_delete method

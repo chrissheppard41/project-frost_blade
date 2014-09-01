@@ -2,7 +2,7 @@
 	<article>
 		<h2>Setup <span><a href="javascript:history.go(-1)" class="back">Back</a></span></h2>
 
-		<p>Army cost: {{armycost}}</p>
+		<p>Army cost: {{armycost}} pts</p>
 
 		<div ng-repeat="unit_types in unit_types" class="section">
 			<div class="col1">
@@ -130,7 +130,7 @@
 								<div>
 									<h4>Additional wargear</h4>
 									<ul ng-repeat="unitdata in squad.getUnits()">
-										<li ng-repeat="wargear in unitdata.getAttr('Equiped')">
+										<li ng-repeat="wargear in unitdata.getAttr('Equiped') track by $index">
 											{{wargear.name}}
 											<a href="" ng-click="subWargear(squad, unitdata, wargear, $index)"><i>&nbsp;</i></a>
 										</li>

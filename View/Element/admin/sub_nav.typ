@@ -65,6 +65,18 @@
 			<li class="<?php echo $this->Html->Highlight('/^\/admin\/unitcharacteristics/'); ?>">
 				<?php echo $this->Html->Url('Characteristics', array('controller' => 'unitcharacteristics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/psykers/'); ?>">
+				<?php echo $this->Html->Url('Psykers', array('controller' => 'psykers', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			</li>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/relics/'); ?>">
+				<?php echo $this->Html->Url('Race Relics', array('controller' => 'relics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			</li>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/warlords/'); ?>">
+				<?php echo $this->Html->Url('Warlord traits', array('controller' => 'warlords', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			</li>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Transports/'); ?>">
+				<?php echo $this->Html->Url('Transport capacity', array('controller' => 'transports', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			</li>
 		</ul>
 	</li>
 

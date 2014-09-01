@@ -44,7 +44,6 @@ class WargearsController extends Controller {
 						"fields" => array(
 							"id",
 							"name",
-							"pts",
 							"created",
 							"modified"
 						),
@@ -56,8 +55,7 @@ class WargearsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"wargears.armies_id",
-									"armies.id"
+									"wargears.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -88,7 +86,6 @@ class WargearsController extends Controller {
 						"fields" => array(
 							"id",
 							"name",
-							"pts",
 							"created",
 							"modified"
 						),
@@ -103,8 +100,7 @@ class WargearsController extends Controller {
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"wargears.armies_id",
-									"armies.id"
+									"wargears.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -132,12 +128,22 @@ class WargearsController extends Controller {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
 				\Cache::delete("Squads", "squad_data_".$methodData["data"]["Groups"]["armies_id"]);
-				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Wargears', 'action' => 'index', 'admin' => true));
+
+
+				if(isset($options[0])) {
+					$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'view', 'params' => array($options[0]), 'admin' => true));
+				} else {
+					$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Wargears', 'action' => 'index', 'admin' => true));
+				}
 			}
 		}
 		$data = $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) );
+		if(isset($options[0])) {
+			$data["Groups"]["id"] = $options[0];
+		}
+
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
@@ -161,7 +167,7 @@ class WargearsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Wargears', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Wargears" => array( array( "fields" => array( "id", "name", "pts", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "Wargears" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )

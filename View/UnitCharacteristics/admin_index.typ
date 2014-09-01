@@ -12,6 +12,7 @@
 		<thead>
 			<tr>
 				<th><?php echo $this->Html->Pag_Sort('name');?></th>
+				<th><?php echo $this->Html->Pag_Sort('Army', 'armies_id');?></th>
 				<th><?php echo $this->Html->Pag_Sort('created');?></th>
 				<th><?php echo $this->Html->Pag_Sort('modified');?></th>
 				<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
@@ -21,6 +22,7 @@
 			<?php foreach ($typ__['data']["UnitCharacteristics"] as $ac){ ?>
 			<tr id="armyLists-<?php echo $ac['id']; ?>" data-id="<?php echo $ac['id']; ?>">
 				<td><?php echo $ac['name']; ?></td>
+				<td><?php echo $this->Html->Url($ac["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($ac["army_id"]))); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $ac['created']); ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $ac['modified']); ?></td>
 				<td class="actions">
@@ -36,5 +38,5 @@
         <p>No <?php echo $this->Html->__t('Unit Characteristics');?> available, why not <?php echo $this->Html->Url($this->Html->__t('create one'), array('action' => 'add', "admin" => true)); ?>
 </p>
     <?php } ?>
-    <?php echo $this->Html->Pagination("users", 10); ?>
+    <?php echo $this->Html->Pagination("UnitCharacteristics", 10); ?>
 </div>

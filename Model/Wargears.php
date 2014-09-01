@@ -31,14 +31,15 @@ class Wargears extends \Frost\Configs\Database {
 		)
 	);
 	public $post = array();
+	private $join = 'CONCAT(weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",initiative,"/",wounds,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
 
 	protected $relationships = array(
 		"Units" => array(
 			"type" => "HABTM",
 			"linktable" => "unitwargears",
 			"lefttable" => "units",
-			"leftcols" => array("units.id","units.name","units.created","units.modified"),
-			"linkColumn" => "units_id",
+			"leftcols" => array("units.id",'CONCAT(weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",initiative,"/",wounds,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`',"units.created","units.modified"),
+			"linkColumn" => "squadunits_id",
 			"baseColumn" => "wargears_id"
 		),
 		"Groups" => array(

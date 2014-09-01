@@ -7,9 +7,10 @@
         <title><?php //echo $title_for_layout; ?></title>
         <?php
         echo $this->Html->Meta('robots', 'noindex, nofollow');
-
+        echo $this->Html->Js(array('libs/jquery-1.7.2.min.js'));
+        echo $this->Html->Js(array('libs/chosen.jquery.min.js'));
         /* Including CSS and favicon. Also outputting blocks of inline meta and CSS. */
-        echo $this->Html->Css(array('libs/bootstrap.min.css', 'libs/bootstrap.css'/*, 'build.min.css'*/));
+        echo $this->Html->Css(array('libs/bootstrap.min.css', 'libs/bootstrap.css', 'libs/chosen.min.css'/*, 'build.min.css'*/));
         ?>
 </head>
 <body>
@@ -35,14 +36,16 @@
         </div>
         <!-- Closing mainContainer. -->
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
         <?php
         /* Including scripts. Also outputting any inline script files and any inline buffered code. */
+
         echo $this->Html->Js(array('libs/bootstrap.min.js'));
         echo $this->Html->Script();
         ?>
+
         <!--[if lt IE 7 ]>
                 <script defer src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
                 <script defer>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})});</script>

@@ -5,8 +5,12 @@
 	<h1><?php echo $this->Html->__t('Squads'); ?></h1>
 </div>
 <div class="Squads index">
-	<p class="pull-right">
-        <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
+	<p class="pull-right1">
+		<?php if(!empty($typ__['data']["Armies"])) { ?>
+			<?php foreach ($typ__['data']["Armies"] as $armies){ ?>
+				<?php echo $this->Html->Url($armies["name"]." ".$this->Html->__t('add'), array('action' => 'add', "params" => array(0, $armies["id"]), "admin" => true), array('class' => 'btn btn-success')); ?>
+			<?php } ?>
+		<?php } ?>
     </p>
     <?php if(!empty($typ__['data']["Squads"])) { ?>
 	<table class="table table-striped table-bordered table-listings">

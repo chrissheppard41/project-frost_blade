@@ -20,10 +20,6 @@
 	  			<span class="col-md-9"><?php echo $typ__["data"]["Wargears"]["name"]; ?></span>
 	  		</div>
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo $this->Html->__t("Army"); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->Url($typ__["data"]["Wargears"]["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($typ__["data"]["Wargears"]["army_id"]))); ?></span>
-	  		</div>
-	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Created"); ?></span>
 	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["Wargears"]["created"]); ?></span>
 	  		</div>

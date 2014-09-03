@@ -117,15 +117,6 @@ class UnitsController extends Controller {
 								"relation" => array(
 									"units.unittypes_id" => "unittypes.id"
 								)
-							),
-							"Armies" => array(
-								"fields" => array(
-									"armies.id as `army_id`",
-									 "armies.name as `army_name`"
-								),
-								"relation" => array(
-									"units.armies_id" => "armies.id"
-								)
 							)
 						)
 					)
@@ -155,11 +146,11 @@ class UnitsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Units', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("all", array(
+		$dataE = array("Units" => array("armies_id" => $options[1]));
+		$data = array_merge($dataE, $this->model->Find("all", array(
 			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
-			"Squads" => array( array( "fields" => array( "id", "name") ) ),
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
-		) );
+			"Squads" => array( array( "fields" => array( "id", "name") ) )
+		) ) );
 
 
 
@@ -186,11 +177,10 @@ class UnitsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Units', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", /*"name", */"weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "unitTypes_id", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", /*"name", */"weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "unitTypes_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
-			"Squads" => array( array( "fields" => array( "id", "name") ) ),
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"Squads" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);

@@ -321,7 +321,7 @@ section {
 				display: inline-block;
 				width: 286px;
 				ul {
-					width: 286px;
+					width: 282px;
 					li {
 						padding: 0;
 						border-top: 1px solid $hqsubborder;
@@ -512,7 +512,7 @@ section {
 						border-color: $troopborder;
 					}
 				}
-				&.fastattack {
+				&.fast_attack {
 					border-color: $fastborder;
 					.panel-footer {
 						border-color: $fastborder;
@@ -527,7 +527,7 @@ section {
 						border-color: $fastborder;
 					}
 				}
-				&.heavysupport {
+				&.heavy_support {
 					border-color: $heavyborder;
 					.panel-footer {
 						border-color: $heavyborder;
@@ -542,7 +542,7 @@ section {
 						border-color: $heavyborder;
 					}
 				}
-				&.dedicatedtransports {
+				&.dedicated_transports {
 					border-color: $dedicatedborder;
 					.panel-footer {
 						border-color: $dedicatedborder;

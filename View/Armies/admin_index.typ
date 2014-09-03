@@ -3,8 +3,12 @@
 	<h1><?php echo $this->Html->__t('Armies'); ?></h1>
 </div>
 <div class="Armies index">
-	<p class="pull-right">
-        <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
+	<p class="pull-right1">
+        <?php if(!empty($typ__['data']["Races"])) { ?>
+			<?php foreach ($typ__['data']["Races"] as $races){ ?>
+				<?php echo $this->Html->Url($races["name"]." ".$this->Html->__t('add'), array('action' => 'add', "params" => array(0, $races["id"]), "admin" => true), array('class' => 'btn btn-success')); ?>
+			<?php } ?>
+		<?php } ?>
     </p>
     <?php if(!empty($typ__['data']["Armies"])) { ?>
 	<table class="table table-striped table-bordered table-listings">

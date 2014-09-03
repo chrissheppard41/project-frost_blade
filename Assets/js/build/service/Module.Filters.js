@@ -70,4 +70,9 @@ myApp.filter('truncate', function () {
 
             return input;
         };
+    })
+    .filter('replace', function() {
+        return function(input, total) {
+            return input.replace("_", " ");
+        };
     });

@@ -436,7 +436,7 @@ class ArmyListsController extends Controller {
 
 		$methodData["ArmyLists"]['code'] = $this->model->_generateCode(\Configure::User('id'));
 		$methodData["ArmyLists"]['users_id'] = \Configure::User('id');
-
+//\Configure::pre($methodData);
 		$data = $this->model->Save($methodData);
 
 		if($data["error"] === true) {

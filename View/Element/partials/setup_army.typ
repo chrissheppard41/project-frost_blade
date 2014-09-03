@@ -17,7 +17,7 @@
 				</div>
 
 				<div class="panel {{unit_types.name | groups}}">
-					<div class="panel-heading">{{unit_types.name}} </div>
+					<div class="panel-heading">{{unit_types.name | replace}} </div>
 					<div class="panel-body" ng-drop id="drop{{unit_types.name}}" ng-accept=".{{unit_types.name.toLowerCase()}}">
 
 						<aside ng-repeat="squad in squad_list | filter:{Group:unit_types.name}" class="drag_container unit_container" id="{{squad.getGroup()}}_{{squad.getId()}}">
@@ -115,16 +115,40 @@
 							</dl>
 
 							<div class="col3">
-								<div>
+								<div ng-show="squad.getWargears().length">
 									<h4>Wargear</h4>
 									<ul>
 										<li ng-repeat="wargear in squad.getWargears()">{{wargear}}</li>
 									</ul>
 								</div>
-								<div>
+								<div ng-show="squad.getCharacteristics().length">
 									<h4>Special rules</h4>
 									<ul>
 										<li ng-repeat="character in squad.getCharacteristics()">{{character}}</li>
+									</ul>
+								</div>
+								<div ng-show="squad.getPsykers().length">
+									<h4>Psyker Abilities</h4>
+									<ul>
+										<li ng-repeat="psyker in squad.getPsykers()">{{psyker}}</li>
+									</ul>
+								</div>
+								<div ng-show="squad.getRelics().length">
+									<h4>Relics</h4>
+									<ul>
+										<li ng-repeat="relic in squad.getRelics()">{{relic}}</li>
+									</ul>
+								</div>
+								<div ng-show="squad.getWarlords().length">
+									<h4>Warlord traits</h4>
+									<ul>
+										<li ng-repeat="warlord in squad.getWarlords()">{{warlord}}</li>
+									</ul>
+								</div>
+								<div ng-show="squad.getTransports().length">
+									<h4>Transport capacity</h4>
+									<ul>
+										<li ng-repeat="transport in squad.getTransports()">{{transport}}</li>
 									</ul>
 								</div>
 								<div>
@@ -145,7 +169,7 @@
 			</div>
 			<div class="col2 drags">
 				<div class="panel {{unit_types.name | groups}}">
-					<div class="panel-heading">{{unit_types.name}} units</div>
+					<div class="panel-heading">{{unit_types.name | replace}} units</div>
 					<div class="panel-body">
 						<ul>
 							<li ng-repeat="squad in squads | filter:{type_name:unit_types.name}" class="drag_container" id="{{squad.id}}">

@@ -8,6 +8,10 @@ function Squad() {
 	var Position = 0;
 	var Total = 0;
 	var chracteristics = [];
+	var psykers = [];
+	var relics = [];
+	var warlords = [];
+	var transports = [];
 	var wargears = [];
 	var Armour = false;
 
@@ -80,6 +84,30 @@ function Squad() {
 	this.getWargears = function() {
 		return wargears;
 	};
+	this.setRelics = function(_relics) {
+		relics.push(_relics);
+	};
+	this.getRelics = function() {
+		return relics;
+	};
+	this.setPsykers = function(_psykers) {
+		psykers.push(_psykers);
+	};
+	this.getPsykers = function() {
+		return psykers;
+	};
+	this.setWarlords = function(_warlords) {
+		warlords.push(_warlords);
+	};
+	this.getWarlords = function() {
+		return warlords;
+	};
+	this.setTransports = function(_transports) {
+		transports.push(_transports);
+	};
+	this.getTransports = function() {
+		return transports;
+	};
 	this.buildCharacteristics = function(_characteristics) {
 		for(var chara in _characteristics) {
 			if(chracteristics.indexOf(_characteristics[chara].name) == -1) {
@@ -91,6 +119,35 @@ function Squad() {
 		for(var war in _wargears) {
 			if(wargears.indexOf(_wargears[war].name) == -1) {
 				this.setWargears(_wargears[war].name);
+			}
+		}
+	};
+
+	this.buildPsykers = function(_psykers) {
+		for(var psk in _psykers) {
+			if(psykers.indexOf(_psykers[psk].name) == -1) {
+				this.setPsykers(_psykers[psk].name);
+			}
+		}
+	};
+	this.buildRelics = function(_relics) {
+		for(var rel in _relics) {
+			if(relics.indexOf(_relics[rel].name) == -1) {
+				this.setRelics(_relics[rel].name);
+			}
+		}
+	};
+	this.buildWarlords = function(_warlords) {
+		for(var war in _warlords) {
+			if(warlords.indexOf(_warlords[war].name) == -1) {
+				this.setWarlords(_warlords[war].name);
+			}
+		}
+	};
+	this.buildTransports = function(_transports) {
+		for(var tra in _transports) {
+			if(transports.indexOf(_transports[tra].name) == -1) {
+				this.setTransports(_transports[tra].name);
 			}
 		}
 	};

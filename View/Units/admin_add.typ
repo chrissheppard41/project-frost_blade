@@ -35,7 +35,6 @@
 
 		echo $this->Html->Input("unittypes_id", "Units", array('label' => 'Unit Type', 'class' => "form-control", 'type' => "select", 'id' => "unittypes"), $typ__['data']["UnitTypes"]);
 
-		echo $this->Html->Input("armies_id", "Units", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
 
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
 		echo $this->Html->Form();

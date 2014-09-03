@@ -63,8 +63,19 @@ class UnitCharacteristicsController extends Controller {
 				)
 			)
 		);
-
-		return array("code" => 200, "message" => "User Index", "data" => $data, "errors" => null);
+		$dataO = array_merge($data, $this->model->Find("all",
+			array(
+				"Armies" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name"
+						)
+					)
+				)
+			)
+		) );
+		return array("code" => 200, "message" => "User Index", "data" => $dataO, "errors" => null);
 	}
 
 /**
@@ -128,10 +139,10 @@ class UnitCharacteristicsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'UnitCharacteristics', 'action' => 'index', 'admin' => true));
 			}
 		}
-
-		$data = $this->model->Find("all", array(
+		$data = array("UnitCharacteristics" => array("armies_id" => $options[1]));
+		/*$data = $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
-		) );
+		) );*/
 
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
@@ -158,10 +169,10 @@ class UnitCharacteristicsController extends Controller {
 		}
 		$data = $this->model->Find("first", array( "UnitCharacteristics" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
-		$dataE = array_merge($data, $this->model->Find("all", array(
+		/*$dataE = array_merge($data, $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
-		) ) );
-		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
+		) ) );*/
+		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
  * admin_delete method

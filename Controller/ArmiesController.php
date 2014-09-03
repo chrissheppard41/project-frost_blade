@@ -72,8 +72,19 @@ class ArmiesController extends Controller {
 				)
 			)
 		);
-
-		return array("code" => 200, "message" => "User Index", "data" => $data, "errors" => null);
+		$dataO = array_merge($data, $this->model->Find("all",
+			array(
+				"Races" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name"
+						)
+					)
+				)
+			)
+		) );
+		return array("code" => 200, "message" => "User Index", "data" => $dataO, "errors" => null);
 	}
 
 /**
@@ -151,11 +162,12 @@ class ArmiesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Armies', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("all", array(
-			"Races" => array( array( "fields" => array( "id", "name") ) ),
+		$dataO = array("Armies" => array("races_id" => $options[1]));
+		$data = array_merge($dataO, $this->model->Find("all", array(
+			//"Races" => array( array( "fields" => array( "id", "name") ) ),
 			"ArmyCharacteristics" => array( array( "fields" => array( "id", "name") ) ),
 			"Colours" => array( array( "fields" => array( "id", "name") ) )
-		) );
+		) ) );
 
 
 
@@ -186,7 +198,7 @@ class ArmiesController extends Controller {
 		}
 		$data = $this->model->Find("first", array( "Armies" => array( array( "fields" => array( "id", "name", "races_id", "colours_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "ArmyCharacteristics" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"Races" => array( array( "fields" => array( "id", "name") ) ),
+			//"Races" => array( array( "fields" => array( "id", "name") ) ),
 			"ArmyCharacteristics" => array( array( "fields" => array( "id", "name") ) ),
 			"Colours" => array( array( "fields" => array( "id", "name") ) )
 		) ) );

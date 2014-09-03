@@ -84,11 +84,6 @@
 	  		</div>
 
 	  		<div class="row">
-	  			<span class="col-md-3"><?php echo $this->Html->__t("Army"); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->Url($typ__["data"]["Units"]["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($typ__["data"]["Units"]["army_id"]))); ?></span>
-	  		</div>
-
-	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Created"); ?></span>
 	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["Units"]["created"]); ?></span>
 	  		</div>

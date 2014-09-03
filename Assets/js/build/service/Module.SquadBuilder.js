@@ -15,6 +15,7 @@ myApp.factory('squadbuilder', [function(){
 							var squad = new Squad();
 
 							var squadunit = squads[i].SquadUnits;
+
 							for(var unit_index in squadunit) {
 								var unit_count = armysquads[ii].ArmyUnits[unit_index].count;
 								//cost = cost + (parseInt(squadunit[unit_index].Units.pts, 0) * parseInt(unit_count, 0));
@@ -29,6 +30,10 @@ myApp.factory('squadbuilder', [function(){
 								squad.buildCharacteristics(squadunit[unit_index].UnitCharacteristics);
 								squad.buildWargears(squadunit[unit_index].Wargears);
 
+								squad.buildPsykers(squadunit[unit_index].Psykers);
+								squad.buildRelics(squadunit[unit_index].Relics);
+								squad.buildWarlords(squadunit[unit_index].Warlords);
+								squad.buildTransports(squadunit[unit_index].Transports);
 
 								if(armysquads[ii].ArmyUnits[unit_index].ArmyWargears !== undefined) {
 									var wargears = armysquads[ii].ArmyUnits[unit_index].ArmyWargears;
@@ -89,6 +94,11 @@ myApp.factory('squadbuilder', [function(){
 
 				squad.buildCharacteristics($scope.currentDraggedSquad.SquadUnits[unit_index].UnitCharacteristics);
 				squad.buildWargears($scope.currentDraggedSquad.SquadUnits[unit_index].Wargears);
+
+				squad.buildPsykers($scope.currentDraggedSquad.SquadUnits[unit_index].Psykers);
+				squad.buildRelics($scope.currentDraggedSquad.SquadUnits[unit_index].Relics);
+				squad.buildWarlords($scope.currentDraggedSquad.SquadUnits[unit_index].Warlords);
+				squad.buildTransports($scope.currentDraggedSquad.SquadUnits[unit_index].Transports);
 			}
 
 			//squad.setId($scope.currentDraggedSquad.id);

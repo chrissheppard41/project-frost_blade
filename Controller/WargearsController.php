@@ -47,18 +47,7 @@ class WargearsController extends Controller {
 							"created",
 							"modified"
 						),
-						"pagination" => 10,
-						"contains" => array(
-							"Armies" => array(
-								"fields" => array(
-									"armies.id as `army_id`",
-									"armies.name as `army_name`"
-								),
-								"relation" => array(
-									"wargears.armies_id" => "armies.id"
-								)
-							)
-						)
+						"pagination" => 10
 					)
 				)
 			)
@@ -93,16 +82,7 @@ class WargearsController extends Controller {
 						"contains" => array(
 							"Units" => array(),
 							"Groups" => array(),
-							"UnitUpgrades" => array(),
-							"Armies" => array(
-								"fields" => array(
-									"armies.id as `army_id`",
-									"armies.name as `army_name`"
-								),
-								"relation" => array(
-									"wargears.armies_id" => "armies.id"
-								)
-							)
+							"UnitUpgrades" => array()
 						)
 					)
 				)
@@ -137,14 +117,11 @@ class WargearsController extends Controller {
 				}
 			}
 		}
-		$data = $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
-		) );
 		if(isset($options[0])) {
 			$data["Groups"]["id"] = $options[0];
 		}
 
-		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
+		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
  * admin_edit method
@@ -167,12 +144,10 @@ class WargearsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Wargears', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Wargears" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "Wargears" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
-		$dataE = array_merge($data, $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
-		) ) );
-		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
+
+		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
  * admin_delete method

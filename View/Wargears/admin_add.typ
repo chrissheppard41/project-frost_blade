@@ -15,7 +15,6 @@
 				));
 		echo $this->Html->Input("name", "Wargears", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
 		//echo $this->Html->Input("pts", "Wargears", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
-		echo $this->Html->Input("armies_id", "Wargears", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
 
 		if(isset($typ__['data']["Groups"]["id"])) {
 			echo $this->Html->Input("Groups", "Wargears", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["Groups"]["id"]));

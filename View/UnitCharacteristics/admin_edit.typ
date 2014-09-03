@@ -14,7 +14,8 @@
 		echo $this->Html->Input("id", "UnitCharacteristics", array('type' => "hidden", 'id' => "UserId"));
 		echo $this->Html->Input("name", "UnitCharacteristics", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "UserName", "required" => true));
 
-		echo $this->Html->Input("armies_id", "UnitCharacteristics", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
+		//echo $this->Html->Input("armies_id", "UnitCharacteristics", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
+		echo $this->Html->Input("armies_id", "UnitCharacteristics", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["UnitCharacteristics"]["armies_id"]));
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(
 				'class' => "btn btn-primary"

@@ -72,8 +72,19 @@ class SquadsController extends Controller {
 				)
 			)
 		);
-
-		return array("code" => 200, "message" => "User Index", "data" => $data, "errors" => null);
+		$dataO = array_merge($data, $this->model->Find("all",
+			array(
+				"Armies" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name"
+						)
+					)
+				)
+			)
+		) );
+		return array("code" => 200, "message" => "User Index", "data" => $dataO, "errors" => null);
 	}
 
 /**
@@ -149,13 +160,15 @@ class SquadsController extends Controller {
 			}
 		}
 
+		$dataE = array("Squads" => array("armies_id" => $options[1]));
+
 		$join = '*, CONCAT(UnitTypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
 
-		$data = $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) ),
-			"Units" => array( array( "fields" => array( "id", $join), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "unittypes.id" ) ) ), "order" => array("UnitTypes.name", "UnitTypes.weapon_skill") ) ),
+		$data = array_merge($dataE, $this->model->Find("all", array(
+			//"Armies" => array( array( "fields" => array( "id", "name") ) ),
+			"Units" => array( array( "fields" => array( "id", $join), "conditions" => array("armies_id" => $options[1]), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "unittypes.id" ) ) ), "order" => array("UnitTypes.name", "UnitTypes.weapon_skill") ) ),
 			"Types" => array( array( "fields" => array( "id", "name") ) )
-		) );
+		) ) );
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
@@ -186,7 +199,7 @@ class SquadsController extends Controller {
 		$join = '*, CONCAT(UnitTypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
 
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) ),
+			//"Armies" => array( array( "fields" => array( "id", "name") ) ),
 			"Units" => array( array( "fields" => array( "id", $join), "conditions" => array("armies_id" => $data["Squads"]["armies_id"]), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "UnitTypes.id" ) ) ), "order" => array("UnitTypes.name") ) ),
 			"Types" => array( array( "fields" => array( "id", "name") ) )
 		) ) );

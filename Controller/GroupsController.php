@@ -63,8 +63,20 @@ class GroupsController extends Controller {
 				)
 			)
 		);
+		$dataO = array_merge($data, $this->model->Find("all",
+			array(
+				"Armies" => array(
+					array(
+						"fields" => array(
+							"id",
+							"name"
+						)
+					)
+				)
+			)
+		) );
 
-		return array("code" => 200, "message" => "User Index", "data" => $data, "errors" => null);
+		return array("code" => 200, "message" => "User Index", "data" => $dataO, "errors" => null);
 	}
 
 /**
@@ -130,10 +142,12 @@ class GroupsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'view', 'params' => array($this->model->last_id), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("all", array(
+		$dataE = array("Groups" => array("armies_id" => $options[1]));
+
+		$data = array_merge($dataE, $this->model->Find("all", array(
 			"Wargears" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
-		) );
+			//"Armies" => array( array( "fields" => array( "id", "name") ) )
+		) ) );
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
@@ -161,7 +175,7 @@ class GroupsController extends Controller {
 		$data = $this->model->Find("first", array( "Groups" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "Wargears" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			"Wargears" => array( array( "fields" => array( "id", "name"), "conditions" => array("armies_id" => $data["Groups"]["armies_id"]), "order" => array("name") ) ),
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			//"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);

@@ -25,6 +25,24 @@ function Unit(UnitInfo) {
 			rear_armour: parseInt(UnitInfo.Units.rear_armour, 0),
 			hull_hitpoints: parseInt(UnitInfo.Units.hull_hitpoints, 0),
 			//pts: parseInt(UnitInfo.Units.pts, 0)
+		},
+		Base: {
+			name: UnitInfo.name,
+			unittype: UnitInfo.Units.unittype,
+			weapon_skill: parseInt(UnitInfo.Units.weapon_skill, 0),
+			ballistic_skill: parseInt(UnitInfo.Units.ballistic_skill, 0),
+			strength: parseInt(UnitInfo.Units.strength, 0),
+			toughness: parseInt(UnitInfo.Units.toughness, 0),
+			wounds: parseInt(UnitInfo.Units.wounds, 0),
+			attacks: parseInt(UnitInfo.Units.attacks, 0),
+			initiative: parseInt(UnitInfo.Units.initiative, 0),
+			leadership: parseInt(UnitInfo.Units.leadership, 0),
+			armour_save: parseInt(UnitInfo.Units.armour_save, 0),
+			invulnerable_save: parseInt(UnitInfo.Units.invulnerable_save, 0),
+			front_armour: parseInt(UnitInfo.Units.front_armour, 0),
+			side_armour: parseInt(UnitInfo.Units.side_armour, 0),
+			rear_armour: parseInt(UnitInfo.Units.rear_armour, 0),
+			hull_hitpoints: parseInt(UnitInfo.Units.hull_hitpoints, 0)
 		}
 
 	};
@@ -35,6 +53,13 @@ function Unit(UnitInfo) {
 	this.setUnitAttr = function(_field, _value) {
 		data.Unit[_field] = _value;
 	};
+	this.getBaseAttr = function(_field) {
+		return data.Base[_field];
+	};
+	this.setBaseAttr = function(_field, _value) {
+		data.Base[_field] = _value;
+	};
+
 	this.getAttr = function(_field) {
 		return data[_field];
 	};

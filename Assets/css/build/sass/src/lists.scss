@@ -1,0 +1,387 @@
+html {
+	body#army_default {
+		#main {
+			section {
+				article {
+					p.header {
+						span {
+							display: inline-block;
+							font-size: 18px;
+
+							a {
+								display: inline-block;
+								background: url("/assets/img/sort.png") no-repeat;
+								width: 9px;
+								height: 17px;
+								text-align: center;
+							}
+							@include media(small-mobile) {
+								font-size: 14px;
+							}
+						}
+						span:first-child {
+							margin-left: 24px;
+							width: 67px;
+							/* margin-left: 3%;
+							width: 6%; */
+							a {
+								margin-left: 29px;
+								@include media(mobile) {
+									margin-left: 20px;
+								}
+							}
+							@include media(mobile) {
+								margin-left: 5%;
+								width: 14%;
+							}
+						}
+						span:nth-child(2) {
+							//margin-left: 26px;
+							width: 347px;
+							//width: 35%;
+
+							@include media(mobile) {
+								width: 60%;
+							}
+
+						}
+						span:nth-child(3) {
+							//margin-left: 287px;
+							width: 447px;
+							//width: 45%;
+
+							@include media(mobile) {
+								display: none;
+							}
+						}
+						span:last-child {
+							//margin-left: 371px;
+							width: 81px;
+							text-align: center;
+							//width: 8%;
+							@include media(mobile) {
+								width: 18%;
+							}
+
+						}
+						span.alt:last-child {
+							//margin-left: 284px;
+							width: 81px;
+							display: inline-block;
+							//width: 8%;
+							text-align: center;
+							@include media(mobile) {
+								width: 18%;
+							}
+						}
+						&:after {
+							content: "";
+							display: block;
+							height: 1px;
+							width: 100%;
+							background: url("/Assets/img/div_100.png") no-repeat;
+							margin-top: 7px;
+						}
+					}
+					p.pagination {
+						padding-top: 10px;
+						text-align: center;
+						@include media(small-mobile) {
+							font-size: 14px;
+						}
+					}
+					p.search {
+						text-align: right;
+						line-height: 36px;
+						font-size: 16px;
+						input {
+							margin-left: 10px;
+							display: inline-block;
+							width: 200px;
+						}
+					}
+					ul.army_lists {
+						color: $whiteText;
+						li {
+							display: block;
+							width: 100%;
+							min-height: 66px;
+
+							div {
+								display: inline-block;
+								margin: 0;
+								padding: 0;
+								vertical-align: top;
+							}
+							div:first-child {
+								width: 26px;
+								//width: 3%;
+								a.blue {
+									@include buttons_small($blueBorder, $blueBorderHover);
+									i {
+										display: block;
+										width: 20px;
+										height: 20px;
+										background: url("/Assets/img/plus.png") no-repeat;
+									}
+								}
+								a.red {
+									@include buttons_small($redBorder, $redBorderHover);
+									i {
+										display: block;
+										width: 20px;
+										height: 20px;
+										background: url("/Assets/img/minus.png") no-repeat;
+									}
+								}
+								@include media(mobile) {
+									width: 5%;
+								}
+							}
+							div:nth-child(2) {
+								width: 67px;
+								//width: 7%;
+
+								.army {
+									@include buttons_img($defaultBorder);
+								}
+								.count {
+									display: block;
+
+									font-size: 14px;
+									text-align: center;
+									margin-top: 10px;
+								}
+								@include media(mobile) {
+									width: 14%;
+								}
+							}
+							a {
+								display: inline-block;
+								width: 888px;
+								//width: 90%;
+								min-height: 56px;
+								font-size: 18px;
+								color: $whiteText;
+								text-decoration: none;
+
+								h3 {
+									display: inline-block;
+									width: 350px;
+									//width: 39%;
+									margin-top: 10px;
+									font-size: 18px;
+
+									small {
+										display: block;
+										margin-top: 4px;
+										width: 100%;
+										font-size: 14px;
+									}
+									i {
+										display: inline-block;
+										background: url("/Assets/img/icons/padlock.png") no-repeat;
+										width: 9px;
+										height: 12px;
+										margin-top: 3px;
+									}
+									@include media(mobile) {
+										width: 74%;
+									}
+									@include media(small-mobile) {
+										font-size: 14px;
+									}
+								}
+								h3.pointer {
+									cursor: pointer;
+								}
+								em {
+									display: inline-block;
+									width: 447px;
+									//width: 50%;
+									font-size: 16px;
+									margin-top: 14px;
+									margin-bottom: 10px;
+
+									@include media(mobile) {
+										display: none;
+									}
+								}
+								var {
+									display: inline-block;
+									width: 81px;
+									//width: 9%;
+									font-size: 16px;
+									margin-top: 14px;
+									text-align: center;
+									@include media(mobile) {
+										width: 24%;
+									}
+									@include media(small-mobile) {
+										font-size: 14px;
+									}
+								}
+								@include media(mobile) {
+									width: 81%;
+								}
+							}
+
+
+							&:before {
+								content: "";
+								display: block;
+								margin-top: 3px;
+							}
+							&:after {
+								content: "";
+								display: block;
+								height: 1px;
+								width: 100%;
+								background: url("/Assets/img/div_100.png") no-repeat;
+								margin-top: 7px;
+							}
+							&:hover {
+								background-color: rgba(82, 58, 46, 0.3);
+							}
+						}
+					}
+
+					ul.army_action {
+						color: $whiteText;
+						li {
+							display: block;
+							width: 100%;
+							min-height: 66px;
+
+							div {
+								display: inline-block;
+								margin: 0;
+								padding: 0;
+								vertical-align: top;
+							}
+							div:first-child {
+								width: 24px;
+								//width: 3%;
+
+								a.blue {
+									@include buttons_small($blueBorder, $blueBorderHover);
+									i {
+										display: block;
+										width: 20px;
+										height: 20px;
+										background: url("/Assets/img/plus.png") no-repeat;
+									}
+								}
+								a.red {
+									@include buttons_small($redBorder, $redBorderHover);
+									i {
+										display: block;
+										width: 20px;
+										height: 20px;
+										background: url("/Assets/img/minus.png") no-repeat;
+									}
+								}
+								@include media(mobile) {
+									width: 5%;
+								}
+							}
+							div:nth-child(2) {
+								width: 67px;
+								//width: 7%;
+
+								.army {
+									@include buttons_img($defaultBorder);
+								}
+								.count {
+									display: block;
+
+									font-size: 14px;
+									text-align: center;
+									margin-top: 10px;
+								}
+								@include media(mobile) {
+									width: 14%;
+								}
+							}
+							h3 {
+								display: inline-block;
+								width: 350px;
+								//width: 35%;
+								margin-top: 10px;
+								font-size: 18px;
+
+								small {
+									display: block;
+									margin-top: 4px;
+									width: 100%;
+									font-size: 14px;
+								}
+								i {
+									display: inline-block;
+									background: url("/Assets/img/icons/padlock.png") no-repeat;
+									width: 9px;
+									height: 12px;
+									margin-top: 3px;
+								}
+								@include media(mobile) {
+									width: 59%;
+								}
+								@include media(small-mobile) {
+									font-size: 14px;
+								}
+							}
+							h3.pointer {
+								cursor: pointer;
+							}
+							div:nth-child(4) {
+								display: inline-block;
+								width: 81px;
+								//width: 8%;
+								font-size: 16px;
+								margin-top: 10px;
+								margin-bottom: 10px;
+								text-align: center;
+								@include media(mobile) {
+									width: 22%;
+								}
+								@include media(small-mobile) {
+									font-size: 14px;
+								}
+							}
+							div:nth-child(5) {
+								display: inline-block;
+								width: 447px;
+								//width: 47%;
+								font-size: 16px;
+								margin-top: 14px;
+								text-align: right;
+								@include media(mobile) {
+									width: 100%;
+									text-align: center;
+								}
+							}
+
+
+							&:before {
+								content: "";
+								display: block;
+								margin-top: 3px;
+							}
+							&:after {
+								content: "";
+								display: block;
+								height: 1px;
+								width: 100%;
+								background: url("/Assets/img/div_100.png") no-repeat;
+								margin-top: 7px;
+							}
+							&:hover {
+								background-color: rgba(82, 58, 46, 0.3);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

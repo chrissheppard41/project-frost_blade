@@ -1,0 +1,269 @@
+@media print {
+html {
+	background: none;
+	body {
+
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td,
+		article, aside, canvas, details, embed,
+		figure, figcaption, footer, header, hgroup,
+		menu, nav, output, ruby, section, summary,
+		time, mark, audio, video {
+			color: $blackText !important;
+			font-family: Arial !important;
+		}
+
+
+		header {
+			display: none;
+		}
+		footer {
+			background: none !important;
+			box-shadow: none !important;
+		}
+		section {
+			article {
+				background: none !important;
+				box-shadow: none !important;
+				h2 {
+					span {
+						a {
+							background: none !important;
+							border-radius: none !important;
+							border: none !important;
+						}
+						a.back {
+							display: none !important;
+						}
+					}
+				}
+				div.section {
+
+					.col2 {
+						width: 100%;
+
+						.panel {
+							border: 2px solid #000000 !important;
+							border-radius: 0px !important;
+
+							.panel-heading {
+								border-bottom: 1px solid #000000;
+							}
+						}
+					}
+					.col1 {
+						width: 100%;
+					}
+
+
+					.panel {
+						background: none !important;
+						border-radius: none !important;
+						border: none !important;
+
+						.panel-heading,
+						.panel-body,
+						aside,
+						dl {
+							background: none !important;
+							border-radius: none !important;
+						}
+						.votes {
+							display: none;
+						}
+
+						.panel-heading {
+							border-bottom: 2px solid #696969;
+						}
+
+						aside {
+							border: 2px solid #000000 !important;
+							margin-bottom: 10px;
+
+							h3 {
+								border-bottom: 1px solid #000000;
+							}
+							dl {
+								dd {
+									width: 58px;
+								}
+								dd:first-child {
+									width: 160px;
+								}
+								dd:nth-child(2) {
+									width: 74px;
+								}
+								dd:last-child {
+									width: 80px;
+								}
+							}
+							dl.header {
+								border-bottom: 1px solid #000000;
+								dd {
+									width: 58px;
+								}
+								dd:nth-child(2) {
+									width: 58px;
+								}
+								dd:first-child {
+									width: 74px;
+								}
+								dd:last-child {
+									width: 80px;
+								}
+							}
+							.col3 {
+								margin-top: 10px;
+								border-top: 1px solid #000000;
+							}
+
+							&:first-child {
+								border-top: none !important;;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+}
+html#toggle {
+	background: none;
+	body {
+
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td,
+		article, aside, canvas, details, embed,
+		figure, figcaption, footer, header, hgroup,
+		menu, nav, output, ruby, section, summary,
+		time, mark, audio, video {
+			color: $blackText !important;
+			font-family: Arial !important;
+		}
+
+
+		header {
+			display: none;
+		}
+		footer {
+			background: none !important;
+			box-shadow: none !important;
+		}
+		section {
+			article {
+				background: none !important;
+				box-shadow: none !important;
+				h2 {
+					span {
+						a {
+							background: none !important;
+							border-radius: none !important;
+							border: none !important;
+						}
+						a.back {
+							display: none !important;
+						}
+					}
+				}
+				div.section {
+
+					.col2 {
+						width: 100%;
+
+						.panel {
+							border: 2px solid #000000 !important;
+							border-radius: 0px !important;
+
+							.panel-heading {
+								border-bottom: 1px solid #000000;
+							}
+						}
+					}
+					.col1 {
+						width: 100%;
+					}
+
+
+					.panel {
+						background: none !important;
+						border-radius: none !important;
+						border: none !important;
+
+						.panel-heading,
+						.panel-body,
+						aside,
+						dl {
+							background: none !important;
+							border-radius: none !important;
+						}
+						.votes {
+							display: none;
+						}
+
+						.panel-heading {
+							border-bottom: 2px solid #696969;
+						}
+
+						aside {
+							border: 2px solid #000000 !important;
+							margin-bottom: 10px;
+
+							h3 {
+								border-bottom: 1px solid #000000;
+							}
+							dl {
+								dd {
+									width: 58px;
+								}
+								dd:first-child {
+									width: 160px;
+								}
+								dd:nth-child(2) {
+									width: 74px;
+								}
+								dd:last-child {
+									width: 80px;
+								}
+							}
+							dl.header {
+								border-bottom: 1px solid #000000;
+								dd {
+									width: 58px;
+								}
+								dd:first-child {
+									width: 74px;
+								}
+								dd:last-child {
+									width: 80px;
+								}
+							}
+							.col3 {
+								margin-top: 10px;
+								border-top: 1px solid #000000;
+							}
+
+							&:first-child {
+								border-top: none !important;;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

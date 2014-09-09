@@ -12,3 +12,5 @@ generate.php
 /.htpasswd
 \.htpasswd
 
+\Assets\node_modules
+/Assets/node_modules

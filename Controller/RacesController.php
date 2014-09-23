@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class RacesController
-	@author Chris Sheppard
-	@desc handles the races management section
-*/
+/**
+ * @class RacesController
+ * @author Chris Sheppard
+ * @description handles the races management section
+ */
 class RacesController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class RacesController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Races/index
- * Method: GET
- * Index's all the Races
- *
- * @param
- * @return (array)
+ * [Index's all the Races]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -58,13 +53,9 @@ class RacesController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Races/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Races]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -90,13 +81,10 @@ class RacesController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/Races/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Races]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -114,13 +102,10 @@ class RacesController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Races/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Races]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -140,13 +125,9 @@ class RacesController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Races/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Races]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";
@@ -167,16 +148,14 @@ class RacesController extends Controller {
 		return array("code" => 200, "message" => "User Index", "data" => array(), "errors" => null);
 	}
 
-	/**
-     * API endpoints
-     */
+/**
+ * API endpoints
+ */
 
-     /**
-     * API racetypes to return a list of army types to choose from
-     *
-     * @return void
-     */
-
+/**
+ * [API racetypes to return a list of army types to choose from]
+ * @return [array]          [response]
+ */
     public function racetypes() {
 		$this->view = "Empty";
 		$this->returnType = "json";

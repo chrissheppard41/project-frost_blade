@@ -23,7 +23,7 @@ require (PATH."Controller/Controller.php");
 /**
  *	@class Core
  *	@author Chris Sheppard
- *	@desc The main driver for this mvc type framework
+ *	@description The main driver for this mvc type framework
  */
 class Core {
 	private $database 	= null;
@@ -48,7 +48,9 @@ class Core {
 	private $crypt 			= null;
 	public $Html 			= null;
 	public $Session 		= null;
-
+/**
+ * [constructor - Sets up the Cryption and Session data]
+ */
 	function __construct() {
 		$this->crypt = new Crypt(CRYPTKEY);
 		$this->Session = new Session();
@@ -57,11 +59,8 @@ class Core {
 	}
 
 /**
- * load method
- * The main method of the framework. Creates the connection to the database, maps the path to take to the controller/action. generates the JSON response, logs all traffic and errors
- *
- * @param
- * @return (string)
+ * [The main method of the framework. Creates the connection to the database, maps the path to take to the controller/action. generates the JSON response, logs all traffic and errors]
+ * @return [string] [response from controller]
  */
 	public function load() {
 		$action_data = array(
@@ -131,13 +130,9 @@ class Core {
 		}
 	}
 
-
 /**
- * urlParsing method
- * breaks the URL string apart to figure out what controller to open, whate mthod to run, what paramters to pass
- *
- * @param
- * @return (string)
+ * [breaks the URL string apart to figure out what controller to open, whate mthod to run, what paramters to pass]
+ * @return [array] [the input from request]
  */
 	private function urlParsing() {
 
@@ -155,11 +150,11 @@ class Core {
 	}
 
 /**
- * response method
- * Creates a JSON response to be outputted and passed to the front end
- *
- * @param $code (int), $message (string), $options (array)
- * @return (string)
+ * [Creates a JSON response to be outputted and passed to the front end]
+ * @param  [int] $code    [response code]
+ * @param  [string] $message [message from the system]
+ * @param  [array]  $options [added options from the controller]
+ * @return [string]          [json string return to the end user]
  */
 	public function response($code, $message, $options = array()) {
 		http_response_code($code);
@@ -179,11 +174,11 @@ class Core {
 	}
 
 /**
- * output method
- * Sets the header for the response to the front end.
- *
- * @param $response (string)
- * @return (string)
+ * [Sets the header for the response to the front end]
+ * @param  [array] $action_data [the response from the controller]
+ * @param  [string] $request     [the type of response from the controller html/json/etc]
+ * @param  [array] $view        [is the information used to get the view from the system that contains the template]
+ * @return [string]              [the string of the design plus data merged into one]
  */
 	private function output($action_data, $request, $view) {
 		$output = "";
@@ -234,12 +229,12 @@ class Core {
 	}
 
 /**
- * Render method
- * renders a layout file
- *
- * @param $template (string), $param (string),
- * @return (string)
-  **/
+ * [renders a layout file]
+ * @param [string] $typ__layout   [description]
+ * @param [string] $typ__         [description]
+ * @param [string] $typ__template [description]
+ * @return [string]              [outputs the rendered template]
+ */
 	public function Render($typ__layout, $typ__, $typ__template) {
 		ob_start();
 		include($typ__template);
@@ -255,15 +250,13 @@ class Core {
 	}
 
 /**
- * ElementExists method
- * element exists
- *
- * @param $typ__element (string)
- * @return (bool)
-  **/
+ * [checks to see if element exists]
+ * @param [string] $typ__element [checks if element exists]
+ */
 	public function ElementExists($typ__element) {
 		return file_exists($_SERVER['DOCUMENT_ROOT'].DS."View".DS."Element".DS.$typ__element.".typ");
 	}
+
 /**
  * Element method
  * breaks styles into elements
@@ -278,14 +271,12 @@ class Core {
 		ob_end_clean();
 		return $ret;
 	}
+
 /**
-  * decr method
-  *
-  * provide public decrypt method for debugging
- *
- * @param $v (string)
- * @return (string)
-  **/
+ * [provide public decrypt method for debugging]
+ * @param  [string] $v [the string to convert or pass normally]
+ * @return [string]    [the response of the converted string or the normal pass]
+ */
 	public function decr($v) {
 		return (LIVE) ? $v : $this->crypt->decrypt($v);
 	}

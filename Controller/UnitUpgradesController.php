@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class UnitUpgradesController
-	@author Chris Sheppard
-	@desc handles the UnitUpgrades management section
-*/
+/**
+ * @class UnitUpgradesController
+ * @author Chris Sheppard
+ * @description handles the UnitUpgrades management section
+ */
 class UnitUpgradesController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class UnitUpgradesController extends Controller {
 	);
 
 /**
- * admin_view method
- * ROUTE: /admin/UnitUpgrades/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Index's all the UnitUpgrades]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -88,13 +83,9 @@ class UnitUpgradesController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/UnitUpgrades/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Views a UnitUpgrades]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -115,13 +106,10 @@ class UnitUpgradesController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/UnitUpgrades/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a UnitUpgrades]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -143,13 +131,9 @@ class UnitUpgradesController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/UnitUpgrades/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a UnitUpgrades]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

@@ -1,18 +1,18 @@
 <?php
-/*
-	@class Cache
-	@author Chris Sheppard
-	@desc handles the caching within the system
-*/
+
+/**
+ * @class Cache
+ * @author Chris Sheppard
+ * @description handles the caching within the system
+ */
 class Cache {
 	private static $cache = true;
 
 /**
- * read method
- * Reads a cache file based on $config(folder) and $name(filename) and returns a array object
- *
- * @param $config (string), $name (string)
- * @return (Array)
+ * [Reads a cache file based on $config(folder) and $name(filename) and returns a array object]
+ * @param  [string] $config [the path]
+ * @param  [string] $name   [the name]
+ * @return [array]         [data returned]
  */
 	public static function read($config, $name) {
 		//chdir (ROOT);
@@ -28,11 +28,10 @@ class Cache {
 	}
 
 /**
- * write method
- * Writes a cache file based on $config(folder) and $name(filename) and ensures that the file is writable again
- *
- * @param $config (string), $name (string), $data (array)
- * @return (Array)
+ * [Writes a cache file based on $config(folder) and $name(filename) and ensures that the file is writable again]
+ * @param  [string] $config [the path]
+ * @param  [string] $name   [the name]
+ * @param  [array] $data   [data to be saved]
  */
 	public static function write($config, $name, $data) {
 		//chdir (ROOT);
@@ -48,11 +47,9 @@ class Cache {
 	}
 
 /**
- * delete method
- * Deletes a cache file based on $config(folder) and $name(filename)
- *
- * @param $config (string), $name (string)
- * @return (Array)
+ * [Deletes a cache file based on $config(folder) and $name(filename)]
+ * @param  [string] $config [the path]
+ * @param  [string] $name   [the name]
  */
 	public static function delete($config, $name) {
 		//chdir (ROOT);
@@ -63,12 +60,11 @@ class Cache {
 			}
 		}
 	}
+
 /**
- * deleteWildcard method
- * Deletes a cache file based on $config(folder) and $name(filename)
- *
- * @param $config (string), $name (string)
- * @return (Array)
+ * [Deletes a cache file based on $config(folder) and $name(filename) wildcard]
+ * @param  [string] $config [the path]
+ * @param  [string] $name   [the name]
  */
 	public static function deleteWildcard($config, $name) {
 		//chdir (ROOT);
@@ -79,11 +75,8 @@ class Cache {
 	}
 
 /**
- * deleteDir method
- * Deletes a cache folder based on $config(folder)
- *
- * @param $config (string)
- * @return (Array)
+ * [Deletes a cache folder based on $config(folder)]
+ * @param  [string] $config [the path]
  */
 	public static function deleteDir($config) {
 		$filename = APP_ROOT . "tmp" . DS . "cache" . DS . $config;

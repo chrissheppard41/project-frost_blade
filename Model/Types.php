@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Types
-	@author Chris Sheppard
-	@desc handles all Types data and information
-*/
+/**
+ * @class Types
+ * @author Chris Sheppard
+ * @description handles all Types data and information
+ */
 class Types extends \Frost\Configs\Database {
 
 	protected $table = "Types";
@@ -35,6 +34,12 @@ class Types extends \Frost\Configs\Database {
 		)
 	);
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

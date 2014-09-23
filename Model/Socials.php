@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Socials
-	@author Chris Sheppard
-	@desc handles all Socials data and information
-*/
+/**
+ * @class Socials
+ * @author Chris Sheppard
+ * @description handles all Socials data and information
+ */
 class Socials extends \Frost\Configs\Database {
 
 	protected $table = "";
@@ -15,6 +14,12 @@ class Socials extends \Frost\Configs\Database {
 
 	protected $relationships = array();
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

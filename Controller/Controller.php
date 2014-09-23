@@ -1,11 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-/*
-	@class Controller
-	@author Chris Sheppard
-	@desc handles the routing control mapping the url to a controller/action
-*/
+/**
+ * @class Controller
+ * @author Chris Sheppard
+ * @description handles the routing control mapping the url to a controller/action
+ */
 class Controller {
 
 	public $pass_back 			= null;
@@ -16,11 +16,19 @@ class Controller {
 
 
 /**
- * __construct method
- * Launches the correct controller and matches the action against a method, passes the params into that method and listens for the $_post
+ * [Launches the correct controller and matches the action against a method, passes the params into that method and listens for the $_post]
+ * @param [string] $name       [name of the controller/model]
+ * @param [string] $action     [name of the method]
+ * @param [array]  $params     [contains url input]
+ * @param [array]  $methodData [form data]
  *
- * @param $name (string), $action (string), $params (array), methodData (array),
- * @return (bool)
+ * @throws   If [no $name set] - WebException
+ * @throws   If [no file exists] - WebException
+ * @throws   If [no class exists] - WebException
+ * @throws   If [no method exists] - WebException
+ * @throws   If [method doesn't pass back response] - WebException
+ * @throws   If [layout doesn't exist] - WebException
+ * @throws   If [json layout doesn't exist] - WebException
  */
 	function __construct($name, $action, $params = array(), $methodData = array()) {
 
@@ -78,11 +86,9 @@ class Controller {
 	}
 
 /**
- * before method
- * Actions to be executed before page loads
- *
- * @param
- * @return (array)
+ * [Actions to be executed before page loads]
+ * @param  [string] $action [method in requestion]
+ * @param  [array] $access [used for auth]
  */
     public function before($action, $access) {
     	if((bool)strstr($action, "admin_") == true && !(bool)\Configure::User("is_admin")) {
@@ -98,12 +104,13 @@ class Controller {
 	    	$this->Flash("You are currently logged in", "alert alert-info", '/');
 	    }
     }
+
 /**
- * LoadClass method
- * tries and loads a Model class safely within the system not reusing existing resources
- *
- * @param $method (string)
- * @return (bool)
+ * [tries and loads a Model class safely within the system not reusing existing resources]
+ * @param [string] $class           [name of the class]
+ * @param [array]  $url_options     [contains url input]
+ * @param [array]  $inputted_values [form data]
+ * @return   [object]          [response]
  */
 	public function LoadClass($class, $url_options = array(), $inputted_values = array()) {
 		$class_name = "\Frost\Model\\".$class;
@@ -117,11 +124,9 @@ class Controller {
 	}
 
 /**
- * requestType method
- * Checks to see if the request method type matches the one expected
- *
- * @param $method (string)
- * @return (bool)
+ * [Checks to see if the request method type matches the one expected]
+ * @param  [string] $method [get the method type]
+ * @return [bool]         []
  */
 	public function requestType($method = "GET") {
 		if($_SERVER['REQUEST_METHOD'] == $method) {
@@ -138,11 +143,10 @@ class Controller {
 	}
 
 /**
- * Flash method
- * Writes an flash message to appear on the site
- *
- * @param $message (string), $class (string), $redirect (array)
- * @return
+ * [Writes an flash message to appear on the site]
+ * @param [string] $message  [the message to be outputed]
+ * @param [string] $class  [css styles]
+ * @param [array] $redirect [the redirect url]
  */
 	public function Flash($message, $class = "alert alert-info", $redirect = null) {
 		//if($this->requestType("POST")) return ;
@@ -168,10 +172,12 @@ class Controller {
 			die;
 		}
 	}
+
 /**
- * check that required params have been supplied and generate response for an invalid request
- *
- * @return bool
+ * [check that required params have been supplied and generate response for an invalid request]
+ * @param  [array]  $suppliedParams [the submitted array of items]
+ * @param  [array]  $requiredParams [the base array of required items]
+ * @return boolean                 []
  */
 	protected function _hasRequiredParams($suppliedParams, $requiredParams) {
 		$diff = array_diff_key($suppliedParams, $requiredParams);

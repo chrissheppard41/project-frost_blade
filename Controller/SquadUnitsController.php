@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class SquadUnitsController
-	@author Chris Sheppard
-	@desc handles the SquadUnits management section
-*/
+/**
+ * @class SquadUnitsController
+ * @author Chris Sheppard
+ * @description handles the SquadUnits management section
+ */
 class SquadUnitsController extends Controller {
 
 	public $returnType = "text";
@@ -24,15 +23,11 @@ class SquadUnitsController extends Controller {
 	public $access = array(
 		"deny" => array()
 	);
-
 /**
- * admin_edit method
- * ROUTE: /admin/SquadUnits/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a SquadUnits]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -62,13 +57,9 @@ class SquadUnitsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/SquadUnits/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a SquadUnits]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

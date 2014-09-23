@@ -1,31 +1,26 @@
 <?php
 namespace Frost\Configs;
 
-
 /**
  *	@class Session
  *	@author Chris Sheppard
- *	@desc handles the session calls
+ *	@description handles the session calls
  */
 class Session {
 
 /**
- * read method
- * Reads the session data based on the key
- *
- * @param $key (string)
- * @return (array)
+ * [Reads the session data based on the key]
+ * @param  [string] $key [Key is the index in the array]
+ * @return [array]      []
  */
 	public function read($key) {
 		return Session_handler::read($_SESSION, $key);
 	}
 
 /**
- * write method
- * Writes to a session based on key and data
- *
- * @param $key (string), $data (mixin)
- * @return
+ * [Writes to a session based on key and data]
+ * @param  [string] $key  [where to save the data in the session]
+ * @param  [array] $data [passed data into the session]
  */
 	public function write($key, $data) {
 		$keys = explode(".", $key);
@@ -34,11 +29,8 @@ class Session {
 	}
 
 /**
- * delete method
- * Deletes a session based on a key
- *
- * @param $key (string)
- * @return
+ * [Deletes a session based on a key]
+ * @param  [string] $key [where to delete the data in the session]
  */
 	public function delete($key) {
 		Session_handler::delete($_SESSION, $key);

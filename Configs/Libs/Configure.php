@@ -3,50 +3,43 @@
 /**
  *	@class Configure
  *	@author Chris Sheppard
- *	@desc handles the session calls
+ *	@description handles the session calls
  */
 class Configure {
 
 	public static $url = array();
+
 /**
- * read method
- * Reads the session data based on the key
- *
- * @param $key (string)
- * @return (array)
+ * [Reads the session data based on the key]
+ * @param  [string] $key [the key inputed to search the $_SESSION with]
+ * @return [data]      [data from the session]
  */
 	public static function read($key) {
 		return \Frost\Configs\Session_handler::read($_SESSION, $key);
 	}
 
 /**
- * write method
- * Writes to a session based on key and data
- *
- * @param $key (string), $data (mixin)
- * @return
+ * [Writes to a session based on key and data]
+ * @param  [string] $key  [Where to save the data in the SESSION]
+ * @param  [array] $data [the data to be saved into SESSION]
  */
 	public static function write($key, $data) {
 		$keys = explode(".", $key);
 		$index = array_shift($keys);
 		$_SESSION[$index] = \Frost\Configs\Session_handler::write(array(), implode(".", $keys), $data);
 	}
+
 /**
- * delete method
- * Deletes a session based on a key
- *
- * @param $key (string)
- * @return
+ * [Deletes a session based on a key]
+ * @param  [string] $key [Where to delete SESSION]
  */
 	public static function delete($key) {
 		\Frost\Configs\Session_handler::delete($_SESSION, $key);
 	}
+
 /**
- * Auth method
- * Configures the Log in for a user
- *
- * @param $method (string)
- * @return (bool)
+ * [Configures the Log in for a user]
+ * @param [array] $data [description]
  */
 	public static function Auth($data = null) {
 		if(isset($data) && $data == null)
@@ -54,12 +47,10 @@ class Configure {
 		else
 			\Configure::write("Auth.user", $data);
 	}
+
 /**
- * Logged method
- * Checks to see if the user is logged in or not
- *
- * @param
- * @return (bool)
+ * [Checks to see if the user is logged in or not]
+ * @return [boolean]
  */
 	public static function Logged() {
 		$user = self::read("Auth.user");
@@ -69,12 +60,10 @@ class Configure {
 		}
 		return false;
 	}
+
 /**
- * User method
- * Checks Logged in User data
- *
- * @param $key (string)
- * @return
+ * [Checks Logged in User data]
+ * @param [string] $field [Based on Session get data on user]
  */
 	public static function User($field) {
 		$user = self::read("Auth.user.".$field);
@@ -83,13 +72,13 @@ class Configure {
 		}
 		return null;
 	}
-	/**
-	 * awesome <pre> wrapper method
-	 *
-	 * @param ( mixed ) $data
-	 * @param ( bool ) $doDie
-	 * @return ( bool ) || ( void )
-	 */
+
+/**
+ * [awesome <pre> wrapper method]
+ * @param [mixed]  $data
+ * @param [boolean]  $doDie
+ * @return [boolean]  ||  [void]
+ */
 	public static function pre($data, $doDie = true) {
 		echo "<pre>";
 
@@ -104,23 +93,22 @@ class Configure {
 
 		return true;
 	}
+
 /**
- * Random_generation method
- * generates a random string
- *
- * @param $key (string)
- * @return
+ * [generates a random string]
+ * @return  [string] []
  */
 	public static function Random_generation() {
 		return substr( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50) , 1) .substr( md5( time() ), 1);
 	}
 
 /**
- * in_array_r method
- * recursive method to search multidimensional  arrays
- *
- * @param $needle(string), $haystack(array), $field(string), $strict(bool)
- * @return
+ * [recursive method to search multidimensional  arrays]
+ * @param  [string]  $needle   []
+ * @param  [array]  $haystack []
+ * @param  [string]  $field    []
+ * @param  [boolean] $strict   []
+ * @return [boolean]            []
  */
 	public static function in_array_r($needle, $haystack, $field = null, $strict = false) {
 		if(!empty($haystack)) {

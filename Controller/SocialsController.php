@@ -4,6 +4,11 @@ namespace Frost\Controller;
 * Socials Controller
 *
 */
+/**
+ * @class SocialsController
+ * @author Chris Sheppard
+ * @description handles the Social media management section
+ */
 class SocialsController extends Controller {
 
     public $returnType = "text";
@@ -22,9 +27,10 @@ class SocialsController extends Controller {
         "deny" => array()
     );
 
-	/**
-	 * generate creates an access token for the user when making API requests
-	 **/
+/**
+ * [Generate creates an access token for the user when making API requests]
+ * @return [array] [response]
+ */
 	public function generate() {
 		$this->view = "Empty";
 		$this->returnType = "json";

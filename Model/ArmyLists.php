@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class ArmyLists
-	@author Chris Sheppard
-	@desc handles all user data and information
-*/
+/**
+ * @class ArmyLists
+ * @author Chris Sheppard
+ * @description handles all ArmyLists data and information
+ */
 class ArmyLists extends \Frost\Configs\Database {
 
 	protected $table = "ArmyLists";
@@ -121,128 +120,20 @@ class ArmyLists extends \Frost\Configs\Database {
 	}
 
 /**
- * save_army method
- * saves an army against the validation
- *
- * @param
- * @return (bool)
+ * [_generateCode to saves a submitted army]
+ * @param  [string] $id [the inputted generation code based on the $id]
+ * @return [string]     [generated hash string]
  */
-	public function save_army() {
-		$validation = \Validation::validate($this->validation, "User");
-		if($validation["error"]) {
-			return $validation;
-		}
-
-		$data = $this->Find("first",
-			array(
-				"Users" => array(
-					array(
-						"fields" => array(
-							"slug",
-							"username",
-							"email"
-						),
-						"condition"	=> array(
-							"or" => array(
-								"username" => $this->post['data']['User']['username'],
-								"email" => $this->post['data']['User']['email']
-							)
-						)
-					)
-				)
-			)
-		);
-
-		if(isset($data['Users']) && !empty($data['Users'])) {
-			$head = "";
-			if($this->post['data']['User']['username'] == $data['Users']['username']) {
-				$head = "Username";
-			}
-			if($this->post['data']['User']['email'] == $data['Users']['email']) {
-				if(strlen($head) > 0)
-					$head .= "/";
-
-				$head .= "Email";
-			}
-			return \Validation::response($head,"The information you provided is currently being used, please choose a different ".$head);
-		}
-
-		$crypt_pass = sha1(crypt($this->post['data']['User']['password'], CRYPTKEY.$this->post['data']['User']['email']));
-		$slug = crypt($this->post['data']['User']['username'], CRYPTKEY.$this->post['data']['User']['email']);
-
-		$query = array(
-			"Users" => array(
-				array(
-					"username" 			=> $this->post['data']['User']['username'],
-					"slug" 				=> $slug,
-					"password" 			=> $crypt_pass,
-					"email" 			=> $this->post['data']['User']['email'],
-					"email_verified"	=> (int)((isset($this->post['data']['User']['email_verified']))?(bool)$this->post['data']['User']['email_verified']:false),
-					"is_admin"			=> (int)((isset($this->post['data']['User']['is_admin']))?(bool)$this->post['data']['User']['is_admin']:false),
-					"created" 			=> date("Y-m-d H:i:s"),
-					"modified" 			=> date("Y-m-d H:i:s")
-				)
-			)
-		);
-		$this->Save($query);
-	}
-
-/**
- * update_army method
- * Updates a current army within the system
- *
- * @param
- * @return (bool)
- */
-	public function update_army() {
-		$validation = \Validation::validate($this->validation, "Users", "edit");
-		if($validation["error"]) {
-			return $validation;
-		}
-		$pass = array();
-		if(isset($this->post['data']['Users']['password']) && !empty($this->post['data']['Users']['password'])) {
-			$crypt_pass = sha1(crypt($this->post['data']['Users']['password'], CRYPTKEY.$this->post['data']['Users']['email']));
-			$pass = array("password" 		=> $crypt_pass);
-		}
-
-		$data_array = array_merge($pass,array(
-			"username" 			=> $this->post['data']['Users']['username'],
-			"email" 			=> $this->post['data']['Users']['email'],
-			"email_verified"	=> (int)((isset($this->post['data']['Users']['email_verified']))?(bool)$this->post['data']['Users']['email_verified']:false),
-			"is_admin"			=> (int)((isset($this->post['data']['Users']['is_admin']))?(bool)$this->post['data']['Users']['is_admin']:false),
-			"modified" 			=> date("Y-m-d H:i:s")
-		));
-
-		$query = array(
-			"Users" => array(
-				array(
-					"data" => $data_array,
-					"condition" => array("id" => $this->post['data']['Users']['id'])
-				)
-			)
-		);
-
-		$this->Update($query);
-	}
-
-/**
- * _generateCode to saves a submitted army
- *
- * @return hash (string)
- */
-
 	public function _generateCode($id) {
 		$salt = substr(md5(uniqid(rand(), true)), 0, 9);
 		return $salt . sha1($salt . time() . $id);
 	}
 
-
 /**
- * army_lists method
- * returns the army lists
- *
- * @param
- * @return (bool)
+ * [returns the army lists]
+ * @param  [string] $type    [whether it be public, personal or top]
+ * @param  [int] $user_id [currently logged in user/0 = guest]
+ * @return [array]          [the returning armies]
  */
 	public function army_lists($type, $user_id) {
 

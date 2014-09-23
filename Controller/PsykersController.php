@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class PsykersController
-	@author Chris Sheppard
-	@desc handles the Psykers management section
-*/
+/**
+ * @class PsykersController
+ * @author Chris Sheppard
+ * @description handles the Psykers management section
+ */
 class PsykersController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class PsykersController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Psykers/index
- * Method: GET
- * Index's all the Psykers
- *
- * @param
- * @return (array)
+ * [Index's all the Psykers]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -79,13 +74,9 @@ class PsykersController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Psykers/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Psykers]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -120,13 +111,10 @@ class PsykersController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/Psykers/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Psykers]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -146,13 +134,10 @@ class PsykersController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Psykers/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Psykers]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -173,13 +158,9 @@ class PsykersController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Psykers/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Psykers]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

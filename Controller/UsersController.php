@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class UsersController
-	@author Chris Sheppard
-	@desc handles the user management section
-*/
+/**
+ * @class UsersController
+ * @author Chris Sheppard
+ * @description handles the user management section
+ */
 class UsersController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class UsersController extends Controller {
     );
 
 /**
- * admin_index method
- * ROUTE: /admin/users/index
- * Method: GET
- * Index's all the users
- *
- * @param
- * @return (array)
+ * [Index's all the User]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -62,13 +57,9 @@ class UsersController extends Controller {
 	}
 
 /**
- * admin_dashboard method
- * ROUTE: /admin/users/dashboard
- * Method: GET
- * Index's all the users
- *
- * @param
- * @return (array)
+ * [Dashboard for the Admin section]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_dashboard($options) {
 		$this->view = "admin";
@@ -77,13 +68,9 @@ class UsersController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/users/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a User]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -112,13 +99,10 @@ class UsersController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/users/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a User]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -138,13 +122,10 @@ class UsersController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/users/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a User]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -168,13 +149,9 @@ class UsersController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/users/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a User]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";
@@ -196,12 +173,10 @@ class UsersController extends Controller {
 
 
 /**
- * Login method
- * ROUTE: /users/login
- * Allows a user to register with fb and log in
- *
- * @param
- * @return (array)
+ * [Allows a user to log in]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function login($options, $methodData) {
 		if($this->requestType("POST")) {
@@ -224,12 +199,10 @@ class UsersController extends Controller {
 		return array("code" => 200, "message" => "User Log in", "data" => array(), "errors" => null);
 	}
 /**
- * logout method
- * ROUTE: /users/login
- * Allows a user to register with fb and log in
- *
- * @param
- * @return (array)
+ * [Allows a user to log off]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function logout($options, $methodData) {
 		\Configure::Auth(null);
@@ -237,12 +210,10 @@ class UsersController extends Controller {
 	}
 
 /**
- * Register method
- * ROUTE: /users/register
- * Allows a user to register with fb and log in
- *
- * @param
- * @return (array)
+ * [Allows a guest to register]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function register($options, $methodData) {
 		if($this->requestType("POST")) {
@@ -263,12 +234,10 @@ class UsersController extends Controller {
 	}
 
 /**
- * profile method
- * ROUTE: /users/profile
- * Allows a user change their profile details
- *
- * @param
- * @return (array)
+ * [Allows a glogged in user to edit and view their profile]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function profile($options, $methodData) {
 		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => \Configure::User("id") ) ) ) ) );
@@ -291,23 +260,20 @@ class UsersController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * reset_password method
- * ROUTE: /users/reset_password
- * Allows a guest to challenge for a lost password
- *
- * @param
- * @return (array)
+ * [Allows a user to reset their password]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function reset_password($options, $methodData) {
 		return array("code" => 200, "message" => "User Edit", "data" => null, "errors" => null);
 	}
+
 /**
- * verified method
- * ROUTE: /users/verified/:slug
- * Verifies a users account
- *
- * @param
- * @return (array)
+ * [Allows a user to confirm their email after registration]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function verified($options, $methodData) {
 		$this->view = "Empty";
@@ -330,16 +296,15 @@ class UsersController extends Controller {
 		}
 		$this->Flash("<strong>Failure</strong>: There was a problem activiting your account, please try again.", "alert alert-danger", "/");
 	}
+
 // API methods
 
 
 /**
- * login_api method
- * ROUTE: /user/login
- * Allows a user to register with fb and log in
- *
- * @param
- * @return (array)
+ * [Allows a user to log in]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function login_api($options, $methodData) {
 		$this->view = "Empty";
@@ -364,12 +329,10 @@ class UsersController extends Controller {
 	}
 
 /**
- * Register_api method
- * ROUTE: /user/register
- * Allows a user to register with fb and log in
- *
- * @param
- * @return (array)
+ * [Allows a guest to register]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function register_api($options, $methodData) {
 		$this->view = "Empty";
@@ -408,12 +371,10 @@ class UsersController extends Controller {
 		}
 	}
 /**
- * reset_password_api method
- * ROUTE: /user/lost_password
- * Allows a guest to challenge for a lost password
- *
- * @param
- * @return (array)
+ * [Allows a user to reset their password]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function lost_password_api($options, $methodData) {
 		$this->view = "Empty";
@@ -459,12 +420,10 @@ class UsersController extends Controller {
 	}
 
 /**
- * profile_api method
- * ROUTE: /user/profile_api
- * Allows a user to update their profile
- *
- * @param
- * @return (array)
+ * [Allows a glogged in user to edit and view their profile]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function profile_api($options, $methodData) {
 		$this->view = "Empty";

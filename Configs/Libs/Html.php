@@ -4,7 +4,7 @@ namespace Frost\Configs;
 /**
  *	@class Html
  *	@author Chris Sheppard
- *	@desc handles all the view logic like URLS and the such, helper class
+ *	@description handles all the view logic like URLS and the such, helper class
  */
 class Html {
 
@@ -17,12 +17,11 @@ class Html {
 	}
 
 /**
- * Url method
- * Prints out nicely formatted URL
- *
- * @param $name(string), $url(mixin), $options (array)
- * @return (string)
-  **/
+ * [Prints out nicely formatted URL]
+ * @param [string] $name    []
+ * @param [mixin] $url     []
+ * @param [array]  $options []
+ */
 	public function Url($name, $url, $options = array()) {
 		$url_path = "";
 		$attr = "";
@@ -51,12 +50,12 @@ class Html {
 	}
 
 /**
- * Url method
- * UrlPost out nicely formatted URL within a form post, used for deleting
- *
- * @param $name(string), $url(mixin), $options (array)
- * @return (string)
-  **/
+ * [UrlPost out nicely formatted URL within a form post, used for deleting]
+ * @param [string] $name    []
+ * @param [string] $url     []
+ * @param [array]  $options []
+ * @return [string]
+ */
 	public function UrlPost($name, $url, $options = array()) {
 
 		$url_path = "";
@@ -95,12 +94,10 @@ class Html {
 	}
 
 /**
- * css method
- * Prints out nicely formatted css link
- *
- * @param $file(array)
- * @return (string)
-  **/
+ * [Prints out nicely formatted css link]
+ * @param [array] $file []
+ * @return [string]
+ */
 	public function Css($file = array()) {
 		$output = "";
 		foreach($file as $value) {
@@ -110,12 +107,11 @@ class Html {
 	}
 
 /**
- * js method
- * Prints out nicely formatted js link
- *
- * @param $file(array)
- * @return (string)
-  **/
+ * [Prints out nicely formatted js link]
+ * @param [array]  $file    []
+ * @param [array] $options []
+ * @return [string]
+ */
 	public function Js($file = array(), $options = null) {
 		$output = array();
 		foreach($file as $value) {
@@ -129,13 +125,11 @@ class Html {
 
 		return implode("\n", $output);
 	}
+
 /**
- * Script method
- * Adds script data to a list to be displays when called by not including the $count;
- *
- * @param $file(array)
- * @return (string)
-  **/
+ * [Adds script data to a list to be displays when called by not including the $count]
+ * @param [string] $content []
+ */
 	public function Script($content = null) {
 		//\Configure::pre($this->script);
 		if(isset($content)) {
@@ -152,24 +146,21 @@ class Html {
 	}
 
 /**
- * meta method
- * Prints out nicely formatted meta link
- *
- * @param $name(string), $content(string)
- * @return (string)
-  **/
+ * [Prints out nicely formatted meta link]
+ * @param [string] $name    []
+ * @param [string] $content []
+ * @return [string]
+ */
 	public function Meta($name, $content) {
 		$output = '<meta name="'.$name.'" content="'.$content.'" />';
 		return $output;
 	}
 
 /**
- * Highlight method
- * Prints out nicely formatted meta link
- *
- * @param $name(string), $content(string)
- * @return (string)
-  **/
+ * [Prints out nicely formatted meta link]
+ * @param [string] $pattern []
+ * @return [string]
+ */
 	public function Highlight($pattern) {
 		if(preg_match($pattern, $_SERVER['REQUEST_URI']) === 1) {
 			return " active";
@@ -179,24 +170,19 @@ class Html {
 	}
 
 /**
- * __t method
- * Gets the translated phrase from a copy
- *
- * @param $phrase(string)
- * @return (string)
-  **/
+ * [Gets the translated phrase from a copy]
+ * @param  [string] $phrase []
+ * @return [string]         []
+ */
 	public function __t($phrase) {
 		return $phrase;
 	}
 
-
 /**
- * form method
- * Generates form headers and footers in a nicely formatted way
- *
- * @param $options(array)
- * @return (string)
-  **/
+ * [Generates form headers and footers in a nicely formatted way]
+ * @param [array] $options []
+ * @return [string]         []
+ */
 	public function Form($options = array()) {
 
 		if(isset($options) && !empty($options)) {
@@ -227,12 +213,14 @@ class Html {
 	}
 
 /**
- * input method
- * Generates a form input field in a nicely formatted way
- *
- * @param $options(array)
- * @return (string)
-  **/
+ * [Generates a form input field in a nicely formatted way]
+ * @param [string]  $name    []
+ * @param [string]  $model   []
+ * @param [array]   $options []
+ * @param [array]   $list    []
+ * @param [boolean] $angular []
+ * @return [string]
+ */
 	public function Input($name, $model, $options = array(), $list = array(), $angular = false) {
 		$_name = $name;
 		$nameucf = ucfirst($name);
@@ -330,12 +318,14 @@ class Html {
 	}
 
 /**
- * MultiSearch method
- * Generates a form multi select field in a nicely formatted way along with a search
- *
- * @param $options(array)
- * @return (string)
-  **/
+ * [Generates a form multi select field in a nicely formatted way along with a search]
+ * @param [string]  $name    []
+ * @param [string]  $model   []
+ * @param [array]   $options []
+ * @param [array]   $list    []
+ * @param [boolean] $angular []
+ * @return [string]
+ */
 	public function MultiSearch($name, $model, $options = array(), $list = array(), $angular = false) {
 		$_name = $name;
 		$nameucf = ucfirst($name);
@@ -408,12 +398,11 @@ class Html {
 	}
 
 /**
- * Submit method
- * Generates a form Submit field in a nicely formatted way
- *
- * @param $options(array)
- * @return (string)
-  **/
+ * [Generates a form Submit field in a nicely formatted way]
+ * @param [string] $name    []
+ * @param [array]  $options []
+ * @return [string]
+ */
 	public function Submit($name, $options = array()) {
 		$output = '<button';
 
@@ -427,12 +416,11 @@ class Html {
 	}
 
 /**
- * Flash method
- * Adds a Flash message to the session to be displayed once on call
- *
- * @param $options(array)
- * @return (string)
-  **/
+ * [Adds a Flash message to the session to be displayed once on call]
+ * @param [string] $message []
+ * @param [string] $class   []
+ * @return [string]
+ */
 	public function Flash($message = "", $class = "alert alert-info") {
 		$output = "";
 		if($message == "" && !empty(\Configure::read("Flash.message"))) {
@@ -448,12 +436,10 @@ class Html {
 	}
 
 /**
- * Pagination method
- * Displays a nice pagination button format
- *
- * @param $model(string)
- * @return (string)
-  **/
+ * [Displays a nice pagination button format]
+ * @param [string] $model []
+ * @return [string]
+ */
 	public function Pagination($model) {
 		$index	= count(\Configure::$url['param'])-1;
 		$arr 	= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
@@ -482,6 +468,13 @@ class Html {
 		return $output;
 	}
 
+/**
+ * [Displays a nice pagination button format]
+ * @param [array] $arr   []
+ * @param [string] $index []
+ * @param string $name  []
+ * @return [string]
+ */
 	private function Pagionation_url($arr, $index, $name = "") {
 		return '<li'.
 		(($index == $arr[1])?' class="active"':'').'><a href="/'.
@@ -497,12 +490,11 @@ class Html {
 	}
 
 /**
- * Pag_Sort method
- * The ability to trigger a sort on pagination headers
- *
- * @param $pagination(string), $column(string)
- * @return (string)
-  **/
+ * [The ability to trigger a sort on pagination headers]
+ * @param [string] $pagination []
+ * @param [string] $column     []
+ * @return [string]
+ */
 	public function Pag_Sort($pagination, $column = null) {
 		$index	= count(\Configure::$url['param'])-1;
 		$arr 	= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
@@ -523,12 +515,11 @@ class Html {
 	}
 
 /**
- * Time method
- * Outputs time method based on a string input
- *
- * @param $type(string), $type (string)
- * @return (string)
-  **/
+ * [Outputs time method based on a string input]
+ * @param [string]  $type  []
+ * @param [string]  $input []
+ * @param [boolean] $full  []
+ */
 	public function Time($type, $input = null, $full = false) {
 		$output = "";
 		$time = strtotime($input);

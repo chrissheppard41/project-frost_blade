@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Relics
-	@author Chris Sheppard
-	@desc handles all Relics data and information
-*/
+/**
+ * @class Relics
+ * @author Chris Sheppard
+ * @description handles all Relics data and information
+ */
 class Relics extends \Frost\Configs\Database {
 
 	protected $table = "Relics";
@@ -34,7 +33,12 @@ class Relics extends \Frost\Configs\Database {
 			"baseColumn" => "relics_id"
 		)
 	);
-
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Enhancements
-	@author Chris Sheppard
-	@desc handles all Enhancements data and information
-*/
+/**
+ * @class Enhancements
+ * @author Chris Sheppard
+ * @description handles all Enhancements data and information
+ */
 class Enhancements extends \Frost\Configs\Database {
 
 	protected $table = "Enhancements";
@@ -34,7 +33,12 @@ class Enhancements extends \Frost\Configs\Database {
 			"baseColumn" => "id"
 		)
 	);
-
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

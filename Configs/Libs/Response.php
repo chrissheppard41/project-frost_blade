@@ -3,8 +3,8 @@ namespace Frost\Configs;
 
 /*
 	@class Response
-	@author
-	@desc
+	@author Chris Sheppard
+	@description controls the response from the controller being passed intot he core
 */
 class Response {
 	public static $codes = array(
@@ -24,6 +24,15 @@ class Response {
 		503 => 'Service Unavailable',
 		504 => 'Gateway Time-out',
 	);
+
+/**
+ * [sets the response from the controller in a nice formatted array]
+ * @param [int]  $code      []
+ * @param [string]  $message   []
+ * @param [array]   $options   []
+ * @param [boolean] $serialize []
+ * @return [array] []
+ */
 	public static function setResponse($code, $message, $options = array(), $serialize = true) {
 		http_response_code($code);
 

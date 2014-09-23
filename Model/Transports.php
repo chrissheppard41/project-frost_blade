@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Transports
-	@author Chris Sheppard
-	@desc handles all Transports data and information
-*/
+/**
+ * @class Transports
+ * @author Chris Sheppard
+ * @description handles all Transports data and information
+ */
 class Transports extends \Frost\Configs\Database {
 
 	protected $table = "Transports";
@@ -35,6 +34,12 @@ class Transports extends \Frost\Configs\Database {
 		)
 	);
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

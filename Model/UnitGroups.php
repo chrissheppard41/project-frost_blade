@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class UnitGroups
-	@author Chris Sheppard
-	@desc handles all UnitGroups data and information
-*/
+/**
+ * @class UnitGroups
+ * @author Chris Sheppard
+ * @description handles all UnitGroups data and information
+ */
 class UnitGroups extends \Frost\Configs\Database {
 
 	protected $table = "UnitGroups";
@@ -24,6 +23,12 @@ class UnitGroups extends \Frost\Configs\Database {
 	);
 	public $post = array();
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

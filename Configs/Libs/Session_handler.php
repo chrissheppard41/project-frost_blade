@@ -4,7 +4,7 @@ namespace Frost\Configs;
 /**
  *	@class Session_handler
  *	@author Chris Sheppard
- *	@desc handles the session calls
+ *	@description handles the session calls
  */
 class Session_handler {
 
@@ -14,6 +14,12 @@ class Session_handler {
  *
  * @param $key (string)
  * @return (array)
+ */
+/**
+ * [Master reads the session data based on the key]
+ * @param  [array]  $source []
+ * @param  [string] $key    [Key is the index in the array]
+ * @return [array]         []
  */
 	public static function read(array $source, $key) {
 		$keys = explode(".", $key);
@@ -30,11 +36,11 @@ class Session_handler {
 	}
 
 /**
- * write method
- * Master writes to the session data based on the key
- *
- * @param $key (string)
- * @return (array)
+ * [Master writes to the session data based on the key]
+ * @param  [array]  $source []
+ * @param  [string] $key    []
+ * @param  [array]  $data   []
+ * @return [array]         []
  */
 	public static function write(array $source, $key, $data = array()) {
 		$keys = explode(".", $key);
@@ -49,11 +55,9 @@ class Session_handler {
 	}
 
 /**
- * delete method
- * Master delete array from the session
- *
- * @param $key (string)
- * @return (array)
+ * [Master delete array from the session]
+ * @param  [array]  $source [description]
+ * @param  [string] $key    [description]
  */
 	public static function delete(array &$source, $key) {
 		$keys = explode(".", $key);

@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Units
-	@author Chris Sheppard
-	@desc handles all Units data and information
-*/
+/**
+ * @class Units
+ * @author Chris Sheppard
+ * @description handles all Units data and information
+ */
 class Units extends \Frost\Configs\Database {
 
 	protected $table = "Units";
@@ -154,6 +153,12 @@ class Units extends \Frost\Configs\Database {
 		)
 	);
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

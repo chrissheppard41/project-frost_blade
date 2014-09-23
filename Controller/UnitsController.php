@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class UnitsController
-	@author Chris Sheppard
-	@desc handles the Units management section
-*/
+/**
+ * @class UnitsController
+ * @author Chris Sheppard
+ * @description handles the Units management section
+ */
 class UnitsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class UnitsController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Units/index
- * Method: GET
- * Index's all the Units
- *
- * @param
- * @return (array)
+ * [Index's all the Units]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -71,13 +66,9 @@ class UnitsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Units/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Units]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -127,13 +118,10 @@ class UnitsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_add method
- * ROUTE: /admin/Units/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Units]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -157,13 +145,10 @@ class UnitsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Units/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Units]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -186,13 +171,9 @@ class UnitsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Units/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Units]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

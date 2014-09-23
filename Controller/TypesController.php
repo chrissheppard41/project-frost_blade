@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class TypesController
-	@author Chris Sheppard
-	@desc handles the Types management section
-*/
+/**
+ * @class TypesController
+ * @author Chris Sheppard
+ * @description handles the Types management section
+ */
 class TypesController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class TypesController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Types/index
- * Method: GET
- * Index's all the Types
- *
- * @param
- * @return (array)
+ * [Index's all the Types]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -57,13 +52,9 @@ class TypesController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Types/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Types]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -88,13 +79,10 @@ class TypesController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/Types/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Types]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -111,13 +99,10 @@ class TypesController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Types/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Types]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -136,13 +121,9 @@ class TypesController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Types/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Types]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";
@@ -167,10 +148,9 @@ class TypesController extends Controller {
  * API endpoints
  */
 
- /**
- * API unit_types to return all unit types
- *
- * @return void
+/**
+ * [API unit_types to return all unit types]
+ * @return [array]          [response]
  */
     public function unit_types() {
 		$this->view = "Empty";

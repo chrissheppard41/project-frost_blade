@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class WargearGroupsController
-	@author Chris Sheppard
-	@desc handles the WargearGroups management section
-*/
+/**
+ * @class WargearGroupsController
+ * @author Chris Sheppard
+ * @description handles the WargearGroups management section
+ */
 class WargearGroupsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,10 @@ class WargearGroupsController extends Controller {
 	);
 
 /**
- * admin_edit method
- * ROUTE: /admin/WargearGroups/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a WargearGroups]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -65,13 +61,9 @@ class WargearGroupsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/WargearGroups/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a WargearGroups]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

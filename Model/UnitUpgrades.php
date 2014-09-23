@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class UnitUpgrades
-	@author Chris Sheppard
-	@desc handles all UnitUpgrades data and information
-*/
+/**
+ * @class UnitUpgrades
+ * @author Chris Sheppard
+ * @description handles all UnitUpgrades data and information
+ */
 class UnitUpgrades extends \Frost\Configs\Database {
 
 	protected $table = "UnitUpgrades";
@@ -24,6 +23,12 @@ class UnitUpgrades extends \Frost\Configs\Database {
 	);
 	public $post = array();
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

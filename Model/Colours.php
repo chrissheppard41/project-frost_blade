@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Colours
-	@author Chris Sheppard
-	@desc handles all Colours data and information
-*/
+/**
+ * @class Colours
+ * @author Chris Sheppard
+ * @description handles all Colours data and information
+ */
 class Colours extends \Frost\Configs\Database {
 
 	protected $table = "Colours";
@@ -21,7 +20,12 @@ class Colours extends \Frost\Configs\Database {
 
 	protected $relationships = array(
 	);
-
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

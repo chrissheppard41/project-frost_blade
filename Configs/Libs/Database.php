@@ -3,10 +3,10 @@ namespace Frost\Configs;
 
 require PATH."Configs\Connection.php";
 /*
-	@class Database
-	@author Chris Sheppard
-	@desc handles the database connection, writing and quering from that database, the ablity to cache responses into folders
-*/
+ * @class Database
+ * @author Chris Sheppard
+ * @description handles the database connection, writing and quering from that database, the ablity to cache responses into folders
+ */
 class Database {
 	public $connection = null;
 	protected $table = null;
@@ -23,11 +23,9 @@ class Database {
 	}
 
 /**
- * query method
- * The default method for quering tables within the databases (SELECT, INSERT, DROP, UPDATE etc)
- *
- * @param $query (array)
- * @return $q (PDO::query)
+ * [The default method for quering tables within the databases (SELECT, INSERT, DROP, UPDATE etc)]
+ * @param  [array] $query [query from system]
+ * @return [PDO::query]        []
  */
 	public function query($query) {
 		//\Configure::pre($query, false);
@@ -46,44 +44,35 @@ class Database {
 	}
 
 /**
- * returnCount method
- * Returns the SELECT row count (only works for queries)
- *
- * @param $query (PDO::query)
- * @return (int)
+ * [Returns the SELECT row count (only works for queries)]
+ * @param  [PDO::query] $query [pdo query]
+ * @return [int]        [0 = false, 1 = true]
  */
 	public function returnCount($query) {
 		return $query->rowCount();
 	}
 
 /**
- * returnLastId method
- * Returns the INSERT/UPDATE last inserted ID
- *
- * @param $query ()
- * @return (int)
+ * [Returns the INSERT/UPDATE last inserted ID]
+ * @return [int] [the last inserted id]
  */
 	public function returnLastId() {
 		return $this->connection->lastInsertId();
 	}
 
 /**
- * results method
- * Returns the SELECTs data values as an array object
- *
- * @param $query (PDO::query)
- * @return (Array)
+ * [results description]
+ * @param  [PDO::query] $query [query insert for results]
+ * @return [array]        [the results from the data]
  */
 	public function results($query) {
 		return $query->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 /**
- * save method
- * Returns the SELECTs data values as an array object
- *
- * @param $querys (PDO::query)
- * @return (bool)
+ * [Returns the SELECTs data values as an array object]
+ * @param [array] $queries [array to be saved]
+ * @return [array]        [whether it was saved or not]
  */
 	public function Save($queries = array()) {
 		if(isset($queries) && !empty($queries))
@@ -109,11 +98,10 @@ class Database {
 	}
 
 /**
- * relatedsave method
- * A method that handles the datagrouping conditions
- *
- * @param $table(String), $value(String)
- * @return (array)
+ * [A method that handles the datagrouping conditions]
+ * @param  [string] $table [tabel to be saved into]
+ * @param  [string] $value [value to be saved]
+ * @param  [int] $id    [related save last inserted ID]
  */
 	private function relatedsave($table, $value, $id) {
 		$query = array(
@@ -168,11 +156,14 @@ class Database {
 	}
 
 /**
- * deepsave method
- * A method that handles the datagrouping conditions
- *
- * @param $key(String), $value(String)
- * @return (array)
+ * [A method that handles the datagrouping conditions]
+ * @param  [string]  $key          [the table to be saved into]
+ * @param  [array]  $value        [values to be saved]
+ * @param  [integer] $index        [used in the deep saved index]
+ * @param  [array]   $relationship [the relationship assocated in the model]
+ * @param  [integer] $lastInsertId [the last id]
+ * @param  [string]  $linkedColumn [the linked column in the relationship assocated in the model]
+ * @return [array]                [deep data to be saved]
  */
 	private function deepsave($key, $value, $index = 0, $relationship = array(), $lastInsertId = 0, $linkedColumn = "") {
 
@@ -228,7 +219,6 @@ class Database {
 			"query" => $sql_,
 			"params" => $arr
 		);
-
 //\Configure::pre($query, false);
 //\Configure::pre($habtm, false);
 
@@ -252,13 +242,11 @@ class Database {
 		return $this->deepsave($key, $value, ($index+1), $relationship, $lastInsertId, $linkedColumn);
 	}
 
-
 /**
- * shallowsave method
- * A method that handles the datagrouping conditions
- *
- * @param $head(String), $val(String)
- * @return (array)
+ * [A method that handles the datagrouping conditions]
+ * @param  [string] $key   [the table to be saved into]
+ * @param  [string] $value [values to be saved]
+ * @return [array]        [the output array]
  */
 	private function shallowsave($key, $value) {
 		$value = array_merge($value, array("created" => date("Y-m-d H:i:s"), "modified" => date("Y-m-d H:i:s")));
@@ -311,25 +299,25 @@ class Database {
 		return array();
 	}
 
-
 /**
- * conditions method
- * A method that handles the Where conditions
- *
- * @param $head(String), $val(String)
- * @return (array)
+ * [A method that handles the Where conditions]
+ * @param  [string] $value    []
+ * @param  [string] $head     []
+ * @param  [string] $op       []
+ * @param  [array] $wherearr []
+ * @param  [array] $arr      []
+ * @param  [int] $i        []
  */
 	private function group($value, $head, $op, &$wherearr, &$arr, &$i) {
 		$wherearr[$op][] = $head."=:a".$i.str_replace(array("."), "", $head);
 		$arr[":a".$i.str_replace(array("."), "", $head)] = $value;
 		$i++;
 	}
+
 /**
- * conditions method
- * A method that handles the Where conditions
- *
- * @param $head(String), $val(String)
- * @return (array)
+ * [A method that handles the Where conditions]
+ * @param  [array] $condition []
+ * @return [array]            []
  */
 	private function conditions($condition) {
 		$where = "";
@@ -368,12 +356,12 @@ class Database {
 			"arr" => $arr
 		);
 	}
+
 /**
- * update method
- * Generates a update method
- *
- * @param $queries (array), $condition(array)
- * @return (bool)
+ * [Generates a update method]
+ * @param [array] $queries   []
+ * @param [array]  $condition []
+ * @return [boolean]            []
  */
 	public function Update($queries, $condition = array()) {
 		$output = true;
@@ -395,12 +383,11 @@ class Database {
 
 		return $output;
 	}
+
 /**
- * UpdateQuery method
- * Generates a update method
- *
- * @param $queries (array), $condition(array)
- * @return (bool)
+ * [UpdateQuery description]
+ * @param [arrat] $queries []
+ * @return [boolean]            []
  */
 	private function UpdateQuery($queries) {
 
@@ -465,15 +452,10 @@ class Database {
 		return true;
 	}
 
-
-
-
 /**
- * Find method
- * Returns the SELECTs data values as an array object
- *
- * @param $querys (PDO::query)
- * @return (bool)
+ * [Returns the SELECTs data values as an array object]
+ * @param [string] $format  []
+ * @param [array] $queries []
  */
 	public function Find($format, $queries) {
 
@@ -536,14 +518,13 @@ class Database {
 		}
 
 		return $output;
-
 	}
+
 /**
- * connect method
- * if the connect exist as a relationship then for each record pull the data in.
- *
- * @param $data (array), $connect (array)
- * @return (array)
+ * [if the connect exist as a relationship then for each record pull the data in.]
+ * @param  [array] $data    []
+ * @param  [array] $connect []
+ * @return [array]          []
  */
 	private function connect($data, $connect) {
 
@@ -622,11 +603,10 @@ class Database {
 	}
 
 /**
- * handleRelationship method
- * if the contains exist as a relationship then for each record pull the data in.
- *
- * @param $contain (array)
- * @return (array)
+ * [if the contains exist as a relationship then for each record pull the data in.]
+ * @param  [array] $data    []
+ * @param  [array] $contain []
+ * @return [array]          []
  */
 	private function handleRelationship($data, $contain) {
 
@@ -690,12 +670,14 @@ class Database {
 		}
 		return $data;
 	}
+
 /**
- * relationdata method
- * if the contains exist as a relationship then for each record pull the data in.
- *
- * @param $contain (array)
- * @return (array)
+ * [if the contains exist as a relationship then for each record pull the data in.]
+ * @param  [array]  $data         [description]
+ * @param  [array]  $contain      [description]
+ * @param  [array]  $relationship [description]
+ * @param  [boolean] $singlearray  [description]
+ * @return [array]                [description]
  */
 	private function relationdata($data, $contain, $relationship, $singlearray = true) {
 
@@ -712,12 +694,11 @@ class Database {
 
 		return $data;
 	}
+
 /**
- * contains method
- * Generates a contain join between 2 tables on request
- *
- * @param $contain (array)
- * @return (array)
+ * [Generates a contain join between 2 tables on request]
+ * @param  [array] $contain []
+ * @return [array]          []
  */
 	private function contains($contain) {
 		$join = "";
@@ -754,12 +735,11 @@ class Database {
 			"relationship" 	=> $relationship
 		);
 	}
+
 /**
- * Delete method
- * Deletes a entry or group of entries based on given ID's
- *
- * @param $key (string)
- * @return
+ * [Deletes a entry or group of entries based on given ID's]
+ * @param [array]  $queries []
+ * @param [boolean] $ignore  []
  */
 	public function Delete($queries, $ignore = false) {
 		foreach($queries as $table => $query) {
@@ -799,13 +779,11 @@ class Database {
 			$this->query($q);
 		}
 	}
+
 /**
- * Call method
- * Calls a store prodecure within the system
- *
- * @param $function (string)
- * @param $params (array)
- * @return
+ * [Calls a store prodecure within the system]
+ * @param [string] $function []
+ * @param [array]  $params   []
  */
 	public function Call($function, $params = array()) {
 
@@ -825,12 +803,10 @@ class Database {
 			return $results;
 		}
 	}
+
 /**
- * Exists method
- * Checks to see if the item exists in the database
- *
- * @param $value (mixed)
- * @return (Bool)
+ * [Checks to see if the item exists in the database]
+ * @param [Mixins] $value []
  */
 	public function Exists($value) {
 		if(is_array($value)) {
@@ -859,11 +835,8 @@ class Database {
 	}
 
 /**
- * Page method
- * Gets the current page for pagination by reading the url
- *
- * @param $key (string)
- * @return
+ * [Gets the current page for pagination by reading the url]
+ * @param [string] $page_count []
  */
 	public function Page($page_count) {
 		$index = count(\Configure::$url['param'])-1;
@@ -882,9 +855,10 @@ class Database {
 	}
 
 /**
- *	method to tackle bad requests by checking the presented access tokens and time stamps
- *
- *	@return array
+ * [method to tackle bad requests by checking the presented access tokens and time stamps]
+ * @param  [string] $token        []
+ * @param  [array]  $session_data []
+ * @return [boolean]               []
  */
 	public function auth_check($token, $session_data = array()) {
 		if(empty($session_data) || !isset($session_data['access']) || !isset($session_data['time'])) {

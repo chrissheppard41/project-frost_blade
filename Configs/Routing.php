@@ -1,21 +1,18 @@
 <?php
 namespace Frost\Configs;
 
-/*
-	@class Route
-	@author Chris Sheppard
-	@desc handles all routing within the system
-*/
+/**
+ * @class Route
+ * @author Chris Sheppard
+ * @description handles all routing within the system
+ */
 class Route {
 
 	private static $route = array();
 	private static $url = array();
+
 /**
- * Routing method
- * Index's all the Races
- *
- * @param
- * @return (array)
+ * [Set all the routes within the system]
  */
 	private static function Routing() {
 		self::$route = array(
@@ -42,12 +39,11 @@ class Route {
 			'user/profile'			=> array("controller" => "UsersController", "action" => "profile_api", "param" => array())
 		);
 	}
+
 /**
- * getRoute method
- * Index's all the Races
- *
- * @param
- * @return (array)
+ * [get the route from the url string]
+ * @param  [string] $url [the url]
+ * @return [array]      [the matched route]
  */
 	public static function getRoute($url) {
 		self::Routing();
@@ -67,6 +63,11 @@ class Route {
  *
  * @param $url (array)
  * @return (array)
+ */
+/**
+ * [extract from the url the controller, method and param]
+ * @param  [string] $url [the url]
+ * @return [array]      [the broken up url put together]
  */
 	private static function baseUrl($url) {
 		$url = explode("/", $url);
@@ -91,11 +92,9 @@ class Route {
 	}
 
 /**
- * stripUrlElements method
- *
- *
- * @param $url (array)
- * @return (array)
+ * [stripUrlElements description]
+ * @param  [string] $url [the url]
+ * @return [array]      []
  */
 	private static function stripUrlElements($url) {
 
@@ -111,18 +110,15 @@ class Route {
 		return self::findUrl($routeURL, $routeInd, $routeMax, $currentURL, $currentInd, $currentMax);
 	}
 
-
 /**
- * findUrl method
- *
- *
- * @param $_r_url (array)
- * @param $_$_r_id (int)
- * @param $_r_max (int)
- * @param $_c_url (array)
- * @param $_c_id (int)
- * @param $_c_max (int)
- * @return (array)
+ * [findUrl description]
+ * @param  [array] $_r_url []
+ * @param  [int] $_r_id  []
+ * @param  [int] $_r_max []
+ * @param  [array] $_c_url []
+ * @param  [int] $_c_id  []
+ * @param  [int] $_c_max []
+ * @return [array]         []
  */
 	private static function findUrl($_r_url, $_r_id, $_r_max, $_c_url, $_c_id, $_c_max) {
 		if($_r_id >= $_r_max) {
@@ -146,7 +142,5 @@ class Route {
 		$_r_id++;
 		return self::findUrl($_r_url, $_r_id, $_r_max, $_c_url, $_c_id, $_c_max);
 	}
-
-
 
 }

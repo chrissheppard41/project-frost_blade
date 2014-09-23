@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class TransportsController
-	@author Chris Sheppard
-	@desc handles the Transports management section
-*/
+/**
+ * @class TransportsController
+ * @author Chris Sheppard
+ * @description handles the Transports management section
+ */
 class TransportsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class TransportsController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Transports/index
- * Method: GET
- * Index's all the Transports
- *
- * @param
- * @return (array)
+ * [Index's all the Transports]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -79,13 +74,9 @@ class TransportsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Transports/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Transports]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -120,13 +111,10 @@ class TransportsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/Transports/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Transports]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -146,13 +134,10 @@ class TransportsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Transports/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Transports]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -173,13 +158,9 @@ class TransportsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Transports/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Transports]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

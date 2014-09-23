@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class ColoursController
-	@author Chris Sheppard
-	@desc handles the Colours management section
-*/
+/**
+ * @class ColoursController
+ * @author Chris Sheppard
+ * @description handles the Colours management section
+ */
 class ColoursController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class ColoursController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Colours/index
- * Method: GET
- * Index's all the Colours
- *
- * @param
- * @return (array)
+ * [Index's all the Colours]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -57,13 +52,9 @@ class ColoursController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Colours/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Colours]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -86,14 +77,12 @@ class ColoursController extends Controller {
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
+
 /**
- * admin_view admin_add
- * ROUTE: /admin/Colours/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Colours]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -110,13 +99,10 @@ class ColoursController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Colours/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Colours]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -135,13 +121,9 @@ class ColoursController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Colours/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Colours]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

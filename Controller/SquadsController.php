@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class SquadsController
-	@author Chris Sheppard
-	@desc handles the Squads management section
-*/
+/**
+ * @class SquadsController
+ * @author Chris Sheppard
+ * @description handles the Squads management section
+ */
 class SquadsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class SquadsController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Squads/index
- * Method: GET
- * Index's all the Squads
- *
- * @param
- * @return (array)
+ * [Index's all the Squads]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -88,13 +83,9 @@ class SquadsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Squads/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Squads]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -140,13 +131,10 @@ class SquadsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_add method
- * ROUTE: /admin/Squads/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Squads]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -173,13 +161,10 @@ class SquadsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Squads/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Squads]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -207,13 +192,9 @@ class SquadsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Squads/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Squads]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";
@@ -248,12 +229,17 @@ class SquadsController extends Controller {
  * API endpoints
  */
 
- /**
- * API squads_race to return a list of squads related to race
+/**
+ * [API squads_race to return a list of squads related to race]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
  *
- * @return void
+ * @throws   If [missing access from the request]
+ * @throws   If [access is incorrect with session access]
+ * @throws   If [not logged in]
+ *
+ * @return [array]          [response]
  */
-
 	public function squads_race($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -309,12 +295,16 @@ class SquadsController extends Controller {
 		return \Frost\Configs\Response::setResponse(200, "Squads", array("data" => $data));
 	}
 
- /**
- * API squads_unit to return a list of squads related to race
+/**
+ * [API squads_unit to return a list of squads related to race with one exception, you don't need to be logged in (for public)]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
  *
- * @return void
+ * @throws   If [missing access from the request]
+ * @throws   If [access is incorrect with session access]
+ *
+ * @return [array]          [response]
  */
-
 	public function squads_units($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";

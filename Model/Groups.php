@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Groups
-	@author Chris Sheppard
-	@desc handles all Groups data and information
-*/
+/**
+ * @class Groups
+ * @author Chris Sheppard
+ * @description handles all Groups data and information
+ */
 class Groups extends \Frost\Configs\Database {
 
 	protected $table = "Groups";
@@ -60,7 +59,12 @@ class Groups extends \Frost\Configs\Database {
 			"baseColumn" => null,
 		)*/
 	);
-
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

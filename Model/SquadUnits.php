@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class SquadUnits
-	@author Chris Sheppard
-	@desc handles all SquadUnits data and information
-*/
+/**
+ * @class SquadUnits
+ * @author Chris Sheppard
+ * @description handles all SquadUnits data and information
+ */
 class SquadUnits extends \Frost\Configs\Database {
 
 	protected $table = "SquadUnits";
@@ -97,6 +96,12 @@ class SquadUnits extends \Frost\Configs\Database {
 		)
 	);
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

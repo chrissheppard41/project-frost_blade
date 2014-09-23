@@ -4,7 +4,7 @@ namespace Frost\Configs;
 /**
  *	@class Connection
  *	@author Chris Sheppard
- *	@desc handles the connection init to the mysql server
+ *	@description handles the connection init to the mysql server
  */
 class Connection {
 	private static $DB_SERVER = "127.0.0.1";
@@ -18,11 +18,8 @@ class Connection {
 	private static $DB_Test_PASS = "password";
 
 /**
- * PDO method
- * Method handles which database to connect to, A test database or a live database
- *
- * @param $message(string), $code(int), $trace(array)
- * @return
+ * [constructor]
+ * @return [object]          [pdo connection]
  */
 	public static function PDO() {
 		if(LIVE) {

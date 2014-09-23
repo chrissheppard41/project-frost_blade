@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class UnitGroupsController
-	@author Chris Sheppard
-	@desc handles the UnitGroups management section
-*/
+/**
+ * @class UnitGroupsController
+ * @author Chris Sheppard
+ * @description handles the UnitGroups management section
+ */
 class UnitGroupsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,10 @@ class UnitGroupsController extends Controller {
 	);
 
 /**
- * admin_edit method
- * ROUTE: /admin/UnitGroups/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Colours]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -50,13 +46,9 @@ class UnitGroupsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => array_merge($data, array("squad_id" => $options[1])), "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/UnitGroups/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Colours]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

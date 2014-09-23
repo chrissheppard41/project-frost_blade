@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class GroupsController
-	@author Chris Sheppard
-	@desc handles the Groups management section
-*/
+/**
+ * @class GroupsController
+ * @author Chris Sheppard
+ * @description handles the Groups management section
+ */
 class GroupsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class GroupsController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Groups/index
- * Method: GET
- * Index's all the Groups
- *
- * @param
- * @return (array)
+ * [Index's all the Groups]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -80,13 +75,9 @@ class GroupsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Groups/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Groups]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -123,13 +114,10 @@ class GroupsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/Groups/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Groups]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -152,13 +140,10 @@ class GroupsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Groups/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Groups]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -181,13 +166,9 @@ class GroupsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Groups/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Groups]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class ArmyCharacteristicsController
-	@author Chris Sheppard
-	@desc handles the ArmyCharacteristics management section
-*/
+/**
+ * @class ArmyCharacteristicsController
+ * @author Chris Sheppard
+ * @description handles the ArmyCharacteristics management section
+ */
 class ArmyCharacteristicsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class ArmyCharacteristicsController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/ArmyCharacteristics/index
- * Method: GET
- * Index's all the ArmyCharacteristics
- *
- * @param
- * @return (array)
+ * [Index's all the ArmyCharacteristics]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -57,13 +52,9 @@ class ArmyCharacteristicsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/ArmyCharacteristics/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a army characteristic]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -88,13 +79,10 @@ class ArmyCharacteristicsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/ArmyCharacteristics/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a army characteristic]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -110,13 +98,10 @@ class ArmyCharacteristicsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/ArmyCharacteristics/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a army characteristic]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -133,14 +118,11 @@ class ArmyCharacteristicsController extends Controller {
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
+
 /**
- * admin_delete method
- * ROUTE: /admin/ArmyCharacteristics/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a army characteristic]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

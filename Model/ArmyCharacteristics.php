@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class ArmyCharacteristics
-	@author Chris Sheppard
-	@desc handles all ArmyCharacteristics data and information
-*/
+/**
+ * @class ArmyCharacteristics
+ * @author Chris Sheppard
+ * @description handles all ArmyCharacteristics data and information
+ */
 class ArmyCharacteristics extends \Frost\Configs\Database {
 
 	protected $table = "ArmyCharacteristics";
@@ -34,7 +33,12 @@ class ArmyCharacteristics extends \Frost\Configs\Database {
 			"baseColumn" => "armycharacteristics_id"
 		)
 	);
-
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 

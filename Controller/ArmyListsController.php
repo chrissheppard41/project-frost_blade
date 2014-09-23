@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class ArmyListsController
-	@author Chris Sheppard
-	@desc handles the army list management section
-*/
+/**
+ * @class ArmyListsController
+ * @author Chris Sheppard
+ * @description handles the army list management section
+ */
 class ArmyListsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class ArmyListsController extends Controller {
     );
 
 /**
- * admin_index method
- * ROUTE: /admin/ArmyLists/index
- * Method: GET
- * Index's all the ArmyLists
- *
- * @param
- * @return (array)
+ * [Index's all the ArmyLists]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -82,13 +77,9 @@ class ArmyListsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/ArmyLists/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a ArmyLists]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -136,13 +127,10 @@ class ArmyListsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/ArmyLists/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a ArmyLists]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -165,14 +153,12 @@ class ArmyListsController extends Controller {
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
+
 /**
- * admin_edit method
- * ROUTE: /admin/ArmyLists/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a ArmyLists]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -208,14 +194,11 @@ class ArmyListsController extends Controller {
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
 	}
+
 /**
- * admin_delete method
- * ROUTE: /admin/ArmyLists/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a ArmyLists]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";
@@ -238,13 +221,10 @@ class ArmyListsController extends Controller {
 	}
 
 /**
- * armies method
- * ROUTE: /armies
- * Method: GET
- * API armies to return a list of public/personal army lists
- *
- * @param
- * @return (array)
+ * [API armies to return a list of public/personal army lists]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
  */
 	public function armies($options, $methodData) {
 		$this->view = "Empty";
@@ -379,13 +359,10 @@ class ArmyListsController extends Controller {
 	}
 
 /**
- * armies_all method
- * ROUTE: /armies_all
- * Method: GET
- * API armies_all to return a list of public/personal/top army lists in 1 api call
- *
- * @param
- * @return (array)
+ * [API armies_all to return a list of public/personal/top army lists in 1 api call]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
  */
 	public function armies_all($options, $methodData) {
 		$this->view = "Empty";
@@ -405,12 +382,13 @@ class ArmyListsController extends Controller {
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
-/**
- * API save_army to saves a submitted army
- *
- * @return void
- */
 
+/**
+ * [API save_army to saves a submitted army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function save_army($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -450,11 +428,11 @@ class ArmyListsController extends Controller {
 	}
 
 /**
-	 * API view_army to view an existing army
-	 *
-	 * @return void
-	 */
-
+ * [API view_army to view an existing army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function view_army($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -583,12 +561,12 @@ class ArmyListsController extends Controller {
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
 
-	/**
-	 * API delete_army to delete an existing army
-	 *
-	 * @return void
-	 */
-
+/**
+ * [API delete_army to delete an existing army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function delete_army($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -639,12 +617,12 @@ class ArmyListsController extends Controller {
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 	}
 
-	/**
-	 * API save_army to saves a submitted army
-	 *
-	 * @return void
-	 */
-
+/**
+ * [API save_army to saves a submitted army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function edit_save_army($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -702,12 +680,12 @@ class ArmyListsController extends Controller {
 		}
 	}
 
-	/**
-	 * API save_units to saves a submitted army
-	 *
-	 * @return void
-	 */
-
+/**
+ * [API save_units to saves a submitted army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function save_units($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -767,12 +745,12 @@ class ArmyListsController extends Controller {
 		}
 	}
 
-	/**
-	 * API get_army to retrieve my army
-	 *
-	 * @return void
-	 */
-
+/**
+ * [API get_army to retrieve my army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function get_army($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -858,12 +836,12 @@ class ArmyListsController extends Controller {
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
 
-	/**
-	 * API armies_public to retrieve my army
-	 *
-	 * @return void
-	 */
-
+/**
+ * [API armies_public to retrieve my army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function armies_public($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -938,6 +916,12 @@ class ArmyListsController extends Controller {
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
 
+/**
+ * [API armies_personal to retrieve my army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function armies_personal($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";
@@ -1013,12 +997,12 @@ class ArmyListsController extends Controller {
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
 	}
 
-	/**
-	 * API vote to give opinion on a army
-	 *
-	 * @return void
-	 */
-
+/**
+ * [API vote to give opinion on a army]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [type]             [response]
+ */
 	public function vote($options, $methodData) {
 		$this->view = "Empty";
 		$this->returnType = "json";

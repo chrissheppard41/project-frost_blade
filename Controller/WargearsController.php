@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Controller;
 
-
-/*
-	@class WargearsController
-	@author Chris Sheppard
-	@desc handles the Wargears management section
-*/
+/**
+ * @class WargearsController
+ * @author Chris Sheppard
+ * @description handles the Wargears management section
+ */
 class WargearsController extends Controller {
 
 	public $returnType = "text";
@@ -26,13 +25,9 @@ class WargearsController extends Controller {
 	);
 
 /**
- * admin_index method
- * ROUTE: /admin/Wargears/index
- * Method: GET
- * Index's all the Wargears
- *
- * @param
- * @return (array)
+ * [Index's all the Wargears]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_index($options) {
 		$this->view = "admin";
@@ -57,13 +52,9 @@ class WargearsController extends Controller {
 	}
 
 /**
- * admin_view method
- * ROUTE: /admin/Wargears/view/:id
- * Method: GET
- * Views a user
- *
- * @param
- * @return (array)
+ * [Views a Wargears]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_view($options) {
 		$this->view = "admin";
@@ -92,13 +83,10 @@ class WargearsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
 	}
 /**
- * admin_view admin_add
- * ROUTE: /admin/Wargears/add/:id
- * Method: GET
- * Adds a user
- *
- * @param
- * @return (array)
+ * [Adds a Wargears]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
@@ -124,13 +112,10 @@ class WargearsController extends Controller {
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
 	}
 /**
- * admin_edit method
- * ROUTE: /admin/Wargears/edit/:id
- * Method: PUT
- * Edits a user
- *
- * @param
- * @return (array)
+ * [Edits a Wargears]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $methodData [form data]
+ * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
@@ -150,13 +135,9 @@ class WargearsController extends Controller {
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
 /**
- * admin_delete method
- * ROUTE: /admin/Wargears/delete/:id
- * Method: DELETE
- * Deletes a user
- *
- * @param
- * @return (array)
+ * [Deletes a Wargears]
+ * @param  [array] $options [contains url input]
+ * @return [array]          [response]
  */
 	public function admin_delete($options) {
 		$this->view = "admin";

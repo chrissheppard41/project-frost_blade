@@ -1,12 +1,11 @@
 <?php
 namespace Frost\Model;
 
-//require PATH."Model/Interface.php";
-/*
-	@class Users
-	@author Chris Sheppard
-	@desc handles all user data and information
-*/
+/**
+ * @class Users
+ * @author Chris Sheppard
+ * @description handles all Users data and information
+ */
 class Users extends \Frost\Configs\Database {
 
 	protected $table = "Users";
@@ -68,6 +67,12 @@ class Users extends \Frost\Configs\Database {
 		)
 	);
 
+/**
+ * [constructor]
+ * @param  [array] $options [contains url input]
+ * @param  [array] $inputted_params [form data]
+ * @return [array]          [response]
+ */
 	function __construct($options, $inputted_params){
 		parent::__construct();
 
@@ -76,11 +81,8 @@ class Users extends \Frost\Configs\Database {
 	}
 
 /**
- * log_user method
- * Logs a user into the website if data is correct
- *
- * @param
- * @return (bool)
+ * [Logs a user into the website if data is correct]
+ * @return [bool/array] [gets logged in user data, if user not logged in return false]
  */
 	public function log_user() {
 		$validation = \Validation::validate("email", $this->post['Users'], $this->validation, $this->table);

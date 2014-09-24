@@ -34,7 +34,7 @@ class RacesController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Races" => array(
+				"races" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -62,7 +62,7 @@ class RacesController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Races" => array(
+				"races" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -72,7 +72,7 @@ class RacesController extends Controller {
 							"modified"
 						),
 						"conditions" => array("id" => $options[0]),
-						"contains" => array( "Armies" => array() )
+						"contains" => array( "armies" => array() )
 					)
 				)
 			)
@@ -120,7 +120,7 @@ class RacesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Races', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Races" => array( array( "fields" => array( "id", "name", "icon"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "races" => array( array( "fields" => array( "id", "name", "icon"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -134,7 +134,7 @@ class RacesController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Races" => array(
+				"races" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
@@ -165,7 +165,7 @@ class RacesController extends Controller {
             $data = $this->model->find(
                 'all',
                 array(
-					"Races" => array(
+					"races" => array(
 						array(
 							"fields" => array(
 								"id",
@@ -173,7 +173,7 @@ class RacesController extends Controller {
 								"icon"
 							),
 							"contains" => array(
-								"Armies" => array()
+								"armies" => array()
 							)
 						)
 					)

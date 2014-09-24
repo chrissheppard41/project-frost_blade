@@ -5,15 +5,15 @@
 	</div>
 	<?php
 	echo $this->Html->Form(array(
-		"action" => "/admin/Wargears/edit/".$typ__["data"]["Wargears"]["id"],
+		"action" => "/admin/Wargears/edit/".$typ__["data"]["wargears"]["id"],
 		"class" => "form-vertical",
 		"id" => "UserAdminAddForm",
 		"method" => "post",
 		"accept-charset" => "utf-8"
 	));
-		echo $this->Html->Input("id", "Wargears", array('type' => "hidden", 'id' => "UserId"));
-		echo $this->Html->Input("name", "Wargears", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
-		//echo $this->Html->Input("pts", "Wargears", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
+		echo $this->Html->Input("id", "wargears", array('type' => "hidden", 'id' => "UserId"));
+		echo $this->Html->Input("name", "wargears", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
+		//echo $this->Html->Input("pts", "wargears", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
 
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(

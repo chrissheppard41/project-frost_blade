@@ -41,13 +41,13 @@ class WargearGroupsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Groups', 'action' => 'view', "params" => array($options[1]), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "WargearGroups" => array( array( "fields" => array( "id", "groups_id", "pts"), "conditions"	=> array( "WargearGroups.id" => $options[0] ), "contains" => array(
-							"Wargears" => array(
+		$data = $this->model->Find("first", array( "wargeargroups" => array( array( "fields" => array( "id", "groups_id", "pts"), "conditions"	=> array( "wargeargroups.id" => $options[0] ), "contains" => array(
+							"wargears" => array(
 								"fields" => array(
-									"Wargears.name as `name`"
+									"wargears.name as `name`"
 								),
 								"relation" => array(
-									"WargearGroups.wargears_id" => "Wargears.id"
+									"wargeargroups.wargears_id" => "wargears.id"
 								)
 							)
 						) ) ) ) );
@@ -70,7 +70,7 @@ class WargearGroupsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"WargearGroups" => array(
+				"wargeargroups" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

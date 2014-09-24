@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Wargears extends \Frost\Configs\Database {
 
-	protected $table = "Wargears";
+	protected $table = "wargears";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -33,7 +33,7 @@ class Wargears extends \Frost\Configs\Database {
 	private $join = 'CONCAT(weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",initiative,"/",wounds,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
 
 	protected $relationships = array(
-		"Units" => array(
+		"units" => array(
 			"type" => "HABTM",
 			"linktable" => "unitwargears",
 			"lefttable" => "units",
@@ -41,7 +41,7 @@ class Wargears extends \Frost\Configs\Database {
 			"linkColumn" => "squadunits_id",
 			"baseColumn" => "wargears_id"
 		),
-		"Groups" => array(
+		"groups" => array(
 			"type" => "HABTM",
 			"linktable" => "wargeargroups",
 			"lefttable" => "groups",
@@ -49,7 +49,7 @@ class Wargears extends \Frost\Configs\Database {
 			"linkColumn" => "groups_id",
 			"baseColumn" => "wargears_id"
 		),
-		"UnitUpgrades" => array(
+		"unitupgrades" => array(
 			"type" => "HM",
 			"linktable" => null,
 			"lefttable" => "unitupgrades",

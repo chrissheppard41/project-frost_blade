@@ -2,7 +2,7 @@
 //\Configure::pre($typ__);
 ?>
 <div class="page-header">
-	<h1><?php echo $this->Html->Url($this->Html->__t("Relics"), array("action" => "index", "admin" => true)); ?> - <?php echo $typ__["data"]["Relics"]["name"]; ?></h1>
+	<h1><?php echo $this->Html->Url($this->Html->__t("Relics"), array("action" => "index", "admin" => true)); ?> - <?php echo $typ__["data"]["relics"]["name"]; ?></h1>
 </div>
 
 <div class="raceTypes view">
@@ -10,26 +10,26 @@
 	  	<div class="panel-heading">
 	  		<?php echo $this->Html->__t("Relics view"); ?>
 	  		<span class="pull-right">
-				<?php echo $this->Html->Url($this->Html->__t("Edit"), array("action" => "edit", "admin" => true, "params" => array($typ__["data"]["Relics"]["id"])), array("class" => "btn-sm btn-warning")); ?>
-				<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "action" => "delete", "params" => array($typ__["data"]["Relics"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
+				<?php echo $this->Html->Url($this->Html->__t("Edit"), array("action" => "edit", "admin" => true, "params" => array($typ__["data"]["relics"]["id"])), array("class" => "btn-sm btn-warning")); ?>
+				<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "action" => "delete", "params" => array($typ__["data"]["relics"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
 	  		</span>
 	  	</div>
 	  	<div class="panel-body">
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Name"); ?></span>
-	  			<span class="col-md-9"><?php echo $typ__["data"]["Relics"]["name"]; ?></span>
+	  			<span class="col-md-9"><?php echo $typ__["data"]["relics"]["name"]; ?></span>
 	  		</div>
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Army"); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->Url($typ__["data"]["Relics"]["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($typ__["data"]["Relics"]["army_id"]))); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Url($typ__["data"]["relics"]["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($typ__["data"]["relics"]["army_id"]))); ?></span>
 	  		</div>
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Created"); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["Relics"]["created"]); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["relics"]["created"]); ?></span>
 	  		</div>
 	  		<div class="row">
 	  			<span class="col-md-3"><?php echo $this->Html->__t("Modified"); ?></span>
-	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["Relics"]["modified"]); ?></span>
+	  			<span class="col-md-9"><?php echo $this->Html->Time("TimeAgo", $typ__["data"]["relics"]["modified"]); ?></span>
 	  		</div>
 	  	</div>
 	</div>
@@ -41,10 +41,10 @@
 	  	<div class="panel-heading">
 			<?php echo $this->Html->__t('Units Upgrades');?>
 			<span class="pull-right">
-				<?php echo $this->Html->Url($this->Html->__t("Add"), array("controller" => "unitupgrades", "action" => "add", "admin" => true, "params" => array($typ__["data"]["Relics"]["id"])), array("class" => "btn-sm btn-success")); ?>
+				<?php echo $this->Html->Url($this->Html->__t("Add"), array("controller" => "unitupgrades", "action" => "add", "admin" => true, "params" => array($typ__["data"]["relics"]["id"])), array("class" => "btn-sm btn-success")); ?>
 	  		</span>
 	  	</div>
-			<?php if (!empty($typ__["data"]["Relics"]["UnitUpgrades"])) { ?>
+			<?php if (!empty($typ__["data"]["relics"]["unitupgrades"])) { ?>
 				<table class="table table-striped table-bordered table-listings">
 				<tr>
 					<th><?php echo $this->Html->__t('Enhancement', 'enhancements_id'); ?></th>
@@ -55,7 +55,7 @@
 					<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
 				</tr>
 				<?php
-					foreach ($typ__["data"]["Relics"]["UnitUpgrades"] as $unitupgrades){ ?>
+					foreach ($typ__["data"]["relics"]["unitupgrades"] as $unitupgrades){ ?>
 					<tr>
 						<td><?php echo $this->Html->Url($unitupgrades["enhancements_name"], array("controller" => "enhancements", "action" => "view", "admin" => true, "params" => array($unitupgrades["enhancements_id"]))); ?></td>
 						<td><?php echo $this->Html->Url($unitupgrades["operations_name"], array("controller" => "enhancements", "action" => "view", "admin" => true, "params" => array($unitupgrades["operations_id"]))); ?></td>
@@ -76,7 +76,7 @@
 
 <div class="related">
 	<h3><?php echo $this->Html->__t('Related Units');?></h3>
-	<?php if (!empty($typ__["data"]["Relics"]["Units"])){ ?>
+	<?php if (!empty($typ__["data"]["relics"]["units"])){ ?>
 	<table class="table table-striped table-bordered table-listings">
 	<tr>
 		<th><?php echo $this->Html->__t('Name'); ?></th>
@@ -85,7 +85,7 @@
 		<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
 	</tr>
 	<?php
-		foreach ($typ__["data"]["Relics"]["Units"] as $units){ ?>
+		foreach ($typ__["data"]["relics"]["units"] as $units){ ?>
 		<tr>
 			<td><?php echo $units['name'];?></td>
 			<td><?php echo $this->Html->Time("TimeAgo", $units['created']);?></td>
@@ -104,7 +104,7 @@
 
 <div class="related">
 	<h3><?php echo $this->Html->__t('Related Groups');?></h3>
-	<?php if (!empty($typ__["data"]["Relics"]["Groups"])){ ?>
+	<?php if (!empty($typ__["data"]["relics"]["groups"])){ ?>
 	<table class="table table-striped table-bordered table-listings">
 	<tr>
 		<th><?php echo $this->Html->__t('Name'); ?></th>
@@ -113,7 +113,7 @@
 		<th class="actions"><?php echo $this->Html->__t('Actions');?></th>
 	</tr>
 	<?php
-		foreach ($typ__["data"]["Relics"]["Groups"] as $units){ ?>
+		foreach ($typ__["data"]["relics"]["groups"] as $units){ ?>
 		<tr>
 			<td><?php echo $units['name'];?></td>
 			<td><?php echo $this->Html->Time("TimeAgo", $units['created']);?></td>

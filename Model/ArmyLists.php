@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class ArmyLists extends \Frost\Configs\Database {
 
-	protected $table = "ArmyLists";
+	protected $table = "armylists";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -57,48 +57,48 @@ class ArmyLists extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"ArmySquads" => array(
+		"armysquads" => array(
 			"type" => "HM",
 			"linktable" => null,
 			"lefttable" => "armysquads",
 			"leftcols" => array(
-				"ArmySquads.id",
-				"ArmySquads.position",
-				"ArmySquads.squads_id",
-				"ArmySquads.armylists_id",
-				"ArmySquads.created",
-				"ArmySquads.modified"
+				"armysquads.id",
+				"armysquads.position",
+				"armysquads.squads_id",
+				"armysquads.armylists_id",
+				"armysquads.created",
+				"armysquads.modified"
 			),
 			"linkColumn" => "armylists_id",
 			"baseColumn" => null,
 			"dataColumn" => "id",
 			"Connect" => array(
-				"ArmyUnits" => array(
+				"armyunits" => array(
 					"type" => "HM",
 					"linktable" => null,
 					"lefttable" => "armyunits",
 					"leftcols" => array(
-						"ArmyUnits.id",
-						"ArmyUnits.count",
-						"ArmyUnits.units_id",
-						"ArmyUnits.armysquads_id",
-						"ArmyUnits.created",
-						"ArmyUnits.modified"
+						"armyunits.id",
+						"armyunits.count",
+						"armyunits.units_id",
+						"armyunits.armysquads_id",
+						"armyunits.created",
+						"armyunits.modified"
 					),
 					"linkColumn" => "armysquads_id",
 					"baseColumn" => null,
 					"dataColumn" => "id",
 					"Connect" => array(
-						"ArmyWargears" => array(
+						"armywargears" => array(
 							"type" => "HM",
 							"linktable" => null,
 							"lefttable" => "armywargears",
 							"leftcols" => array(
-								"ArmyWargears.id",
-								"ArmyWargears.wargears_id",
-								"ArmyWargears.armyunits_id",
-								"ArmyWargears.created",
-								"ArmyWargears.modified"
+								"armywargears.id",
+								"armywargears.wargears_id",
+								"armywargears.armyunits_id",
+								"armywargears.created",
+								"armywargears.modified"
 							),
 							"linkColumn" => "armyunits_id",
 							"baseColumn" => null,
@@ -144,7 +144,7 @@ class ArmyLists extends \Frost\Configs\Database {
 			$count = $this->find(
 				'first',
 				array(
-					"ArmyLists" => array(
+					"armylists" => array(
 						array(
 							"fields" => array(
 								"COUNT(*) as `count`"
@@ -162,13 +162,13 @@ class ArmyLists extends \Frost\Configs\Database {
 			if(!\Configure::Logged()) {
 				throw new \WebException("Forbidden: Not logged in", 403);
 			}
-			$conditions = array("ArmyLists.users_id" => $user_id);
+			$conditions = array("armylists.users_id" => $user_id);
 			$order = array();
 
 			$count = $this->find(
 				'first',
 				array(
-					"ArmyLists" => array(
+					"armylists" => array(
 						array(
 							"fields" => array(
 								"COUNT(*) as `count`"
@@ -183,7 +183,7 @@ class ArmyLists extends \Frost\Configs\Database {
 		$data = $this->find(
 			'all',
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -202,46 +202,46 @@ class ArmyLists extends \Frost\Configs\Database {
 						"order" => $order,
 						"limit" => 5,
 						"contains" => array(
-							"Users" => array(
+							"users" => array(
 								"fields" => array(
-									"Users.username"
+									"users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id" => "Users.id"
+									"armylists.users_id" => "users.id"
 								)
 							),
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id" => "armies.id"
+									"armylists.armies_id" => "armies.id"
 								)
 							),
-							"Races" => array(
+							"races" => array(
 								"fields" => array(
 									"races.name as `races_name`",
 									"races.icon"
 								),
 								"relation" => array(
-									"Armies.races_id" => "races.id"
+									"armies.races_id" => "races.id"
 								)
 							),
-							"Colours" => array(
+							"colours" => array(
 								"fields" => array(
 									"colours.name as `colours_name`"
 								),
 								"relation" => array(
-									"Armies.colours_id" => "colours.id"
+									"armies.colours_id" => "colours.id"
 								)
 							),
-							"Votes" => array(
+							"votes" => array(
 								"fields" => array(
 									"votes.vote"
 								),
 								"relation" => array(
-									"Votes.armylists_id" => "ArmyLists.id",
-									"Votes.users_id" => $user_id
+									"votes.armylists_id" => "armylists.id",
+									"votes.users_id" => $user_id
 								)
 							)
 						)
@@ -250,8 +250,8 @@ class ArmyLists extends \Frost\Configs\Database {
 			)
 		);
 
-		if(isset($count["ArmyLists"]["count"])) {
-			$data["count"] = $count["ArmyLists"]["count"];
+		if(isset($count["armylists"]["count"])) {
+			$data["count"] = $count["armylists"]["count"];
 		}
 		return $data;
 	}

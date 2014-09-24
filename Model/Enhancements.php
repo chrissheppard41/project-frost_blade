@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Enhancements extends \Frost\Configs\Database {
 
-	protected $table = "Enhancements";
+	protected $table = "enhancements";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class Enhancements extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"Armies" => array(
+		"armies" => array(
 			"type" => "HM",
 			"linktable" => null,
 			"lefttable" => "armies",

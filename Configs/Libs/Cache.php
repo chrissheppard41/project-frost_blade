@@ -79,13 +79,18 @@ class Cache {
  * @param  [string] $config [the path]
  */
 	public static function deleteDir($config) {
-		$filename = APP_ROOT . "tmp" . DS . "cache" . DS . $config;
+		if(strpos($config, APP_ROOT) === FALSE) {
+			$filename = APP_ROOT . "tmp" . DS . "cache" . DS . $config;
+		} else {
+			$filename = $config;
+		}
+
 		if (! is_dir($filename)) {
 			throw new InvalidArgumentException("$filename must be a directory");
 		}
-		if (substr($filename, strlen($filename) - 1, 1) != '/') {
+		/*if (substr($filename, strlen($filename) - 1, 1) != '/') {
 			$filename .= '/';
-		}
+		}*/
 		$files = glob($filename . '*', GLOB_MARK);
 		foreach ($files as $file) {
 			if (is_dir($file)) {
@@ -94,8 +99,9 @@ class Cache {
 				unlink($file);
 			}
 		}
-		rmdir($filename);
-		mkdir($filename, 0777);
+
+		//rmdir($filename);
+		//mkdir($filename, 0777);
 	}
 
 }

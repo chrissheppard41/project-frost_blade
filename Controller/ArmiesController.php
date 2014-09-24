@@ -34,7 +34,7 @@ class ArmiesController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -45,20 +45,20 @@ class ArmiesController extends Controller {
 							"modified"
 						),
 						"contains" => array(
-							"Races" => array(
+							"races" => array(
 								"fields" => array(
 									"races.name as `races_name`"
 								),
 								"relation" => array(
-									"Armies.races_id" => "races.id"
+									"armies.races_id" => "races.id"
 								)
 							),
-							"Colours" => array(
+							"colours" => array(
 								"fields" => array(
 									"colours.name as `colours_name`"
 								),
 								"relation" => array(
-									"Armies.colours_id" => "colours.id"
+									"armies.colours_id" => "colours.id"
 								)
 							)
 						),
@@ -69,7 +69,7 @@ class ArmiesController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Races" => array(
+				"races" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -92,7 +92,7 @@ class ArmiesController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -104,10 +104,10 @@ class ArmiesController extends Controller {
 						),
 						"conditions" => array("armies.id" => $options[0]),
 						"contains" => array(
-							"ArmyCharacteristics" => array(),
-							"ArmyLists" => array(),
-							"Squads" => array(),
-							"Races" => array(
+							"armycharacteristics" => array(),
+							"armylists" => array(),
+							"squads" => array(),
+							"races" => array(
 								"fields" => array(
 									"races.id as `race_id`",
 									"races.name as `race_name`"
@@ -116,7 +116,7 @@ class ArmiesController extends Controller {
 									"armies.races_id" => "races.id"
 								)
 							),
-							"Colours" => array(
+							"colours" => array(
 								"fields" => array(
 									"colours.id as `colour_id`",
 									"colours.name as `colour_name`"
@@ -151,11 +151,11 @@ class ArmiesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Armies', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$dataO = array("Armies" => array("races_id" => $options[1]));
+		$dataO = array("armies" => array("races_id" => $options[1]));
 		$data = array_merge($dataO, $this->model->Find("all", array(
 			//"Races" => array( array( "fields" => array( "id", "name") ) ),
-			"ArmyCharacteristics" => array( array( "fields" => array( "id", "name") ) ),
-			"Colours" => array( array( "fields" => array( "id", "name") ) )
+			"armycharacteristics" => array( array( "fields" => array( "id", "name") ) ),
+			"colours" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 
 
@@ -183,11 +183,11 @@ class ArmiesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Armies', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Armies" => array( array( "fields" => array( "id", "name", "races_id", "colours_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "ArmyCharacteristics" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "armies" => array( array( "fields" => array( "id", "name", "races_id", "colours_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "armycharacteristics" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			//"Races" => array( array( "fields" => array( "id", "name") ) ),
-			"ArmyCharacteristics" => array( array( "fields" => array( "id", "name") ) ),
-			"Colours" => array( array( "fields" => array( "id", "name") ) )
+			"armycharacteristics" => array( array( "fields" => array( "id", "name") ) ),
+			"colours" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
@@ -202,7 +202,7 @@ class ArmiesController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Armies" => array(
+				"armies" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

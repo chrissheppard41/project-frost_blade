@@ -34,7 +34,7 @@ class SquadsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Squads" => array(
+				"squads" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,22 +44,22 @@ class SquadsController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Squads.armies_id" => "armies.id"
+									"squads.armies_id" => "armies.id"
 								)
 							),
-							"Types" => array(
+							"types" => array(
 								"fields" => array(
 									"types.id as `type_id`",
 									"types.name as `type_name`"
 								),
 								"relation" => array(
-									"Squads.types_id" => "types.id"
+									"squads.types_id" => "types.id"
 								)
 							),
 						)
@@ -69,7 +69,7 @@ class SquadsController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -92,7 +92,7 @@ class SquadsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Squads" => array(
+				"squads" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -100,28 +100,28 @@ class SquadsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("Squads.id" => $options[0]),
+						"conditions" => array("squads.id" => $options[0]),
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Squads.armies_id" => "armies.id"
+									"squads.armies_id" => "armies.id"
 								)
 							),
-							"Types" => array(
+							"types" => array(
 								"fields" => array(
 									"types.id as `type_id`",
 									"types.name as `type_name`"
 								),
 								"relation" => array(
-									"Squads.types_id" => "types.id"
+									"squads.types_id" => "types.id"
 								)
 							),
-							"Units" => array(),
-							"SquadUnits" => array()
+							"units" => array(),
+							"squadunits" => array()
 						)
 					)
 				)
@@ -148,14 +148,14 @@ class SquadsController extends Controller {
 			}
 		}
 
-		$dataE = array("Squads" => array("armies_id" => $options[1]));
+		$dataE = array("squads" => array("armies_id" => $options[1]));
 
-		$join = '*, CONCAT(UnitTypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
+		$join = '*, CONCAT(unittypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
 
 		$data = array_merge($dataE, $this->model->Find("all", array(
 			//"Armies" => array( array( "fields" => array( "id", "name") ) ),
-			"Units" => array( array( "fields" => array( "id", $join), "conditions" => array("armies_id" => $options[1]), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "unittypes.id" ) ) ), "order" => array("UnitTypes.name", "UnitTypes.weapon_skill") ) ),
-			"Types" => array( array( "fields" => array( "id", "name") ) )
+			"units" => array( array( "fields" => array( "id", $join), /*"conditions" => array("armies_id" => $options[1]),*/ "contains" => array( "unittypes" => array( "fields" => array( "unittypes.name as `unittypes_name`" ), "relation" => array( "units.unittypes_id" => "unittypes.id" ) ) ), "order" => array("unittypes.name", "unittypes.weapon_skill") ) ),
+			"types" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
@@ -178,15 +178,15 @@ class SquadsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'view', 'params' => array($this->model->last_id), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Squads" => array( array( "fields" => array( "id", "name", "armies_id", "types_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "Units" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "squads" => array( array( "fields" => array( "id", "name", "armies_id", "types_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "units" => array() ) ) ) ) );
 		$_POST["data"] = $data;
 
-		$join = '*, CONCAT(UnitTypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
+		$join = '*, CONCAT(unittypes.name," - ",weapon_skill,"/",ballistic_skill,"/",strength,"/",toughness,"/",wounds,"/",initiative,"/",attacks,"/",leadership,"/",armour_save,"+/",invulnerable_save,"+ - ",front_armour,"/",side_armour,"/",rear_armour,"/",hull_hitpoints) as `name`';
 
 		$dataE = array_merge($data, $this->model->Find("all", array(
 			//"Armies" => array( array( "fields" => array( "id", "name") ) ),
-			"Units" => array( array( "fields" => array( "id", $join), "conditions" => array("armies_id" => $data["Squads"]["armies_id"]), "contains" => array( "UnitTypes" => array( "fields" => array( "UnitTypes.name as `unittypes_name`" ), "relation" => array( "Units.unittypes_id" => "UnitTypes.id" ) ) ), "order" => array("UnitTypes.name") ) ),
-			"Types" => array( array( "fields" => array( "id", "name") ) )
+			"units" => array( array( "fields" => array( "id", $join), /*"conditions" => array("armies_id" => $data["squads"]["armies_id"]),*/ "contains" => array( "unittypes" => array( "fields" => array( "unittypes.name as `unittypes_name`" ), "relation" => array( "units.unittypes_id" => "unittypes.id" ) ) ), "order" => array("unittypes.name") ) ),
+			"types" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
@@ -201,24 +201,24 @@ class SquadsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Squads" => array(
+				"squads" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Squads.id" => $options[0])
+						"conditions" => array("squads.id" => $options[0])
 					)
 				)
 			)
 		);
 		$this->model->Delete(
 			array(
-				"Squads" => array(
+				"squads" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
 				)
 			)
 		);
-		\Cache::delete("Squads". DS ."Armies", "_army_".$data["Squads"]["armies_id"]);
+		\Cache::delete("Squads". DS ."Armies", "_army_".$data["squads"]["armies_id"]);
 
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Squads', 'action' => 'admin_index', 'admin' => true));
 
@@ -266,7 +266,7 @@ class SquadsController extends Controller {
 			$data = $this->model->Find(
 				"all",
 				array(
-					"Squads" => array(
+					"squads" => array(
 						array(
 							"fields" => array(
 								"id",
@@ -274,14 +274,14 @@ class SquadsController extends Controller {
 								"created",
 								"modified"
 							),
-							"conditions" => array("Squads.armies_id" => $options[0]),
+							"conditions" => array("squads.armies_id" => $options[0]),
 							"contains" => array(
-								"Types" => array(
+								"types" => array(
 									"fields" => array(
 										"types.name as `type_name`"
 									),
 									"relation" => array(
-										"Squads.types_id" => "types.id"
+										"squads.types_id" => "types.id"
 									)
 								)
 							)
@@ -330,7 +330,7 @@ class SquadsController extends Controller {
 			$data = $this->model->Find(
 				"all",
 				array(
-					"Squads" => array(
+					"squads" => array(
 						array(
 							"fields" => array(
 								"id",
@@ -338,17 +338,17 @@ class SquadsController extends Controller {
 								"created",
 								"modified"
 							),
-							"conditions" => array("Squads.armies_id" => $options[0]),
+							"conditions" => array("squads.armies_id" => $options[0]),
 							"contains" => array(
-								"Types" => array(
+								"types" => array(
 									"fields" => array(
 										"types.name as `type_name`"
 									),
 									"relation" => array(
-										"Squads.types_id" => "types.id"
+										"squads.types_id" => "types.id"
 									)
 								),
-								"SquadUnits" => array(
+								"squadunits" => array(
 								)
 							)
 						)

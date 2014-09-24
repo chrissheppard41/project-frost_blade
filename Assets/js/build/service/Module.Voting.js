@@ -14,14 +14,14 @@ myApp.factory('vote', ["list", function(list){
 					promise_all.then(function( data ) {
 
 						if($scope.user_id !== 0) {
-							$scope.my_armies = list.data.private.ArmyLists;
+							$scope.my_armies = list.data.private.armylists;
 							$scope.my_armies_count = list.data.private.count;
 						}
 
-						$scope.all_armies = list.data.public.ArmyLists;
+						$scope.all_armies = list.data.public.armylists;
 						$scope.all_armies_count = list.data.public.count;
 
-						$scope.top_armies = list.data.top.ArmyLists;
+						$scope.top_armies = list.data.top.armylists;
 					});
 				} else {
 					//error here
@@ -42,7 +42,7 @@ myApp.factory('vote', ["list", function(list){
 					$scope.army = {};
 
 					promise_my.then(function( data ){
-						$scope.army = list.data.ArmyLists;
+						$scope.army = list.data.armylists;
 					});
 				} else {
 					//error here

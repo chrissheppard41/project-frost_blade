@@ -7,7 +7,7 @@
 			<div class="col1">
 
 				<div ng-repeat="unit_types in unit_types" class="panel {{unit_types.name | groups}}">
-					<div class="panel-heading">{{unit_types.name}} </div>
+					<div class="panel-heading">{{unit_types.name | replace}} </div>
 					<div class="panel-body" ng-accept=".{{unit_types.name.toLowerCase()}}">
 						<aside ng-repeat="squad in squad_list | filter:{Group:unit_types.name}" class="unit_container" id="{{squad.getGroup()}}_{{squad.getId()}}">
 							<h3>{{squad.getName()}} <span>{{squad.getTotal()}} pts</span></h3>
@@ -89,7 +89,7 @@
 								<div>
 									<h4>Additional wargear</h4>
 									<ul ng-repeat="unitdata in squad.getUnits()">
-										<li ng-repeat="wargear in unitdata.getAttr('Equiped')">
+										<li ng-repeat="wargear in unitdata.getAttr('Equiped') track by $index">
 											{{wargear.name}}
 										</li>
 									</ul>

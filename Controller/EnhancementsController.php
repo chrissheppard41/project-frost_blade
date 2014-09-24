@@ -34,7 +34,7 @@ class EnhancementsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Enhancements" => array(
+				"enhancements" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -62,7 +62,7 @@ class EnhancementsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Enhancements" => array(
+				"enhancements" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -72,7 +72,7 @@ class EnhancementsController extends Controller {
 							"modified"
 						),
 						"conditions" => array("id" => $options[0]),
-						"contains" => array( "Armies" => array() )
+						"contains" => array( "armies" => array() )
 					)
 				)
 			)
@@ -116,7 +116,7 @@ class EnhancementsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Enhancements', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Enhancements" => array( array( "fields" => array( "id", "name", "effected_column",), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "enhancements" => array( array( "fields" => array( "id", "name", "effected_column",), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -130,7 +130,7 @@ class EnhancementsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Enhancements" => array(
+				"enhancements" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

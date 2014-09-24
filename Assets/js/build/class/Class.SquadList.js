@@ -30,7 +30,7 @@ var SquadList = (function() {
 					postUnit[u_index] = {
 						units_id: units[u_index].id,
 						count: units[u_index].getAttr("count"),
-						ArmyWargears: postWargear
+						armywargears: postWargear
 					};
 				}
 
@@ -38,11 +38,11 @@ var SquadList = (function() {
 					squads_id: Squads[s_index].getSquadId(),
 					armylists_id: Squads[s_index].getArmyList(),
 					position: Squads[s_index].getPosition(),
-					ArmyUnits: postUnit
+					armyunits: postUnit
 				};
 
 			}
-			return {"ArmySquads": postSquad};
+			return {"armysquads": postSquad};
 		},
 		getTotal: function() {
 			var ArmyCost = 0;

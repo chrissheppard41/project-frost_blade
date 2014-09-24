@@ -6,14 +6,10 @@
 </div>
 <div class="Units index">
 	<p class="pull-right1">
-        <?php if(!empty($typ__['data']["Armies"])) { ?>
-			<?php foreach ($typ__['data']["Armies"] as $armies){ ?>
-				<?php echo $this->Html->Url($armies["name"]." ".$this->Html->__t('add'), array('action' => 'add', "params" => array(0, $armies["id"]), "admin" => true), array('class' => 'btn btn-success')); ?>
-			<?php } ?>
-		<?php } ?>
+        <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
     </p>
 
-    <?php if(!empty($typ__['data']["Units"])) { ?>
+    <?php if(!empty($typ__['data']["units"])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -39,7 +35,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["Units"] as $unit){ ?>
+			<?php foreach ($typ__['data']["units"] as $unit){ ?>
 			<tr id="armyLists-<?php echo $unit['id']; ?>" data-id="<?php echo $unit['id']; ?>">
 				<!--td><?php //echo $unit['name']; ?></td-->
 

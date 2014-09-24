@@ -14,12 +14,12 @@
 				"ng-submit" => "login()"
 			)
 		); ?>
-			<?php echo $this->Html->Input("email", "Users", array("ng-model" => "email", "name" => "email", 'label' => 'Email', 'placeholder' => "Email", 'class' => "form-control", 'maxlength' => "255", 'type' => "email", 'id' => "UserEmail", "required" => "required"), array(), true); ?>
+			<?php echo $this->Html->Input("email", "users", array("ng-model" => "email", "name" => "email", 'label' => 'Email', 'placeholder' => "Email", 'class' => "form-control", 'maxlength' => "255", 'type' => "email", 'id' => "UserEmail", "required" => "required"), array(), true); ?>
 
 			<span class="error" ng-show="UserLoginForm.email.$error.required">You must include your email address</span>
 			<span class="error" ng-show="UserLoginForm.email.$error.email">Please enter a valid email</span>
 
-			<?php echo $this->Html->Input("password", "Users", array("ng-model" => "password", 'label' => 'Password', 'placeholder' => "Password", 'class' => "form-control", 'type' => "password", 'id' => "UserPassword", "required" => "required"), array(), true); ?>
+			<?php echo $this->Html->Input("password", "users", array("ng-model" => "password", 'label' => 'Password', 'placeholder' => "Password", 'class' => "form-control", 'type' => "password", 'id' => "UserPassword", "required" => "required"), array(), true); ?>
 
 			<span class="error" ng-show="UserLoginForm.password.$error.required">You must enter a password</span>
 

@@ -21,7 +21,7 @@ myApp.controller('AddCtrl', ["$scope", "$rootScope", "$routeParams", "$location"
 
 
 	$scope.dis_races = function() {
-		$scope.armies = $scope.Races.Races[$scope.race].Armies;
+		$scope.armies = $scope.Races.races[$scope.race].armies;
 		$scope.step_2_view = false;
 	};
 
@@ -31,7 +31,7 @@ myApp.controller('AddCtrl', ["$scope", "$rootScope", "$routeParams", "$location"
 		$scope.squads = {};
 
 		promise_squads.then(function( data ){
-			$scope.squads = data.Squads;
+			$scope.squads = data.squads;
 			$scope.step_3_view = false;
 		});
 	};
@@ -70,7 +70,7 @@ myApp.controller('AddCtrl', ["$scope", "$rootScope", "$routeParams", "$location"
 
 			if(this.hide === undefined) this.hide = 0;
 
-			var promise_post = list.getAsync('POST', '/add/save.json', {'ArmyLists':{'armies_id':this.army, 'name':this.name, 'descr':this.descr, 'point_limit':this.points_limit, 'hide':this.hide}});
+			var promise_post = list.getAsync('POST', '/add/save.json', {'armylists':{'armies_id':this.army, 'name':this.name, 'descr':this.descr, 'point_limit':this.points_limit, 'hide':this.hide}});
 
 			promise_post.then(function( data ){
 				if(data.code == 200) {

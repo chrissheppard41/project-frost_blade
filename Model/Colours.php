@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Colours extends \Frost\Configs\Database {
 
-	protected $table = "Colours";
+	protected $table = "colours";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(

@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class UnitUpgrades extends \Frost\Configs\Database {
 
-	protected $table = "UnitUpgrades";
+	protected $table = "unitupgrades";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(

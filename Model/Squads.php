@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Squads extends \Frost\Configs\Database {
 
-	protected $table = "Squads";
+	protected $table = "squads";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,37 +24,37 @@ class Squads extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"SquadUnits" => array(
+		"squadunits" => array(
 			"type" => "HM",
 			"linktable" => null,
 			"lefttable" => "squadunits",
 			"leftcols" => array(
-				"SquadUnits.min_count",
-				"SquadUnits.max_count",
-				"SquadUnits.id",
-				"SquadUnits.name",
-				"SquadUnits.pts",
-				"SquadUnits.squads_id",
-				"SquadUnits.units_id",
-				"SquadUnits.created",
-				"SquadUnits.modified"
+				"squadunits.min_count",
+				"squadunits.max_count",
+				"squadunits.id",
+				"squadunits.name",
+				"squadunits.pts",
+				"squadunits.squads_id",
+				"squadunits.units_id",
+				"squadunits.created",
+				"squadunits.modified"
 			),
 			"linkColumn" => "squads_id",
 			"baseColumn" => null,
 			"Connect" => array(
-				"UnitCharacteristics" => array(
+				"unitcharacteristics" => array(
 					"type" => "HABTM",
 					"linktable" => "unitqualities",
-					"lefttable" => "UnitCharacteristics",
+					"lefttable" => "unitcharacteristics",
 					"leftcols" => array(
-						"UnitCharacteristics.id",
-						"UnitCharacteristics.name"
+						"unitcharacteristics.id",
+						"unitcharacteristics.name"
 					),
 					"linkColumn" => "unitcharacteristics_id",
 					"baseColumn" => "squadunits_id",
 					"dataColumn" => "id"
 				),
-				"Units" => array(
+				"units" => array(
 					"type" => "belongs",
 					"linktable" => null,
 					"lefttable" => "units",
@@ -97,7 +97,7 @@ class Squads extends \Frost\Configs\Database {
 
 					)*/
 				),
-				"Wargears" => array(
+				"wargears" => array(
 					"type" => "HABTM",
 					"linktable" => "unitwargears",
 					"lefttable" => "wargears",
@@ -109,23 +109,23 @@ class Squads extends \Frost\Configs\Database {
 					"baseColumn" => "squadunits_id",
 					"dataColumn" => "id",
 					"Connect" => array(
-						"UnitUpgrades" => array(
+						"unitupgrades" => array(
 							"type" => "belongs",
 							"linktable" => null,
 							"lefttable" => "unitupgrades",
 							"leftcols" => array(
-								"UnitUpgrades.enhancements_id",
-								"UnitUpgrades.operations_id",
-								"UnitUpgrades.factor",
-								"UnitUpgrades.wargears_id",
-								"UnitUpgrades.created",
-								"UnitUpgrades.modified",
+								"unitupgrades.enhancements_id",
+								"unitupgrades.operations_id",
+								"unitupgrades.factor",
+								"unitupgrades.wargears_id",
+								"unitupgrades.created",
+								"unitupgrades.modified",
 
-								"Operations.name as `op_name`",
-								"Operations.operation",
+								"operations.name as `op_name`",
+								"operations.operation",
 
-								"Enhancements.name as `en_name`",
-								"Enhancements.effected_column"
+								"enhancements.name as `en_name`",
+								"enhancements.effected_column"
 							),
 							"linkColumn" => "wargears_id",
 							"baseColumn" => null,
@@ -143,7 +143,7 @@ class Squads extends \Frost\Configs\Database {
 						)
 					)
 				),
-				"Groups" => array(
+				"groups" => array(
 					"type" => "HABTM",
 					"linktable" => "unitgroups",
 					"lefttable" => "groups",
@@ -159,7 +159,7 @@ class Squads extends \Frost\Configs\Database {
 					"baseColumn" => "squadunits_id",
 					"dataColumn" => "id",
 					"Connect" => array(
-						"Wargears" => array(
+						"wargears" => array(
 							"type" => "HABTM",
 							"linktable" => "wargeargroups",
 							"lefttable" => "wargears",
@@ -172,23 +172,23 @@ class Squads extends \Frost\Configs\Database {
 							"baseColumn" => "groups_id",
 							"dataColumn" => "id",
 							"Connect" => array(
-								"UnitUpgrades" => array(
+								"unitupgrades" => array(
 									"type" => "belongs",
 									"linktable" => null,
 									"lefttable" => "unitupgrades",
 									"leftcols" => array(
-										"UnitUpgrades.enhancements_id",
-										"UnitUpgrades.operations_id",
-										"UnitUpgrades.factor",
-										"UnitUpgrades.wargears_id",
-										"UnitUpgrades.created",
-										"UnitUpgrades.modified",
+										"unitupgrades.enhancements_id",
+										"unitupgrades.operations_id",
+										"unitupgrades.factor",
+										"unitupgrades.wargears_id",
+										"unitupgrades.created",
+										"unitupgrades.modified",
 
-										"Operations.name as `op_name`",
-										"Operations.operation",
+										"operations.name as `op_name`",
+										"operations.operation",
 
-										"Enhancements.name as `en_name`",
-										"Enhancements.effected_column"
+										"enhancements.name as `en_name`",
+										"enhancements.effected_column"
 									),
 									"linkColumn" => "wargears_id",
 									"baseColumn" => null,
@@ -208,7 +208,7 @@ class Squads extends \Frost\Configs\Database {
 						)
 					)
 				),
-				"Psykers" => array(
+				"psykers" => array(
 					"type" => "HABTM",
 					"linktable" => "unitpsykers",
 					"lefttable" => "psykers",
@@ -220,7 +220,7 @@ class Squads extends \Frost\Configs\Database {
 					"baseColumn" => "squadunits_id",
 					"dataColumn" => "id"
 				),
-				"Warlords" => array(
+				"warlords" => array(
 					"type" => "HABTM",
 					"linktable" => "unitwarlords",
 					"lefttable" => "warlords",
@@ -232,7 +232,7 @@ class Squads extends \Frost\Configs\Database {
 					"baseColumn" => "squadunits_id",
 					"dataColumn" => "id"
 				),
-				"Relics" => array(
+				"relics" => array(
 					"type" => "HABTM",
 					"linktable" => "unitrelics",
 					"lefttable" => "relics",
@@ -244,7 +244,7 @@ class Squads extends \Frost\Configs\Database {
 					"baseColumn" => "squadunits_id",
 					"dataColumn" => "id"
 				),
-				"Transports" => array(
+				"transports" => array(
 					"type" => "HABTM",
 					"linktable" => "unittransports",
 					"lefttable" => "transports",
@@ -258,9 +258,9 @@ class Squads extends \Frost\Configs\Database {
 				),
 			)
 		),
-		"Units" => array(
+		"units" => array(
 			"type" => "HABTM",
-			"linktable" => "SquadUnits",
+			"linktable" => "squadunits",
 			"lefttable" => "units",
 			"leftcols" => array(
 				"units.id",
@@ -281,9 +281,9 @@ class Squads extends \Frost\Configs\Database {
 				"units.created",
 				"units.modified",
 
-				"SquadUnits.min_count",
-				"SquadUnits.max_count",
-				"SquadUnits.id as `squadunits_id`"
+				"squadunits.min_count",
+				"squadunits.max_count",
+				"squadunits.id as `squadunits_id`"
 			),
 			"linkColumn" => "units_id",
 			"baseColumn" => "squads_id"

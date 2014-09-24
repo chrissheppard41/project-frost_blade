@@ -34,7 +34,7 @@ class UnitsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Units" => array(
+				"units" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -75,7 +75,7 @@ class UnitsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Units" => array(
+				"units" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -97,10 +97,10 @@ class UnitsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("Units.id" => $options[0]),
+						"conditions" => array("units.id" => $options[0]),
 						"contains" => array(
-							"Squads" => array(),
-							"UnitTypes" => array(
+							"squads" => array(),
+							"unittypes" => array(
 								"fields" => array(
 									"unittypes.id as `unittype_id`",
 									"unittypes.name as `unittype_name`"
@@ -130,15 +130,14 @@ class UnitsController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				\Cache::delete("Squads", "squad_data_".$methodData["data"]["Units"]["armies_id"]);
+				\Cache::delete("squads", "squad_data_".$methodData["data"]["Units"]["armies_id"]);
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Units', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$dataE = array("Units" => array("armies_id" => $options[1]));
-		$data = array_merge($dataE, $this->model->Find("all", array(
-			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
-			"Squads" => array( array( "fields" => array( "id", "name") ) )
-		) ) );
+		$data = $this->model->Find("all", array(
+			"unittypes" => array( array( "fields" => array( "id", "name") ) ),
+			"squads" => array( array( "fields" => array( "id", "name") ) )
+		) ) ;
 
 
 
@@ -158,14 +157,14 @@ class UnitsController extends Controller {
 			if($data["error"] === true) {
 				$this->Flash("<strong>".ucfirst($data['field'])."</strong> ".$data['message'], "alert alert-danger");
 			} else {
-				\Cache::delete("Squads", "squad_data_".$methodData["data"]["Units"]["armies_id"]);
+				\Cache::delete("squads", "squad_data_".$methodData["data"]["Units"]["armies_id"]);
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Units', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Units" => array( array( "fields" => array( "id", /*"name", */"weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "unitTypes_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "UnitCharacteristics" => array(), "Wargears" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "units" => array( array( "fields" => array( "id", /*"name", */"weapon_skill", "ballistic_skill", "strength", "toughness", "initiative", "wounds", "attacks", "leadership", "armour_save", "invulnerable_save", "front_armour", "side_armour", "rear_armour", "hull_hitpoints", "unitTypes_id"), "conditions"	=> array( "id" => $options[0] ), "contains" => array( "unitcharacteristics" => array(), "wargears" => array() ) ) ) ) );
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"UnitTypes" => array( array( "fields" => array( "id", "name") ) ),
-			"Squads" => array( array( "fields" => array( "id", "name") ) )
+			"unittypes" => array( array( "fields" => array( "id", "name") ) ),
+			"squads" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
@@ -180,10 +179,10 @@ class UnitsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Units" => array(
+				"units" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Units.id" => $options[0])
+						"conditions" => array("units.id" => $options[0])
 					)
 				)
 			)
@@ -191,14 +190,14 @@ class UnitsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Units" => array(
+				"units" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
 				)
 			)
 		);
-		\Cache::delete("Squads", "squad_data_".$data["Units"]["armies_id"]);
+		\Cache::delete("squads", "squad_data_".$data["units"]["armies_id"]);
 
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Units', 'action' => 'admin_index', 'admin' => true));
 

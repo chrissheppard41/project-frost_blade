@@ -34,7 +34,7 @@ class WargearsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Wargears" => array(
+				"wargears" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -61,7 +61,7 @@ class WargearsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Wargears" => array(
+				"wargears" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -106,7 +106,7 @@ class WargearsController extends Controller {
 			}
 		}
 		if(isset($options[0])) {
-			$data["Groups"]["id"] = $options[0];
+			$data["groups"]["id"] = $options[0];
 		}
 
 		return array("code" => 200, "message" => "User View", "data" => array(), "errors" => null);
@@ -129,7 +129,7 @@ class WargearsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Wargears', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Wargears" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "wargears" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
@@ -144,10 +144,10 @@ class WargearsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Wargears" => array(
+				"wargears" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Wargears.id" => $options[0])
+						"conditions" => array("wargears.id" => $options[0])
 					)
 				)
 			)
@@ -155,14 +155,14 @@ class WargearsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Wargears" => array(
+				"wargears" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
 				)
 			)
 		);
-		\Cache::delete("Squads", "squad_data_".$data["Wargears"]["armies_id"]);
+		\Cache::delete("Squads", "squad_data_".$data["wargears"]["armies_id"]);
 
 		$this->Flash("You have successfully deleted item(s)", "alert alert-success", array('controller' => 'Wargears', 'action' => 'admin_index', 'admin' => true));
 

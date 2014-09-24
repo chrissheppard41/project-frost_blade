@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Transports extends \Frost\Configs\Database {
 
-	protected $table = "Transports";
+	protected $table = "transports";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class Transports extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"SquadUnits" => array(
+		"squadunits" => array(
 			"type" => "HABTM",
 			"linktable" => "unittransports",
 			"lefttable" => "squadunits",

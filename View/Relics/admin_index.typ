@@ -4,13 +4,13 @@
 </div>
 <div class="Relics index">
 	<p class="pull-right1">
-        <?php if(!empty($typ__['data']["Armies"])) { ?>
-			<?php foreach ($typ__['data']["Armies"] as $armies){ ?>
+        <?php if(!empty($typ__['data']["armies"])) { ?>
+			<?php foreach ($typ__['data']["armies"] as $armies){ ?>
 				<?php echo $this->Html->Url($armies["name"]." ".$this->Html->__t('add'), array('action' => 'add', "params" => array(0, $armies["id"]), "admin" => true), array('class' => 'btn btn-success')); ?>
 			<?php } ?>
 		<?php } ?>
     </p>
-    <?php if(!empty($typ__['data']['Relics'])) { ?>
+    <?php if(!empty($typ__['data']['relics'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -23,7 +23,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["Relics"] as $wargear){ ?>
+			<?php foreach ($typ__['data']["relics"] as $wargear){ ?>
 			<tr id="armyLists-<?php echo $wargear['id']; ?>" data-id="<?php echo $wargear['id']; ?>">
 				<td><?php echo $wargear['name']; ?></td>
 				<!--td><?php //echo $wargear['pts']; ?></td-->

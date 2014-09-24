@@ -6,7 +6,7 @@
 	<p class="pull-right">
         <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
     </p>
-    <?php if(!empty($typ__['data']['UnitTypes'])) { ?>
+    <?php if(!empty($typ__['data']['unittypes'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -17,7 +17,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["UnitTypes"] as $unittype){ ?>
+			<?php foreach ($typ__['data']["unittypes"] as $unittype){ ?>
 			<tr id="armyLists-<?php echo $unittype['id']; ?>" data-id="<?php echo $unittype['id']; ?>">
 				<td><?php echo $unittype['name']; ?></td>
 				<td><?php echo $this->Html->Time("TimeAgo", $unittype['created']); ?></td>

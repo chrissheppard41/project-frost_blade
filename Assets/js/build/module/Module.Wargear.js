@@ -3,16 +3,16 @@ var Wargear = (function(){
 		add: function(_parent, _obj, _item) {
 			_obj.setArrayAttr("Equiped", _item);
 
-			if(_item.UnitUpgrades !== null && _item.UnitUpgrades !== undefined) {
-				switch(_item.UnitUpgrades.operation) {
+			if(_item.unitupgrades !== null && _item.unitupgrades !== undefined) {
+				switch(_item.unitupgrades.operation) {
 					case "+":
-						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, (_obj.getUnitAttr(_item.UnitUpgrades.effected_column) + _item.UnitUpgrades.factor));
+						_obj.setUnitAttr(_item.unitupgrades.effected_column, (_obj.getUnitAttr(_item.unitupgrades.effected_column) + _item.unitupgrades.factor));
 					break;
 					case "*":
-						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, (_obj.getUnitAttr(_item.UnitUpgrades.effected_column) * _item.UnitUpgrades.factor));
+						_obj.setUnitAttr(_item.unitupgrades.effected_column, (_obj.getUnitAttr(_item.unitupgrades.effected_column) * _item.unitupgrades.factor));
 					break;
 					case "=":
-						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, _item.UnitUpgrades.factor);
+						_obj.setUnitAttr(_item.unitupgrades.effected_column, _item.unitupgrades.factor);
 					break;
 				}
 			}
@@ -22,16 +22,16 @@ var Wargear = (function(){
 		remove: function(_parent, _obj, _item, _index) {
 			_obj.getAttr("Equiped").splice(_index, 1);
 
-			if(_item.UnitUpgrades !== null && _item.UnitUpgrades !== undefined) {
-				switch(_item.UnitUpgrades.operation) {
+			if(_item.unitupgrades !== null && _item.unitupgrades !== undefined) {
+				switch(_item.unitupgrades.operation) {
 					case "+":
-						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, (_obj.getUnitAttr(_item.UnitUpgrades.effected_column) - _item.UnitUpgrades.factor));
+						_obj.setUnitAttr(_item.unitupgrades.effected_column, (_obj.getUnitAttr(_item.unitupgrades.effected_column) - _item.unitupgrades.factor));
 					break;
 					case "*":
-						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, (_obj.getUnitAttr(_item.UnitUpgrades.effected_column) / _item.UnitUpgrades.factor));
+						_obj.setUnitAttr(_item.unitupgrades.effected_column, (_obj.getUnitAttr(_item.unitupgrades.effected_column) / _item.unitupgrades.factor));
 					break;
 					case "=":
-						_obj.setUnitAttr(_item.UnitUpgrades.effected_column, _obj.getBaseAttr(_item.UnitUpgrades.effected_column));
+						_obj.setUnitAttr(_item.unitupgrades.effected_column, _obj.getBaseAttr(_item.unitupgrades.effected_column));
 					break;
 				}
 			}

@@ -34,7 +34,7 @@ class UnitUpgradesController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"UnitUpgrades" => array(
+				"unitupgrades" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,7 +44,7 @@ class UnitUpgradesController extends Controller {
 						),
 						"conditions" => array("unitupgrades.id" => $options[0]),
 						"contains" => array(
-							"Enhancements" => array(
+							"enhancements" => array(
 								"fields" => array(
 									"enhancements.id as `enhancement_id`",
 									"enhancements.name as `enhancement_name`"
@@ -54,7 +54,7 @@ class UnitUpgradesController extends Controller {
 									"enhancements.id"
 								)
 							),
-							"Operations" => array(
+							"operations" => array(
 								"fields" => array(
 									"operations.id as `operation_id`",
 									"operations.name as `operation_name`"
@@ -64,7 +64,7 @@ class UnitUpgradesController extends Controller {
 									"operations.id"
 								)
 							),
-							"Wargears" => array(
+							"wargears" => array(
 								"fields" => array(
 									"wargears.id as `wargear_id`",
 									"wargears.name as `wargear_name`"
@@ -99,8 +99,8 @@ class UnitUpgradesController extends Controller {
 		}
 
 		$data = array_merge(array("wargears_id" => $options[0]), $this->model->Find("all", array(
-			"Enhancements" => array( array( "fields" => array( "id", "name") ) ),
-			"Operations" => array( array( "fields" => array( "id", "name") ) )
+			"enhancements" => array( array( "fields" => array( "id", "name") ) ),
+			"operations" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
@@ -122,11 +122,11 @@ class UnitUpgradesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'wargears', 'action' => 'view', "params" => array($options[1]), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "UnitUpgrades" => array( array( "fields" => array( "id", "enhancements_id", "operations_id", "factor", "wargears_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "unitupgrades" => array( array( "fields" => array( "id", "enhancements_id", "operations_id", "factor", "wargears_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		$data = array_merge($data, array_merge(array("wargears_id" => $options[1]), $this->model->Find("all", array(
-			"Enhancements" => array( array( "fields" => array( "id", "name") ) ),
-			"Operations" => array( array( "fields" => array( "id", "name") ) )
+			"enhancements" => array( array( "fields" => array( "id", "name") ) ),
+			"operations" => array( array( "fields" => array( "id", "name") ) )
 		) ) ) );
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -140,7 +140,7 @@ class UnitUpgradesController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"UnitUpgrades" => array(
+				"unitupgrades" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

@@ -6,7 +6,7 @@
 	<p class="pull-right">
         <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
     </p>
-    <?php if(!empty($typ__['data']['Operations'])) { ?>
+    <?php if(!empty($typ__['data']['operations'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["Operations"] as $operation){ ?>
+			<?php foreach ($typ__['data']["operations"] as $operation){ ?>
 			<tr id="armyLists-<?php echo $operation['id']; ?>" data-id="<?php echo $operation['id']; ?>">
 				<td><?php echo $operation['name']; ?></td>
 				<td><?php echo $operation['operation']; ?></td>

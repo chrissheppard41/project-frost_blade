@@ -11,7 +11,7 @@
 					"method" => "post",
 					"accept-charset" => "utf-8"
 				));
-		echo $this->Html->Input("name", "Colours", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
+		echo $this->Html->Input("name", "colours", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
 		echo $this->Html->Form();
 	?>

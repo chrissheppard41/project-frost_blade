@@ -11,8 +11,8 @@
 					"method" => "post",
 					"accept-charset" => "utf-8"
 				));
-		echo $this->Html->Input("name", "Enhancements", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
-		echo $this->Html->Input("effected_column", "Enhancements", array('label' => 'Effected Column', 'placeholder' => "Effected Column", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "effected_column"));
+		echo $this->Html->Input("name", "enhancements", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
+		echo $this->Html->Input("effected_column", "enhancements", array('label' => 'Effected Column', 'placeholder' => "Effected Column", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "effected_column"));
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
 		echo $this->Html->Form();
 	?>

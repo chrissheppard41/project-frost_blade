@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Users extends \Frost\Configs\Database {
 
-	protected $table = "Users";
+	protected $table = "users";
 	protected $validation = array(
 		"email" => array(
 			"email" => array(
@@ -85,20 +85,20 @@ class Users extends \Frost\Configs\Database {
  * @return [bool/array] [gets logged in user data, if user not logged in return false]
  */
 	public function log_user() {
-		$validation = \Validation::validate("email", $this->post['Users'], $this->validation, $this->table);
+		$validation = \Validation::validate("email", $this->post['users'], $this->validation, $this->table);
 		if($validation["error"]) {
 			return $validation;
 		}
-		$validation = \Validation::validate("password", $this->post['Users'], $this->validation, $this->table);
+		$validation = \Validation::validate("password", $this->post['users'], $this->validation, $this->table);
 		if($validation["error"]) {
 			return $validation;
 		}
 
-		$crypt_pass = sha1(crypt($this->post['Users']['password'], CRYPTKEY.$this->post['Users']['email']));
+		$crypt_pass = sha1(crypt($this->post['users']['password'], CRYPTKEY.$this->post['users']['email']));
 
 		$data = $this->Find("first",
 			array(
-				"Users" => array(
+				"users" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -111,7 +111,7 @@ class Users extends \Frost\Configs\Database {
 							"modified"
 						),
 						"conditions"	=> array(
-							"email" => $this->post['Users']['email'],
+							"email" => $this->post['users']['email'],
 							"password" => $crypt_pass
 						)
 					)
@@ -119,20 +119,20 @@ class Users extends \Frost\Configs\Database {
 			)
 		);
 
-		if(!empty($data['Users'])) {
+		if(!empty($data['users'])) {
 			$queryUpdate = array(
-				"Users" => array(
+				"users" => array(
 					"data" => array(
 						"last_login" 		=> date("Y-m-d H:i:s"),
 						"modified" 			=> date("Y-m-d H:i:s")
 					),
 					"condition"	=> array(
-						"slug" 				=> $data['Users']['slug']
+						"slug" 				=> $data['users']['slug']
 					)
 				)
 			);
 			$this->Update($queryUpdate);
-			return $data["Users"];
+			return $data["users"];
 		}
 		return false;
 	}

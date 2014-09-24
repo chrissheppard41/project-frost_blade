@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Operations extends \Frost\Configs\Database {
 
-	protected $table = "Operations";
+	protected $table = "operations";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(

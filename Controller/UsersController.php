@@ -34,7 +34,7 @@ class UsersController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Users" => array(
+				"users" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -77,7 +77,7 @@ class UsersController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Users" => array(
+				"users" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -107,7 +107,7 @@ class UsersController extends Controller {
 	public function admin_add($options, $methodData) {
 		$this->view = "admin";
 		if($this->requestType("POST")) {
-			if($this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+			if($this->model->Exists(array("email" => $this->model->post["users"]["email"], "username" => $this->model->post["users"]["username"]))) {
 				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
 			} else {
 				$data = $this->model->Save();
@@ -129,11 +129,11 @@ class UsersController extends Controller {
  */
 	public function admin_edit($options, $methodData) {
 		$this->view = "admin";
-		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 
 		if($this->requestType("POST")) {
-			if($data["Users"]["username"] != $this->model->post["Users"]["username"] || $data["Users"]["email"] != $this->model->post["Users"]["email"]
-			&&  $this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+			if($data["users"]["username"] != $this->model->post["users"]["username"] || $data["users"]["email"] != $this->model->post["users"]["email"]
+			&&  $this->model->Exists(array("email" => $this->model->post["users"]["email"], "username" => $this->model->post["users"]["username"]))) {
 				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
 			} else {
 				$data = $this->model->Update($this->model->post, array("id" => $options[0]));
@@ -158,7 +158,7 @@ class UsersController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Users" => array(
+				"users" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
@@ -217,7 +217,7 @@ class UsersController extends Controller {
  */
 	public function register($options, $methodData) {
 		if($this->requestType("POST")) {
-			if($this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+			if($this->model->Exists(array("email" => $this->model->post["users"]["email"], "username" => $this->model->post["users"]["username"]))) {
 				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
 			} else {
 				$data = $this->model->Save();
@@ -240,11 +240,11 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function profile($options, $methodData) {
-		$data = $this->model->Find("first", array( "Users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => \Configure::User("id") ) ) ) ) );
+		$data = $this->model->Find("first", array( "users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => \Configure::User("id") ) ) ) ) );
 
 		if($this->requestType("POST")) {
-			if($data["Users"]["username"] != $this->model->post["Users"]["username"] || $data["Users"]["email"] != $this->model->post["Users"]["email"]
-			&&  $this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+			if($data["users"]["username"] != $this->model->post["users"]["username"] || $data["users"]["email"] != $this->model->post["users"]["email"]
+			&&  $this->model->Exists(array("email" => $this->model->post["users"]["email"], "username" => $this->model->post["users"]["username"]))) {
 				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
 			} else {
 				$data = $this->model->Update($this->model->post, array("id" => $options[0]));
@@ -279,7 +279,7 @@ class UsersController extends Controller {
 		$this->view = "Empty";
 		$data = $this->model->Find("first",
 			array(
-				"Users" => array(
+				"users" => array(
 					array(
 						"fields" => array(
 							"email_verified"
@@ -290,8 +290,8 @@ class UsersController extends Controller {
 			)
 		);
 
-		if(!empty($data["Users"]) && $data["Users"]["email_verified"] == 0) {
-			$this->model->Update(array("Users" => array("email_verified" => 1)), array("slug" => $options[0]));
+		if(!empty($data["users"]) && $data["users"]["email_verified"] == 0) {
+			$this->model->Update(array("users" => array("email_verified" => 1)), array("slug" => $options[0]));
 			$this->Flash("<strong>Success</strong>: Your account is now active, please log in.", "alert alert-success", "/");
 		}
 		$this->Flash("<strong>Failure</strong>: There was a problem activiting your account, please try again.", "alert alert-danger", "/");
@@ -342,7 +342,7 @@ class UsersController extends Controller {
 			throw new \WebException("Wrong method request", 405);
 		}
 
-		if($this->model->Exists(array("email" => $this->model->post["Users"]["email"], "username" => $this->model->post["Users"]["username"]))) {
+		if($this->model->Exists(array("email" => $this->model->post["users"]["email"], "username" => $this->model->post["users"]["username"]))) {
 			return array("code" => 409, "message" => "User Register", "data" => null, "errors" => array(array("User already exists", "The Email/Username you provided is currently being used")));
 		} else {
 			$data = $this->model->Save();
@@ -352,7 +352,7 @@ class UsersController extends Controller {
 			} else {
 				$dataS = $this->model->Find("first",
 					array(
-						"Users" => array(
+						"users" => array(
 							array(
 								"fields" => array(
 									"slug",
@@ -386,18 +386,18 @@ class UsersController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Users" => array(
+				"users" => array(
 					array(
 						"fields" => array(
 							"id",
 						),
-						"conditions" => array("email" => $this->model->post["Users"]["email"])
+						"conditions" => array("email" => $this->model->post["users"]["email"])
 					)
 				)
 			)
 		);
 
-		if(!isset($data["Users"])) {
+		if(!isset($data["users"])) {
 			return array("code" => 404, "message" => "User lost password", "data" => null, "errors" => array(array("Email", "The email you provided does not exist")));
 		}
 		$words = array(
@@ -410,8 +410,8 @@ class UsersController extends Controller {
 			"tnqrusoii",
 		);
 		$password = $words[mt_rand(0, (count($words)-1))].microtime();
-		$crypt_pass = sha1(crypt($password, CRYPTKEY.$this->model->post["Users"]["email"]));
-		$this->model->Update(array("Users" => array("password" => $crypt_pass, "email" => $this->model->post["Users"]["email"])), array("email" => $this->model->post["Users"]["email"]));
+		$crypt_pass = sha1(crypt($password, CRYPTKEY.$this->model->post["users"]["email"]));
+		$this->model->Update(array("users" => array("password" => $crypt_pass, "email" => $this->model->post["users"]["email"])), array("email" => $this->model->post["Users"]["email"]));
 
 		$message = "Dear user,\n\nYour new password is: ".$password."\n\nRegards\nArmy display tool team";
 		//\Frost\Configs\Email::send("chrissheppard@rehabstudio.com", "Army display tool lost password", $message, "From: do-not-reply@armydisplaytool.com");
@@ -439,7 +439,7 @@ class UsersController extends Controller {
 		} else if($this->requestType("GET")) {
 			$data = $this->model->Find("first",
 				array(
-					"Users" => array(
+					"users" => array(
 						array(
 							"fields" => array(
 								"id",

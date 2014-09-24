@@ -34,7 +34,7 @@ class TypesController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Types" => array(
+				"types" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -61,7 +61,7 @@ class TypesController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Types" => array(
+				"types" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -70,7 +70,7 @@ class TypesController extends Controller {
 							"modified"
 						),
 						"conditions" => array("id" => $options[0]),
-						"contains" => array( "Squads" => array() )
+						"contains" => array( "squads" => array() )
 					)
 				)
 			)
@@ -116,7 +116,7 @@ class TypesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Types', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Types" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "types" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -130,7 +130,7 @@ class TypesController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Types" => array(
+				"types" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
@@ -164,7 +164,7 @@ class TypesController extends Controller {
         if(!$data){
 			$data = $this->model->Find("all",
 				array(
-					"Types" => array(
+					"types" => array(
 						array(
 							"fields" => array(
 								"id",

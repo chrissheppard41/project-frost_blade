@@ -34,7 +34,7 @@ class WarlordsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Warlords" => array(
+				"warlords" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,13 +44,13 @@ class WarlordsController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Warlords.armies_id" => "armies.id"
+									"warlords.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -60,7 +60,7 @@ class WarlordsController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -83,7 +83,7 @@ class WarlordsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Warlords" => array(
+				"warlords" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -91,15 +91,15 @@ class WarlordsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("Warlords.id" => $options[0]),
+						"conditions" => array("warlords.id" => $options[0]),
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Warlords.armies_id" => "armies.id"
+									"warlords.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -126,9 +126,9 @@ class WarlordsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Warlords', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = array("Warlords" => array("armies_id" => $options[1]));
+		$data = array("warlords" => array("armies_id" => $options[1]));
 		/*$data = $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) );*/
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
@@ -150,10 +150,10 @@ class WarlordsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Warlords', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Warlords" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "warlords" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		/*$dataE = array_merge($data, $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );*/
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -167,10 +167,10 @@ class WarlordsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Warlords" => array(
+				"warlords" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Warlords.id" => $options[0])
+						"conditions" => array("warlords.id" => $options[0])
 					)
 				)
 			)
@@ -178,7 +178,7 @@ class WarlordsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Warlords" => array(
+				"warlords" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

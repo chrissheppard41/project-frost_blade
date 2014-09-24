@@ -9,14 +9,14 @@ myApp.controller('DisplayCtrl', ["$scope", "$http", "list", "$rootScope", "$loca
 	promise_all.then(function( data ) {
 
 		if($rootScope.user_id !== 0) {
-			$scope.my_armies = list.data.private.ArmyLists;
+			$scope.my_armies = list.data.private.armylists;
 			$scope.my_armies_count = list.data.private.count;
 		}
 
-		$scope.all_armies = list.data.public.ArmyLists;
+		$scope.all_armies = list.data.public.armylists;
 		$scope.all_armies_count = list.data.public.count;
 
-		$scope.top_armies = list.data.top.ArmyLists;
+		$scope.top_armies = list.data.top.armylists;
 	});
 
 	$scope.votes = function(id, type) {
@@ -42,14 +42,14 @@ myApp.controller('DisplayCtrl', ["$scope", "$http", "list", "$rootScope", "$loca
 				promise_all.then(function( data ) {
 
 					if($rootScope.user_id !== 0) {
-						$scope.my_armies = list.data.private.ArmyLists;
+						$scope.my_armies = list.data.private.armylists;
 						$scope.my_armies_count = list.data.private.count;
 					}
 
-					$scope.all_armies = list.data.public.ArmyLists;
+					$scope.all_armies = list.data.public.armylists;
 					$scope.all_armies_count = list.data.public.count;
 
-					$scope.top_armies = list.data.top.ArmyLists;
+					$scope.top_armies = list.data.top.armylists;
 				});
 			} else {
 				//error here

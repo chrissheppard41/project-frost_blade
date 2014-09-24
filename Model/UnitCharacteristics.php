@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class UnitCharacteristics extends \Frost\Configs\Database {
 
-	protected $table = "UnitCharacteristics";
+	protected $table = "unitcharacteristics";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class UnitCharacteristics extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"Units" => array(
+		"units" => array(
 			"type" => "HABTM",
 			"linktable" => "unitqualities",
 			"lefttable" => "units",

@@ -4,13 +4,13 @@
 </div>
 <div class="Groups index">
 	<p class="pull-right1">
-        <?php if(!empty($typ__['data']["Armies"])) { ?>
-			<?php foreach ($typ__['data']["Armies"] as $armies){ ?>
+        <?php if(!empty($typ__['data']["armies"])) { ?>
+			<?php foreach ($typ__['data']["armies"] as $armies){ ?>
 				<?php echo $this->Html->Url($armies["name"]." ".$this->Html->__t('add'), array('action' => 'add', "params" => array(0, $armies["id"]), "admin" => true), array('class' => 'btn btn-success')); ?>
 			<?php } ?>
 		<?php } ?>
     </p>
-    <?php if(!empty($typ__['data']['Groups'])) { ?>
+    <?php if(!empty($typ__['data']['groups'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -22,7 +22,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["Groups"] as $group){ ?>
+			<?php foreach ($typ__['data']["groups"] as $group){ ?>
 			<tr id="armyLists-<?php echo $group['id']; ?>" data-id="<?php echo $group['id']; ?>">
 				<td><?php echo $group['name']; ?></td>
 				<td><?php echo $this->Html->Url($group["army_name"], array("controller" => "armies", "action" => "view", "admin" => true, "params" => array($group["army_id"]))); ?></td>

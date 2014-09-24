@@ -6,7 +6,7 @@
 
 			<?php echo $this->Html->Form(array("ng-submit" => "lostpassword()","class" => "form-vertical","id" => "UserLostPasswordForm","name" => "UserLostPasswordForm","method" => "post","accept-charset" => "utf-8")); ?>
 
-				<?php echo $this->Html->Input("email", "Users", array("ng-model" => "email", 'label' => 'Enter your Email', 'placeholder' => "Email", 'class' => "form-control", 'maxlength' => "255", 'type' => "email", 'id' => "UserEmail", "required" => "required"), array(), true); ?>
+				<?php echo $this->Html->Input("email", "users", array("ng-model" => "email", 'label' => 'Enter your Email', 'placeholder' => "Email", 'class' => "form-control", 'maxlength' => "255", 'type' => "email", 'id' => "UserEmail", "required" => "required"), array(), true); ?>
 				<span class="error" ng-show="UserLostPasswordForm.email.$error.required">You must include your email address</span>
 				<span class="error" ng-show="UserLostPasswordForm.email.$error.email">Please enter a valid email</span><br />
 

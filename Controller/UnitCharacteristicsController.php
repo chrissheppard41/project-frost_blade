@@ -34,7 +34,7 @@ class UnitCharacteristicsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"UnitCharacteristics" => array(
+				"unitcharacteristics" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,13 +44,13 @@ class UnitCharacteristicsController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"UnitCharacteristics.armies_id" => "armies.id"
+									"unitcharacteristics.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -60,7 +60,7 @@ class UnitCharacteristicsController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -83,7 +83,7 @@ class UnitCharacteristicsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"UnitCharacteristics" => array(
+				"unitcharacteristics" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -92,15 +92,15 @@ class UnitCharacteristicsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("UnitCharacteristics.id" => $options[0]),
+						"conditions" => array("unitcharacteristics.id" => $options[0]),
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"UnitCharacteristics.armies_id" => "armies.id"
+									"unitcharacteristics.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -127,9 +127,9 @@ class UnitCharacteristicsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'UnitCharacteristics', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = array("UnitCharacteristics" => array("armies_id" => $options[1]));
+		$data = array("unitcharacteristics" => array("armies_id" => $options[1]));
 		/*$data = $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) );*/
 
 
@@ -152,10 +152,10 @@ class UnitCharacteristicsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'UnitCharacteristics', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "UnitCharacteristics" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "unitcharacteristics" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		/*$dataE = array_merge($data, $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );*/
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -169,7 +169,7 @@ class UnitCharacteristicsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"UnitCharacteristics" => array(
+				"unitcharacteristics" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

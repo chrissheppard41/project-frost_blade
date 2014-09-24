@@ -13,7 +13,7 @@ myApp.controller('UserCtrl', ["$scope", "$routeParams", "$rootScope", "$location
 			$scope.formMessage = "Form contains errors";
 		} else {
 			$scope.formMessage = "";
-			var promise_user = list.getAsync('POST', '/user/login.json', {"data":{"Users":{"email":this.email,"password":this.password}}});
+			var promise_user = list.getAsync('POST', '/user/login.json', {"data":{"users":{"email":this.email,"password":this.password}}});
 
 			promise_user.then(function( data ) {
 				if(data.code === 200) {
@@ -35,7 +35,7 @@ myApp.controller('UserCtrl', ["$scope", "$routeParams", "$rootScope", "$location
 			$scope.formMessage = "Form contains errors";
 		} else {
 			$scope.formMessage = "";
-			var promise_user = list.getAsync('POST', '/user/register.json', {"data":{"Users":{"username":this.username,"email":this.email,"password":this.password,"confirm_password":this.confirm_password,"slug":""}}});
+			var promise_user = list.getAsync('POST', '/user/register.json', {"data":{"users":{"username":this.username,"email":this.email,"password":this.password,"confirm_password":this.confirm_password,"slug":""}}});
 
 			promise_user.then(function( data ) {
 				if(data.code === 200) {
@@ -52,7 +52,7 @@ myApp.controller('UserCtrl', ["$scope", "$routeParams", "$rootScope", "$location
 			$scope.formMessage = "Form contains errors";
 		} else {
 			$scope.formMessage = "";
-			var promise_user = list.getAsync('POST', '/user/lost_password.json', {"data":{"Users":{"email":this.email}}});
+			var promise_user = list.getAsync('POST', '/user/lost_password.json', {"data":{"users":{"email":this.email}}});
 
 			promise_user.then(function( data ) {
 				if(data.code === 200) {
@@ -70,7 +70,7 @@ myApp.controller('UserCtrl', ["$scope", "$routeParams", "$rootScope", "$location
 		var promise_profile = list.getAsync('GET', '/user/profile.json', {});
 
 		promise_profile.then(function( data ) {
-			$scope.email = data.Users.email;
+			$scope.email = data.users.email;
 		});
 	}
 	$scope.profile = function() {
@@ -93,7 +93,7 @@ myApp.controller('UserCtrl', ["$scope", "$routeParams", "$rootScope", "$location
 			}
 
 
-			var promise_user = list.getAsync('POST', '/user/profile.json', {"data":{"Users":user}});
+			var promise_user = list.getAsync('POST', '/user/profile.json', {"data":{"users":user}});
 
 			promise_user.then(function( data ) {
 				if(data.code === 200) {

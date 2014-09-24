@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Psykers extends \Frost\Configs\Database {
 
-	protected $table = "Psykers";
+	protected $table = "psykers";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class Psykers extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"SquadUnits" => array(
+		"squadunits" => array(
 			"type" => "HABTM",
 			"linktable" => "unitpsykers",
 			"lefttable" => "squadunits",

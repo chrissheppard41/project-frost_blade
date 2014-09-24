@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Relics extends \Frost\Configs\Database {
 
-	protected $table = "Relics";
+	protected $table = "relics";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class Relics extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"SquadUnits" => array(
+		"squadunits" => array(
 			"type" => "HABTM",
 			"linktable" => "unitrelics",
 			"lefttable" => "squadunits",

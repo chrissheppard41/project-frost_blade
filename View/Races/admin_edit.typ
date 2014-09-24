@@ -5,16 +5,16 @@
 	</div>
 	<?php
 	echo $this->Html->Form(array(
-		"action" => "/admin/races/edit/".$typ__["data"]["Races"]["id"],
+		"action" => "/admin/races/edit/".$typ__["data"]["races"]["id"],
 		"class" => "form-vertical",
 		"id" => "UserAdminAddForm",
 		"method" => "post",
 		"accept-charset" => "utf-8"
 	));
-		echo $this->Html->Input("id", "Races", array('type' => "hidden", 'id' => "UserId"));
-		echo $this->Html->Input("name", "Races", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
+		echo $this->Html->Input("id", "races", array('type' => "hidden", 'id' => "UserId"));
+		echo $this->Html->Input("name", "races", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
 		echo "<div><b>Icons</b></div>";
-		echo $this->Html->Input("icon", "Races", array('label' => '', 'class' => "", 'type' => "radio", 'id' => "icon"), array(
+		echo $this->Html->Input("icon", "races", array('label' => '', 'class' => "", 'type' => "radio", 'id' => "icon"), array(
 			array("id" => 1, "name" => "Space marines"),
 			array("id" => 2, "name" => "Chaos Space marines"),
 			array("id" => 3, "name" => "Daemons"),

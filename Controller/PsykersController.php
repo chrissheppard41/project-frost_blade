@@ -34,7 +34,7 @@ class PsykersController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Psykers" => array(
+				"psykers" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,7 +44,7 @@ class PsykersController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
@@ -60,7 +60,7 @@ class PsykersController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -83,7 +83,7 @@ class PsykersController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Psykers" => array(
+				"psykers" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -93,7 +93,7 @@ class PsykersController extends Controller {
 						),
 						"conditions" => array("psykers.id" => $options[0]),
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
@@ -126,7 +126,7 @@ class PsykersController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Psykers', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = array("Squads" => array("armies_id" => $options[1]));
+		$data = array("squads" => array("armies_id" => $options[1]));
 		/*$data = $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) );*/
@@ -150,7 +150,7 @@ class PsykersController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Psykers', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Psykers" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "psykers" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		/*$dataE = array_merge($data, $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
@@ -167,10 +167,10 @@ class PsykersController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Psykers" => array(
+				"psykers" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Psykers.id" => $options[0])
+						"conditions" => array("psykers.id" => $options[0])
 					)
 				)
 			)
@@ -178,7 +178,7 @@ class PsykersController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Psykers" => array(
+				"psykers" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

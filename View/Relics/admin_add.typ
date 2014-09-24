@@ -7,19 +7,19 @@
 <div class="armyLists form">
 	<?php
 	echo $this->Html->Form(array(
-					"action" => "/admin/Relics/add".(isset($typ__['data']["Groups"]["id"])?"/".$typ__['data']["Groups"]["id"]:""),
+					"action" => "/admin/Relics/add".(isset($typ__['data']["groups"]["id"])?"/".$typ__['data']["groups"]["id"]:""),
 					"class" => "form-vertical",
 					"id" => "RelicsAdminAddForm",
 					"method" => "post",
 					"accept-charset" => "utf-8"
 				));
-		echo $this->Html->Input("name", "Relics", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
-		//echo $this->Html->Input("pts", "Relics", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
-		//echo $this->Html->Input("armies_id", "Relics", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
-		echo $this->Html->Input("armies_id", "Relics", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["Relics"]["armies_id"]));
+		echo $this->Html->Input("name", "relics", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
+		//echo $this->Html->Input("pts", "relics", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
+		//echo $this->Html->Input("armies_id", "relics", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
+		echo $this->Html->Input("armies_id", "relics", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["relics"]["armies_id"]));
 
-		if(isset($typ__['data']["Groups"]["id"])) {
-			echo $this->Html->Input("Groups", "Relics", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["Groups"]["id"]));
+		if(isset($typ__['data']["groups"]["id"])) {
+			echo $this->Html->Input("Groups", "relics", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["groups"]["id"]));
 		}
 
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));

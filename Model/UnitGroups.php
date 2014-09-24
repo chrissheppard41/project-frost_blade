@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class UnitGroups extends \Frost\Configs\Database {
 
-	protected $table = "UnitGroups";
+	protected $table = "unitgroups";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(

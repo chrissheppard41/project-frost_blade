@@ -34,7 +34,7 @@ class TransportsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Transports" => array(
+				"transports" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,13 +44,13 @@ class TransportsController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Transports.armies_id" => "armies.id"
+									"transports.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -60,7 +60,7 @@ class TransportsController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -83,7 +83,7 @@ class TransportsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Transports" => array(
+				"transports" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -91,15 +91,15 @@ class TransportsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("Transports.id" => $options[0]),
+						"conditions" => array("transports.id" => $options[0]),
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Transports.armies_id" => "armies.id"
+									"transports.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -126,9 +126,9 @@ class TransportsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Transports', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = array("Transports" => array("armies_id" => $options[1]));
+		$data = array("transports" => array("armies_id" => $options[1]));
 		/*$data = $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) );*/
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
@@ -150,10 +150,10 @@ class TransportsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Transports', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Transports" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "transports" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		/*$dataE = array_merge($data, $this->model->Find("all", array(
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );*/
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -167,10 +167,10 @@ class TransportsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Transports" => array(
+				"transports" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Transports.id" => $options[0])
+						"conditions" => array("transports.id" => $options[0])
 					)
 				)
 			)
@@ -178,7 +178,7 @@ class TransportsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Transports" => array(
+				"transports" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

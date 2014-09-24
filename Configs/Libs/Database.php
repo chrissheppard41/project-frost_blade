@@ -659,6 +659,7 @@ class Database {
 					"query" => $sql_,
 					"params" => array(":".$this->relationships[$header]["linkColumn"] => $data["id"])
 				);
+
 				if($results = $this->results($this->query($q))) {
 					if(isset($this->relationships[$header]["Connect"])) {
 						$data[$header] = $this->connect($results, $this->relationships[$header]["Connect"]);

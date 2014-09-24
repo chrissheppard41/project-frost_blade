@@ -34,7 +34,7 @@ class UnitTypesController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"UnitTypes" => array(
+				"unittypes" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -61,7 +61,7 @@ class UnitTypesController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"UnitTypes" => array(
+				"unittypes" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -70,7 +70,7 @@ class UnitTypesController extends Controller {
 							"modified"
 						),
 						"conditions" => array("id" => $options[0]),
-						"contains" => array( "Units" => array() )
+						"contains" => array( "units" => array() )
 					)
 				)
 			)
@@ -114,7 +114,7 @@ class UnitTypesController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'UnitTypes', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "UnitTypes" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "unittypes" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -128,7 +128,7 @@ class UnitTypesController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"UnitTypes" => array(
+				"unittypes" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

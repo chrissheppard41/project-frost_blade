@@ -9,7 +9,7 @@
 				<span class="form-group required">
 					<label for="name" class="col-lg-2 control-label text-right">Race</label>
 					<select ng-model="race" ng-change="dis_races()" name="data[ArmyLists][races_id]" class="form-control">
-						<option ng-repeat="type in Races.Races" value="{{$index}}">{{type.name}}</option>
+						<option ng-repeat="type in Races.races" value="{{$index}}">{{type.name}}</option>
 					</select>
 				</span>
 			</p>

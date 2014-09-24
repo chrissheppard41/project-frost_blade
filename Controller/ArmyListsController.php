@@ -34,7 +34,7 @@ class ArmyListsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -49,21 +49,21 @@ class ArmyListsController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Users" => array(
+							"users" => array(
 								"fields" => array(
-									"Users.id as `user_id`",
-									"Users.username"
+									"users.id as `user_id`",
+									"users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id" => "Users.id"
+									"armylists.users_id" => "users.id"
 								)
 							),
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id" => "armies.id"
+									"armylists.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -86,7 +86,7 @@ class ArmyListsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -99,23 +99,23 @@ class ArmyListsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("ArmyLists.id" => $options[0]),
+						"conditions" => array("armylists.id" => $options[0]),
 						"contains" => array(
-							"Users" => array(
+							"users" => array(
 								"fields" => array(
-									"Users.id as `user_id`",
-									"Users.username"
+									"users.id as `user_id`",
+									"users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id" => "Users.id"
+									"armylists.users_id" => "users.id"
 								)
 							),
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id" => "armies.id"
+									"armylists.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -147,8 +147,8 @@ class ArmyListsController extends Controller {
 		}
 
 		$data = $this->model->Find("all", array(
-			"Users" => array( array( "fields" => array( "id", "username as `name`") ) ),
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"users" => array( array( "fields" => array( "id", "username as `name`") ) ),
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) );
 
 		return array("code" => 200, "message" => "User View", "data" => $data, "errors" => null);
@@ -174,13 +174,13 @@ class ArmyListsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'armylists', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "ArmyLists" => array(
+		$data = $this->model->Find("first", array( "armylists" => array(
 					array(
 						"fields" => array( "id", "name", "descr", "point_limit", "hide", "users_id", "armies_id" ),
-						"conditions" => array("ArmyLists.id" => $options[0]),
+						"conditions" => array("armylists.id" => $options[0]),
 						"contains" => array(
-							"Users" => array( "fields" => array( "Users.id as `user_id`", "Users.username" ), "relation" => array( "ArmyLists.users_id", "Users.id" ) ),
-							"Armies" => array( "fields" => array( "armies.name as `army_name`" ), "relation" => array( "ArmyLists.armies_id", "armies.id" ) )
+							"users" => array( "fields" => array( "users.id as `user_id`", "users.username" ), "relation" => array( "armylists.users_id", "Users.id" ) ),
+							"armies" => array( "fields" => array( "armies.name as `army_name`" ), "relation" => array( "armylists.armies_id", "armies.id" ) )
 						)
 					)
 				)
@@ -188,8 +188,8 @@ class ArmyListsController extends Controller {
 		);
 
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"Users" => array( array( "fields" => array( "id", "username as `name`") ) ),
-			"Armies" => array( array( "fields" => array( "id", "name") ) )
+			"users" => array( array( "fields" => array( "id", "username as `name`") ) ),
+			"armies" => array( array( "fields" => array( "id", "name") ) )
 		) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
@@ -205,9 +205,9 @@ class ArmyListsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					"conditions" => array(
-						"ArmyLists.id" => $options[0]
+						"armylists.id" => $options[0]
 					)
 				)
 			)
@@ -241,7 +241,7 @@ class ArmyListsController extends Controller {
 			$count = $this->model->find(
 				'first',
 				array(
-					"ArmyLists" => array(
+					"armylists" => array(
 						array(
 							"fields" => array(
 								"COUNT(*) as `count`"
@@ -260,13 +260,13 @@ class ArmyListsController extends Controller {
 			if(!\Configure::Logged()) {
 				throw new \WebException("Forbidden: Not logged in", 403);
 			}
-			$conditions = array("ArmyLists.users_id" => $user_id);
+			$conditions = array("armylists.users_id" => $user_id);
 			$order = array();
 
 			$count = $this->model->find(
 				'first',
 				array(
-					"ArmyLists" => array(
+					"armylists" => array(
 						array(
 							"fields" => array(
 								"COUNT(*) as `count`"
@@ -283,7 +283,7 @@ class ArmyListsController extends Controller {
 			$data = $this->model->find(
 				'all',
 				array(
-					"ArmyLists" => array(
+					"armylists" => array(
 						array(
 							"fields" => array(
 								"id",
@@ -302,46 +302,46 @@ class ArmyListsController extends Controller {
 							"order" => $order,
 							"limit" => 5,
 							"contains" => array(
-								"Users" => array(
+								"users" => array(
 									"fields" => array(
-										"Users.username"
+										"users.username"
 									),
 									"relation" => array(
-										"ArmyLists.users_id" => "Users.id"
+										"armylists.users_id" => "users.id"
 									)
 								),
-								"Armies" => array(
+								"armies" => array(
 									"fields" => array(
 										"armies.name as `army_name`"
 									),
 									"relation" => array(
-										"ArmyLists.armies_id" => "armies.id"
+										"armylists.armies_id" => "armies.id"
 									)
 								),
-								"Races" => array(
+								"races" => array(
 									"fields" => array(
 										"races.name as `races_name`",
 										"races.icon"
 									),
 									"relation" => array(
-										"Armies.races_id" => "races.id"
+										"armies.races_id" => "races.id"
 									)
 								),
-								"Colours" => array(
+								"colours" => array(
 									"fields" => array(
 										"colours.name as `colours_name`"
 									),
 									"relation" => array(
-										"Armies.colours_id" => "colours.id"
+										"armies.colours_id" => "colours.id"
 									)
 								),
-								"Votes" => array(
+								"votes" => array(
 									"fields" => array(
 										"votes.vote"
 									),
 									"relation" => array(
-										"Votes.armylists_id" => "ArmyLists.id",
-										"Votes.users_id" => $user_id
+										"votes.armylists_id" => "armylists.id",
+										"votes.users_id" => $user_id
 									)
 								)
 							)
@@ -351,8 +351,8 @@ class ArmyListsController extends Controller {
 			);
 			\Cache::write('ArmyLists', $cache, $data);
 		}
-		if(isset($count["ArmyLists"]["count"])) {
-			$data["count"] = $count["ArmyLists"]["count"];
+		if(isset($count["armylists"]["count"])) {
+			$data["count"] = $count["armylists"]["count"];
 		}
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => $data));
@@ -405,15 +405,15 @@ class ArmyListsController extends Controller {
 		);
 
 		// check that all required params have been supplied
-		if ($this->_hasRequiredParams($requiredParams, $methodData["ArmyLists"])) {
+		if ($this->_hasRequiredParams($requiredParams, $methodData["armylists"])) {
 			throw new \WebException("Incorrect parameters supplied", 400);
 		}
 		if(!\Configure::Logged()) {
 			throw new \WebException("Forbidden: Not logged in", 403);
 		}
 
-		$methodData["ArmyLists"]['code'] = $this->model->_generateCode(\Configure::User('id'));
-		$methodData["ArmyLists"]['users_id'] = \Configure::User('id');
+		$methodData["armylists"]['code'] = $this->model->_generateCode(\Configure::User('id'));
+		$methodData["armylists"]['users_id'] = \Configure::User('id');
 //\Configure::pre($methodData);
 		$data = $this->model->Save($methodData);
 
@@ -439,13 +439,13 @@ class ArmyListsController extends Controller {
 
 		if(is_numeric($options[0])) {
 			$conditions = array(
-				"ArmyLists.id" => (int)$options[0],
-				"ArmyLists.users_id" => \Configure::User("id")
+				"armylists.id" => (int)$options[0],
+				"armylists.users_id" => \Configure::User("id")
 			);
 		} else {
 			$conditions = array(
-				"ArmyLists.code" => preg_replace('/[^0-9a-z]+/', '', $options[0]),
-				"ArmyLists.hide" => 0
+				"armylists.code" => preg_replace('/[^0-9a-z]+/', '', $options[0]),
+				"armylists.hide" => 0
 			);
 		}
 
@@ -454,7 +454,7 @@ class ArmyListsController extends Controller {
 		if(!$data){
 			$data = $this->model->Find("first",
 				array(
-					"ArmyLists" => array(
+					"armylists" => array(
 						array(
 							"fields" => array(
 								"id",
@@ -471,50 +471,50 @@ class ArmyListsController extends Controller {
 							),
 							"conditions" => $conditions,
 							"contains" => array(
-								"Users" => array(
+								"users" => array(
 									"fields" => array(
-										"Users.id as `user_id`",
-										"Users.username"
+										"users.id as `user_id`",
+										"users.username"
 									),
 									"relation" => array(
-										"ArmyLists.users_id" => "Users.id"
+										"armylists.users_id" => "users.id"
 									)
 								),
-								"Armies" => array(
+								"armies" => array(
 									"fields" => array(
 										"armies.name as `army_name`"
 									),
 									"relation" => array(
-										"ArmyLists.armies_id" => "armies.id"
+										"armylists.armies_id" => "armies.id"
 									)
 								),
-								"Races" => array(
+								"races" => array(
 									"fields" => array(
 										"races.name as `races_name`",
 										"races.icon"
 									),
 									"relation" => array(
-										"Armies.races_id" => "races.id"
+										"armies.races_id" => "races.id"
 									)
 								),
-								"Colours" => array(
+								"colours" => array(
 									"fields" => array(
 										"colours.name as `colours_name`"
 									),
 									"relation" => array(
-										"Armies.colours_id" => "colours.id"
+										"armies.colours_id" => "colours.id"
 									)
 								),
-								"Votes" => array(
+								"votes" => array(
 									"fields" => array(
 										"votes.vote"
 									),
 									"relation" => array(
-										"Votes.armylists_id" => "ArmyLists.id",
-										"Votes.users_id" => $user_id
+										"votes.armylists_id" => "armylists.id",
+										"votes.users_id" => $user_id
 									)
 								),
-								"ArmySquads" => array(
+								"armysquads" => array(
 									array(
 										"fields" => array(
 											"id",
@@ -522,20 +522,20 @@ class ArmyListsController extends Controller {
 											"squads_id"
 										),
 										"contains" => array(
-											"ArmyUnits" => array(
+											"armylists" => array(
 												"fields" => array(
-													"ArmyUnits.id as `armyunits_id`",
-													"ArmyUnits.count",
-													"ArmyUnits.units_id"
+													"armylists.id as `armyunits_id`",
+													"armylists.count",
+													"armylists.units_id"
 												),
 												"contains" => array(
-													"ArmyWargears" => array(
+													"armywargears" => array(
 														"fields" => array(
-															"ArmyWargears.id as `armywargears_id`",
-															"ArmyWargears.wargears_id"
+															"armywargears.id as `armywargears_id`",
+															"armywargears.wargears_id"
 														),
 														"contains" => array(
-															"Wargears" => array()
+															"wargears" => array()
 														)
 
 													)
@@ -552,7 +552,7 @@ class ArmyListsController extends Controller {
 			\Cache::write('ArmyLists', '_army_'.$options[0].'_'.$user_id, $data);
 		}
 
-		if((int)$data["ArmyLists"]["hide"] === 1) {
+		if((int)$data["armylists"]["hide"] === 1) {
 			if(!\Configure::Logged()) {
 				throw new \WebException("Forbidden: Not logged in", 403);
 			}
@@ -582,7 +582,7 @@ class ArmyListsController extends Controller {
 		$user_army = $this->model->find(
 			"first",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -603,7 +603,7 @@ class ArmyListsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)
@@ -650,7 +650,7 @@ class ArmyListsController extends Controller {
 		$user_army = $this->model->find(
 			"first",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id"
@@ -668,14 +668,15 @@ class ArmyListsController extends Controller {
 			throw new \WebException("Forbidden: Army does not belong to you", 403);
 		}
 
-		$data = $this->model->Update(array("ArmyLists" => $methodData), array("id" => $options[0]));
+		$data = $this->model->Update(array("armylists" => $methodData), array("id" => $options[0]));
 		if($data["error"] === true) {
 			return \Frost\Configs\Response::setResponse(400, "Army Lists", array("errors" => $data["error"]));
 		} else {
-			\Cache::delete('ArmyLists', "private");
+			/*\Cache::delete('ArmyLists', "private");
 			\Cache::delete('ArmyLists', "public");
 			\Cache::delete('ArmyLists', "top");
-			\Cache::delete('ArmyLists', "_army_".$options[0]);
+			\Cache::delete('ArmyLists', "_army_".$options[0]);*/
+			\Cache::deleteDir('ArmyLists');
 			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 		}
 	}
@@ -701,7 +702,7 @@ class ArmyListsController extends Controller {
 		$user_army = $this->model->find(
 			"first",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -722,7 +723,7 @@ class ArmyListsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"ArmySquads" => array(
+				"armysquads" => array(
 					"conditions" => array(
 						"armylists_id" => $options[0]
 					)
@@ -739,7 +740,7 @@ class ArmyListsController extends Controller {
 			\Cache::delete('ArmyLists', "top");
 
 			\Cache::deleteWildcard('ArmyLists', "_army_".$options[0]."_*");
-			\Cache::deleteWildcard('ArmyLists', "_army_".$user_army["ArmyLists"]["code"]."_*");
+			\Cache::deleteWildcard('ArmyLists', "_army_".$user_army["armylists"]["code"]."_*");
 
 			return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 		}
@@ -762,7 +763,7 @@ class ArmyListsController extends Controller {
 		$user_army = $this->model->find(
 			"first",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"id"
@@ -782,7 +783,7 @@ class ArmyListsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"ArmySquads" => array(
+				"armysquads" => array(
 					"conditions" => array(
 						"armylists_id" => $options[0]
 					)
@@ -795,7 +796,7 @@ class ArmyListsController extends Controller {
 		//if(!$data){
 			$data = $this->model->Find("first",
 			array(
-				"ArmySquads" => array(
+				"armysquads" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -806,17 +807,17 @@ class ArmyListsController extends Controller {
 							"armylists_id" => $options[0]
 						),
 						"contains" => array(
-							"ArmyUnits" => array(
+							"armyunits" => array(
 								"fields" => array(
-									"ArmyUnits.id as `armyunits_id`",
-									"ArmyUnits.count",
-									"ArmyUnits.units_id"
+									"armyunits.id as `armyunits_id`",
+									"armyunits.count",
+									"armyunits.units_id"
 								),
 								"contains" => array(
-									"ArmyWargears" => array(
+									"armywargears" => array(
 										"fields" => array(
-											"ArmyWargears.id as `armywargears_id`",
-											"ArmyWargears.wargears_id"
+											"armywargears.id as `armywargears_id`",
+											"armywargears.wargears_id"
 										)
 
 									)
@@ -850,7 +851,7 @@ class ArmyListsController extends Controller {
 		$data = $this->model->find(
 			"all",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"name",
@@ -865,46 +866,46 @@ class ArmyListsController extends Controller {
 							"hide" => 0
 						),
 						"contains" => array(
-							"Users" => array(
+							"users" => array(
 								"fields" => array(
-									"Users.username"
+									"users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id" => "Users.id"
+									"armylists.users_id" => "users.id"
 								)
 							),
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id" => "armies.id"
+									"armylists.armies_id" => "armies.id"
 								)
 							),
-							"Races" => array(
+							"races" => array(
 								"fields" => array(
 									"races.name as `races_name`",
 									"races.icon"
 								),
 								"relation" => array(
-									"Armies.races_id" => "races.id"
+									"armies.races_id" => "races.id"
 								)
 							),
-							"Colours" => array(
+							"colours" => array(
 								"fields" => array(
 									"colours.name as `colours_name`"
 								),
 								"relation" => array(
-									"Armies.colours_id" => "colours.id"
+									"armies.colours_id" => "colours.id"
 								)
 							),
-							"Votes" => array(
+							"votes" => array(
 								"fields" => array(
 									"votes.vote"
 								),
 								"relation" => array(
-									"Votes.armylists_id" => "ArmyLists.id",
-									"Votes.users_id" => $user_id
+									"votes.armylists_id" => "armylists.id",
+									"votes.users_id" => $user_id
 								)
 							)
 						)
@@ -930,7 +931,7 @@ class ArmyListsController extends Controller {
 		$data = $this->model->find(
 			"all",
 			array(
-				"ArmyLists" => array(
+				"armylists" => array(
 					array(
 						"fields" => array(
 							"name",
@@ -943,49 +944,49 @@ class ArmyListsController extends Controller {
 							"modified"
 						),
 						"conditions" => array(
-							"ArmyLists.users_id" => (int)$user_id
+							"armylists.users_id" => (int)$user_id
 						),
 						"contains" => array(
-							"Users" => array(
+							"users" => array(
 								"fields" => array(
-									"Users.username"
+									"users.username"
 								),
 								"relation" => array(
-									"ArmyLists.users_id" => "Users.id"
+									"armylists.users_id" => "users.id"
 								)
 							),
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"ArmyLists.armies_id" => "armies.id"
+									"armylists.armies_id" => "armies.id"
 								)
 							),
-							"Races" => array(
+							"races" => array(
 								"fields" => array(
 									"races.name as `races_name`",
 									"races.icon"
 								),
 								"relation" => array(
-									"Armies.races_id" => "races.id"
+									"armies.races_id" => "races.id"
 								)
 							),
-							"Colours" => array(
+							"colours" => array(
 								"fields" => array(
 									"colours.name as `colours_name`"
 								),
 								"relation" => array(
-									"Armies.colours_id" => "colours.id"
+									"armies.colours_id" => "colours.id"
 								)
 							),
-							"Votes" => array(
+							"votes" => array(
 								"fields" => array(
 									"votes.vote"
 								),
 								"relation" => array(
-									"Votes.armylists_id" => "ArmyLists.id",
-									"Votes.users_id" => $user_id
+									"votes.armylists_id" => "armylists.id",
+									"votes.users_id" => $user_id
 								)
 							)
 						)
@@ -1019,14 +1020,15 @@ class ArmyListsController extends Controller {
 
 		$data = $this->model->Call('votesystem', array($options[0], \Configure::User("id"), $options[1]));
 
-		\Cache::delete('ArmyLists', "private");
+		/*\Cache::delete('ArmyLists', "private");
 		\Cache::delete('ArmyLists', "public");
 		\Cache::delete('ArmyLists', "top");
 
 		\Cache::delete('ArmyLists', "_army_".$data[0]["army_id"]."_".\Configure::User("id"));
 		\Cache::delete('ArmyLists', "_army_".$data[0]["army_code"]."_".\Configure::User("id"));
 
-		\Cache::deleteDir('ArmyLists' . DS . 'Users');
+		\Cache::deleteDir('ArmyLists' . DS . 'Users');*/
+		\Cache::deleteDir('ArmyLists');
 
 		return \Frost\Configs\Response::setResponse(200, "Army Lists", array("data" => null));
 

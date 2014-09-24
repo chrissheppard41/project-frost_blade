@@ -76,7 +76,7 @@
 									<div class="wargears" ng-repeat="group in unit.getAttr('Groups')">
 										<span>{{group.name}}</span>
 										<span>
-											<select ng-options="g.pts+'pts - '+g.name for g in group.Wargears" ng-model="selectedItem"></select>
+											<select ng-options="g.pts+'pts - '+g.name for g in group.wargears" ng-model="selectedItem"></select>
 										</span>
 										<a href="" class="blue" ng-click="addWargear(squad, unit)"><i>&nbsp;</i></a>
 									</div>
@@ -107,7 +107,7 @@
 									<div class="wargears" ng-repeat="group in unit.getAttr('Groups')">
 										<span>{{group.name}}</span>
 										<span>
-											<select ng-options="g.pts+'pts - '+g.name for g in group.Wargears" ng-model="selectedItem"></select>
+											<select ng-options="g.pts+'pts - '+g.name for g in group.wargears" ng-model="selectedItem"></select>
 										</span>
 										<a href="" class="blue" ng-click="addWargear(squad, unit)"><i>&nbsp;</i></a>
 									</div>

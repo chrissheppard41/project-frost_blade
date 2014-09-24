@@ -8,20 +8,20 @@ myApp.controller('ViewCtrl', ["$scope", "$routeParams", "$location", "list", "vo
 	$scope.unit_types = {};
 
 	promise_unit_types.then(function( data ){
-		$scope.unit_types = list.data.Types;
+		$scope.unit_types = list.data.types;
 	});
 
 	var promise_my = list.getAsync('GET', '/view_army/'+$scope.routeParams.id+'.json', {});
 	$scope.army = {};
 
 	promise_my.then(function( data ){
-		$scope.army = list.data.ArmyLists;
+		$scope.army = list.data.armylists;
 
 		var promise_squads = list.getSecure('GET', '/squads_units/'+$scope.army.armies_id+'', {});
 		$scope.squads = {};
 
 		promise_squads.then(function( data ){
-			$scope.squads = data.Squads;
+			$scope.squads = data.squads;
 			$scope.currentSquad();
 		});
 	});

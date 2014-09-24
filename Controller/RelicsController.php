@@ -34,7 +34,7 @@ class RelicsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Relics" => array(
+				"relics" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -44,13 +44,13 @@ class RelicsController extends Controller {
 						),
 						"pagination" => 10,
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Relics.armies_id" => "armies.id"
+									"relics.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -60,7 +60,7 @@ class RelicsController extends Controller {
 		);
 		$dataO = array_merge($data, $this->model->Find("all",
 			array(
-				"Armies" => array(
+				"armies" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -83,7 +83,7 @@ class RelicsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Relics" => array(
+				"relics" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -91,15 +91,15 @@ class RelicsController extends Controller {
 							"created",
 							"modified"
 						),
-						"conditions" => array("Relics.id" => $options[0]),
+						"conditions" => array("relics.id" => $options[0]),
 						"contains" => array(
-							"Armies" => array(
+							"armies" => array(
 								"fields" => array(
 									"armies.id as `army_id`",
 									"armies.name as `army_name`"
 								),
 								"relation" => array(
-									"Relics.armies_id" => "armies.id"
+									"relics.armies_id" => "armies.id"
 								)
 							)
 						)
@@ -126,7 +126,7 @@ class RelicsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Relics', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = array("Relics" => array("armies_id" => $options[1]));
+		$data = array("relics" => array("armies_id" => $options[1]));
 		/*$data = $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
 		) );*/
@@ -150,7 +150,7 @@ class RelicsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Relics', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Relics" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "relics" => array( array( "fields" => array( "id", "name", "armies_id"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		/*$dataE = array_merge($data, $this->model->Find("all", array(
 			"Armies" => array( array( "fields" => array( "id", "name") ) )
@@ -167,10 +167,10 @@ class RelicsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Relics" => array(
+				"relics" => array(
 					array(
 						"fields" => array("armies_id"),
-						"conditions" => array("Relics.id" => $options[0])
+						"conditions" => array("relics.id" => $options[0])
 					)
 				)
 			)
@@ -178,7 +178,7 @@ class RelicsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Relics" => array(
+				"relics" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

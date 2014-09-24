@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class SquadUnits extends \Frost\Configs\Database {
 
-	protected $table = "SquadUnits";
+	protected $table = "squadunits";
 	protected $validation = array(
 		"min_count" => array(
 			"notempty" => array(
@@ -38,7 +38,7 @@ class SquadUnits extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"Groups" => array(
+		"groups" => array(
 			"type" => "HABTM",
 			"linktable" => "unitgroups",
 			"lefttable" => "groups",
@@ -46,7 +46,7 @@ class SquadUnits extends \Frost\Configs\Database {
 			"linkColumn" => "groups_id",
 			"baseColumn" => "squadunits_id"
 		),
-		"UnitCharacteristics" => array(
+		"unitcharacteristics" => array(
 			"type" => "HABTM",
 			"linktable" => "unitqualities",
 			"lefttable" => "unitcharacteristics",
@@ -54,7 +54,7 @@ class SquadUnits extends \Frost\Configs\Database {
 			"linkColumn" => "unitcharacteristics_id",
 			"baseColumn" => "squadunits_id"
 		),
-		"Psykers" => array(
+		"psykers" => array(
 			"type" => "HABTM",
 			"linktable" => "unitpsykers",
 			"lefttable" => "psykers",
@@ -62,7 +62,7 @@ class SquadUnits extends \Frost\Configs\Database {
 			"linkColumn" => "psykers_id",
 			"baseColumn" => "squadunits_id"
 		),
-		"Relics" => array(
+		"relics" => array(
 			"type" => "HABTM",
 			"linktable" => "unitrelics",
 			"lefttable" => "relics",
@@ -70,7 +70,7 @@ class SquadUnits extends \Frost\Configs\Database {
 			"linkColumn" => "relics_id",
 			"baseColumn" => "squadunits_id"
 		),
-		"Warlords" => array(
+		"warlords" => array(
 			"type" => "HABTM",
 			"linktable" => "unitwarlords",
 			"lefttable" => "warlords",
@@ -78,7 +78,7 @@ class SquadUnits extends \Frost\Configs\Database {
 			"linkColumn" => "warlords_id",
 			"baseColumn" => "squadunits_id"
 		),
-		"Transports" => array(
+		"transports" => array(
 			"type" => "HABTM",
 			"linktable" => "unittransports",
 			"lefttable" => "transports",
@@ -86,7 +86,7 @@ class SquadUnits extends \Frost\Configs\Database {
 			"linkColumn" => "transports_id",
 			"baseColumn" => "squadunits_id"
 		),
-		"Wargears" => array(
+		"wargears" => array(
 			"type" => "HABTM",
 			"linktable" => "unitwargears",
 			"lefttable" => "wargears",

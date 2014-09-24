@@ -11,10 +11,10 @@ myApp.controller('EditCtrl', ["$scope", "$rootScope", "$routeParams", "$location
 	var promise_types = list.getAsync('GET', '/view_army/'+$scope.routeParams.id+'.json', {});
 
 	promise_types.then(function( data ){
-		$scope.name = list.data.ArmyLists.name;
-		$scope.descr = list.data.ArmyLists.descr;
-		$scope.points_limit = parseInt(list.data.ArmyLists.point_limit, 0);
-		$scope.hide = list.data.ArmyLists.hide;
+		$scope.name = list.data.armylists.name;
+		$scope.descr = list.data.armylists.descr;
+		$scope.points_limit = parseInt(list.data.armylists.point_limit, 0);
+		$scope.hide = list.data.armylists.hide;
 	});
 
 	$scope.submit_edit = function() {

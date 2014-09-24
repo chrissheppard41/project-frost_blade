@@ -34,7 +34,7 @@ class OperationsController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Operations" => array(
+				"operations" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -62,7 +62,7 @@ class OperationsController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Operations" => array(
+				"operations" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -116,7 +116,7 @@ class OperationsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Operations', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Operations" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "operations" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}
@@ -130,7 +130,7 @@ class OperationsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"Operations" => array(
+				"operations" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

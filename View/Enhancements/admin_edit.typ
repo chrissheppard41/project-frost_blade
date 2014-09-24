@@ -5,15 +5,15 @@
 	</div>
 	<?php
 	echo $this->Html->Form(array(
-		"action" => "/admin/Enhancements/edit/".$typ__["data"]["Enhancements"]["id"],
+		"action" => "/admin/Enhancements/edit/".$typ__["data"]["enhancements"]["id"],
 		"class" => "form-vertical",
 		"id" => "UserAdminAddForm",
 		"method" => "post",
 		"accept-charset" => "utf-8"
 	));
-		echo $this->Html->Input("id", "Enhancements", array('type' => "hidden", 'id' => "UserId"));
-		echo $this->Html->Input("name", "Enhancements", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
-		echo $this->Html->Input("effected_column", "Enhancements", array('label' => 'Effected Column', 'placeholder' => "Effected Column", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "effected_column"));
+		echo $this->Html->Input("id", "enhancements", array('type' => "hidden", 'id' => "UserId"));
+		echo $this->Html->Input("name", "enhancements", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
+		echo $this->Html->Input("effected_column", "enhancements", array('label' => 'Effected Column', 'placeholder' => "Effected Column", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "effected_column"));
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(
 				'class' => "btn btn-primary"

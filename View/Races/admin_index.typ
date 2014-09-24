@@ -6,7 +6,7 @@
 	<p class="pull-right">
         <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
     </p>
-    <?php if(!empty($typ__['data']['Races'])) { ?>
+    <?php if(!empty($typ__['data']['races'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']["Races"] as $race){ ?>
+			<?php foreach ($typ__['data']["races"] as $race){ ?>
 			<tr id="armyLists-<?php echo $race['id']; ?>" data-id="<?php echo $race['id']; ?>">
 				<td><?php echo $race['name']; ?></td>
 				<td><img src="/Assets/img/icons/<?php echo $race['icon']; ?>.png" alt="<?php echo $race['icon']; ?>" style="background-color: #000" /></td>

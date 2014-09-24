@@ -11,9 +11,9 @@
 					"method" => "post",
 					"accept-charset" => "utf-8"
 				));
-		echo $this->Html->Input("name", "Races", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
+		echo $this->Html->Input("name", "races", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name"));
 		echo "<div><b>Icons</b></div>";
-		echo $this->Html->Input("icon", "Races", array('label' => '', 'class' => "", 'type' => "radio", 'id' => "icon"), array(
+		echo $this->Html->Input("icon", "races", array('label' => '', 'class' => "", 'type' => "radio", 'id' => "icon"), array(
 			array("id" => 1, "name" => "Space marines"),
 			array("id" => 2, "name" => "Chaos Space marines"),
 			array("id" => 3, "name" => "Daemons"),

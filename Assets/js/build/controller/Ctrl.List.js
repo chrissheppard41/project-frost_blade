@@ -22,7 +22,7 @@ myApp.controller('ListCtrl', ["$scope", "$rootScope", "$routeParams", "list", "v
 	$scope.pagecount = 0;
 
 	promise_all.then(function( data ) {
-		$scope.public_armies = list.data.ArmyLists;
+		$scope.public_armies = list.data.armylists;
 		$scope.armies = $scope.public_armies.slice(0, $scope.numPerPage);
 
 		$scope.armyTotal = $scope.public_armies.length;

@@ -5,14 +5,14 @@
 	</div>
 	<?php
 	echo $this->Html->Form(array(
-		"action" => "/admin/ArmyCharacteristics/edit/".$typ__["data"]["ArmyCharacteristics"]["id"],
+		"action" => "/admin/ArmyCharacteristics/edit/".$typ__["data"]["armycharacteristics"]["id"],
 		"class" => "form-vertical",
 		"id" => "UserAdminAddForm",
 		"method" => "post",
 		"accept-charset" => "utf-8"
 	));
-		echo $this->Html->Input("id", "ArmyCharacteristics", array('type' => "hidden", 'id' => "UserId"));
-		echo $this->Html->Input("name", "ArmyCharacteristics", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "UserName", "required" => true));
+		echo $this->Html->Input("id", "armycharacteristics", array('type' => "hidden", 'id' => "UserId"));
+		echo $this->Html->Input("name", "armycharacteristics", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "UserName", "required" => true));
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(
 				'class' => "btn btn-primary"

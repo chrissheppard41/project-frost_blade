@@ -55,7 +55,7 @@ class UnitGroupsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"UnitGroups" => array(
+				"unitgroups" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

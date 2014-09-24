@@ -5,17 +5,17 @@
 	</div>
 	<?php
 	echo $this->Html->Form(array(
-		"action" => "/admin/Transports/edit/".$typ__["data"]["Transports"]["id"],
+		"action" => "/admin/Transports/edit/".$typ__["data"]["transports"]["id"],
 		"class" => "form-vertical",
 		"id" => "UserAdminAddForm",
 		"method" => "post",
 		"accept-charset" => "utf-8"
 	));
-		echo $this->Html->Input("id", "Transports", array('type' => "hidden", 'id' => "UserId"));
-		echo $this->Html->Input("name", "Transports", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
-		//echo $this->Html->Input("pts", "Transports", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
-		//echo $this->Html->Input("armies_id", "Transports", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
-		echo $this->Html->Input("armies_id", "Transports", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["Transports"]["armies_id"]));
+		echo $this->Html->Input("id", "transports", array('type' => "hidden", 'id' => "UserId"));
+		echo $this->Html->Input("name", "transports", array('label' => 'Name', 'placeholder' => "Name", 'class' => "form-control", 'maxlength' => "255", 'type' => "text", 'id' => "name", "required" => true));
+		//echo $this->Html->Input("pts", "transports", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
+		//echo $this->Html->Input("armies_id", "transports", array('label' => 'Army', 'class' => "form-control", 'type' => "select", 'id' => "armies"), $typ__['data']["Armies"]);
+		echo $this->Html->Input("armies_id", "transports", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["transports"]["armies_id"]));
 
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(

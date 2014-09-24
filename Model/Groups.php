@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class Groups extends \Frost\Configs\Database {
 
-	protected $table = "Groups";
+	protected $table = "groups";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class Groups extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"Wargears" => array(
+		"wargears" => array(
 			"type" => "HABTM",
 			"linktable" => "wargeargroups",
 			"lefttable" => "wargears",
@@ -32,7 +32,7 @@ class Groups extends \Frost\Configs\Database {
 			"linkColumn" => "wargears_id",
 			"baseColumn" => "groups_id"
 		),
-		"SquadUnits" => array(
+		"squadunits" => array(
 			"type" => "HABTM",
 			"linktable" => "unitgroups",
 			"lefttable" => "squadunits",

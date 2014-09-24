@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class WargearGroups extends \Frost\Configs\Database {
 
-	protected $table = "WargearGroups";
+	protected $table = "wargeargroups";
 	protected $validation = array(
 		/*"min_count" => array(
 			"notempty" => array(
@@ -38,7 +38,7 @@ class WargearGroups extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		/*"Groups" => array(
+		/*"groups" => array(
 			"type" => "HABTM",
 			"linktable" => "unitgroups",
 			"lefttable" => "groups",

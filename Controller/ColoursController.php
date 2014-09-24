@@ -34,7 +34,7 @@ class ColoursController extends Controller {
 
 		$data = $this->model->Find("pagination",
 			array(
-				"Colours" => array(
+				"colours" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -61,7 +61,7 @@ class ColoursController extends Controller {
 
 		$data = $this->model->Find("first",
 			array(
-				"Colours" => array(
+				"colours" => array(
 					array(
 						"fields" => array(
 							"id",
@@ -116,7 +116,7 @@ class ColoursController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Colours', 'action' => 'index', 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "Colours" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "colours" => array( array( "fields" => array( "id", "name"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => $data, "errors" => null);
 	}

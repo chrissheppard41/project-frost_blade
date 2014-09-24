@@ -40,18 +40,18 @@ class SquadUnitsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'view', "params" => array($options[1]), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "SquadUnits" => array( array( "fields" => array( "id", "squads_id", "min_count", "max_count", "pts", "name"), "conditions"	=> array( "id" => $options[0] ), "contains" => array("Groups" => array(), "Wargears" => array(), "UnitCharacteristics" => array(), "Psykers" => array(), "Warlords" => array(), "Relics" => array(), "Transports" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "squadunits" => array( array( "fields" => array( "id", "squads_id", "min_count", "max_count", "pts", "name"), "conditions"	=> array( "id" => $options[0] ), "contains" => array("groups" => array(), "wargears" => array(), "unitcharacteristics" => array(), "psykers" => array(), "warlords" => array(), "relics" => array(), "transports" => array() ) ) ) ) );
 
 		$_POST["data"] = $data;
 
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"Groups" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"UnitCharacteristics" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"Wargears" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"Psykers" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"Relics" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"Warlords" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
-			"Transports" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) )
+			"groups" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"unitcharacteristics" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"wargears" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"psykers" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"relics" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"warlords" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"transports" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) )
 		) ) );
 
 		return array("code" => 200, "message" => "User Edit", "data" => $dataE, "errors" => null);
@@ -66,7 +66,7 @@ class SquadUnitsController extends Controller {
 
 		$this->model->Delete(
 			array(
-				"SquadUnits" => array(
+				"squadunits" => array(
 					"conditions" => array(
 						"id" => $options[0]
 					)

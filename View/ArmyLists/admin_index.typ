@@ -8,7 +8,7 @@
 	<p class="pull-right">
         <?php echo $this->Html->Url($this->Html->__t('Add'), array('action' => 'add', "admin" => true), array('class' => 'btn btn-success')); ?>
     </p>
-    <?php if(!empty($typ__['data']['ArmyLists'])) { ?>
+    <?php if(!empty($typ__['data']['armylists'])) { ?>
 	<table class="table table-striped table-bordered table-listings">
 		<thead>
 			<tr>
@@ -23,7 +23,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($typ__['data']['ArmyLists'] as $armyList){ ?>
+			<?php foreach ($typ__['data']['armylists'] as $armyList){ ?>
 			<tr id="armyLists-<?php echo $armyList['id']; ?>" data-id="<?php echo $armyList['id']; ?>">
 				<td><?php echo $armyList['name']; ?></td>
 				<td><?php echo $armyList['point_limit']; ?></td>

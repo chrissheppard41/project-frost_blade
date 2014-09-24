@@ -8,7 +8,7 @@ namespace Frost\Model;
  */
 class ArmyCharacteristics extends \Frost\Configs\Database {
 
-	protected $table = "ArmyCharacteristics";
+	protected $table = "armycharacteristics";
 	protected $validation = array(
 		"name" => array(
 			"notempty" => array(
@@ -24,7 +24,7 @@ class ArmyCharacteristics extends \Frost\Configs\Database {
 	public $post = array();
 
 	protected $relationships = array(
-		"Armies" => array(
+		"armies" => array(
 			"type" => "HABTM",
 			"linktable" => "armyraces",
 			"lefttable" => "armies",

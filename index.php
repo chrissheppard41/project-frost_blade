@@ -17,3 +17,4 @@ if(!LIVE && (isset($_GET['decrypt']) && ($_GET['decrypt'] == 1))) {
 	echo $core->load();
 }
 exit();
+

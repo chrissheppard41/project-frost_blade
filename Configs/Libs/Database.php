@@ -794,7 +794,7 @@ class Database {
 		}
 
 		$sql_ = "CALL ".$function."(".implode(", ", array_keys($arr)).");";
-
+		
 		$query = array(
 			"query" => $sql_,
 			"params" => $arr

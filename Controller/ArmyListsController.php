@@ -30,7 +30,7 @@ class ArmyListsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_index($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$data = $this->model->Find("pagination",
 			array(
@@ -82,7 +82,7 @@ class ArmyListsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_view($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$data = $this->model->Find("first",
 			array(
@@ -133,7 +133,7 @@ class ArmyListsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
-		$this->view = "admin";
+		$this->view = "Admin";
 		if($this->requestType("POST")) {
 			$data = $this->model->Save();
 			if($data["error"] === true) {
@@ -161,7 +161,7 @@ class ArmyListsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
-		$this->view = "admin";
+		$this->view = "Admin";
 		$this->model->last_id = $options[0];
 		if($this->requestType("POST")) {
 			$data = $this->model->Update($this->model->post, array("ArmyLists.id" => $options[0]));
@@ -201,7 +201,7 @@ class ArmyListsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_delete($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$this->model->Delete(
 			array(

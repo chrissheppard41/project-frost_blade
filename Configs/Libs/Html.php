@@ -32,7 +32,7 @@ class Html {
 			if(isset($url['admin']) && $url['admin'] === true) {
 				$url_path = "/admin";
 			}
-			$url_path .= "/".strtolower($url['controller'])."/".$url['action'];
+			$url_path .= "/".$url['controller']."/".$url['action'];
 			if(isset($url['params'])) {
 				foreach($url['params'] as $values) {
 					$url_path .= "/".$values;
@@ -441,6 +441,7 @@ class Html {
  * @return [string]
  */
 	public function Pagination($model) {
+
 		$index	= count(\Configure::$url['param'])-1;
 		$arr 	= preg_split("/(Pag:|:)/",\Configure::$url['param'][$index]);
 
@@ -479,7 +480,7 @@ class Html {
 		return '<li'.
 		(($index == $arr[1])?' class="active"':'').'><a href="/'.
 		(((bool)strstr(\Configure::$url['action'], "admin_") == true)?"admin/":"").
-		str_replace("controller","",strtolower(\Configure::$url['controller'])).'/'.
+		str_replace(array("Controller", "controller"),"",\Configure::$url['controller']).'/'.
 		str_replace("admin_","",\Configure::$url['action']).'/Pag:'.
 		$index.
 		((isset($arr[2]) && !is_numeric($arr[2]))?":".$arr[2]:"").

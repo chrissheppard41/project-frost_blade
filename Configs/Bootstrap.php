@@ -36,7 +36,7 @@ if(isset($_SERVER['APPLICATION_ENV']) && !empty($_SERVER['APPLICATION_ENV'])) {
 	}
 
 } else {
-	define("APP_ROOT", "C:".DS."www".DS."frost".DS);
+	define("APP_ROOT", dirname(__FILE__).DS);
 	define('DEBUG_MODE', false);
 	define('CRYPTKEY', "zB8Fznw/");
 	define('HOST_URL', "http://frost.localhost/");

@@ -30,7 +30,7 @@ class SquadUnitsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
-		$this->view = "admin";
+		$this->view = "Admin";
 		$this->model->last_id = $options[0];
 		if($this->requestType("POST")) {
 			$data = $this->model->Update($this->model->post, array("id" => $options[0]));
@@ -62,7 +62,7 @@ class SquadUnitsController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_delete($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$this->model->Delete(
 			array(

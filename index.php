@@ -3,10 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 date_default_timezone_set('Europe/Belfast');
-
-DEFINE("PATH", "");
+//
+DEFINE("PATH", dirname(__FILE__)."/");
 DEFINE("LIVE", true);
-require "Configs/Core.php";
+require "./Configs/Core.php";
 
 
 $core = new Frost\Configs\Core();

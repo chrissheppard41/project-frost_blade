@@ -43,5 +43,5 @@
         <p>No <?php echo $this->Html->__t('Relics');?> available, why not <?php echo $this->Html->Url($this->Html->__t('create one'), array('action' => 'add', "admin" => true)); ?>
 </p>
     <?php } ?>
-    <?php echo $this->Html->Pagination("Relics", 10); ?>
+    <?php echo $this->Html->Pagination("relics", 10); ?>
 </div>

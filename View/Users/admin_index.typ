@@ -20,7 +20,7 @@
             <th class="header"><?php echo $this->Html->Pag_Sort('modified'); ?></th>
             <th class="actions"><?php echo $this->Html->__t('Actions'); ?></th>
         </tr>
-            <?php foreach ($typ__['data']['Users'] as $user){ ?>
+            <?php foreach ($typ__['data']['users'] as $user){ ?>
             <tr>
                 <td>
                     <?php echo $user['username']; ?>

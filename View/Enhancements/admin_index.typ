@@ -37,5 +37,5 @@
         <p>No <?php echo $this->Html->__t('Enhancements');?> available, why not <?php echo $this->Html->Url($this->Html->__t('create one'), array('action' => 'add', "admin" => true)); ?>
 </p>
     <?php } ?>
-    <?php echo $this->Html->Pagination("Enhancements", 10); ?>
+    <?php echo $this->Html->Pagination("enhancements", 10); ?>
 </div>

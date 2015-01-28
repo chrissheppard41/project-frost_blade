@@ -2,7 +2,7 @@
 
 ?>
 <div class="page-header">
-	<h2><?php echo $this->Html->Url($this->Html->__t('Users'), array('controller' => 'users', 'action' => 'index', 'admin' => true)); ?> - <?php echo $typ__["data"]["Users"]["username"]; ?></h2>
+	<h2><?php echo $this->Html->Url($this->Html->__t('Users'), array('controller' => 'users', 'action' => 'index', 'admin' => true)); ?> - <?php echo $typ__["data"]["users"]["username"]; ?></h2>
 </div>
 
 <div class="raceTypes view">

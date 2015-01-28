@@ -122,4 +122,11 @@ class ControllerTest extends PHPUnit_Framework_TestCase
 		return false;
 	}
 
+//
+// Action testCase
+///
+	public function testCase()
+	{
+		$this->assertTrue(true);
+	}
 }

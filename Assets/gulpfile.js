@@ -1,11 +1,11 @@
 var	gulp = require('gulp'),
-	sass = require('gulp-ruby-sass'),
+	sass = require('gulp-sass'),
 	autoprefixer = require('gulp-autoprefixer'),
 	minifycss = require('gulp-minify-css'),
 	jshint = require('gulp-jshint'),
 	rename = require('gulp-rename'),
 	gutil =	require('gulp-util'),
-	uglify = require('gulp-uglifyjs'),
+	uglify = require('gulp-uglify'),
 	concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
     ngAnnotate = require('gulp-ng-annotate'),
@@ -16,7 +16,7 @@ var	gulp = require('gulp'),
 gulp.task('css', function() {
 	gulp.src('css/build/sass/*.scss')
 		.pipe(sass({ style: 'expanded' }).on('error', function(err) {
-			console.log(err);
+			console.log("ERROR", err);
 		}))
 		.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
 		.pipe(minifycss())

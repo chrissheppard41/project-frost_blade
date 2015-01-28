@@ -43,5 +43,5 @@
         <p>No <?php echo $this->Html->__t('Transports');?> available, why not <?php echo $this->Html->Url($this->Html->__t('create one'), array('action' => 'add', "admin" => true)); ?>
 </p>
     <?php } ?>
-    <?php echo $this->Html->Pagination("Transports", 10); ?>
+    <?php echo $this->Html->Pagination("transports", 10); ?>
 </div>

@@ -1,7 +1,7 @@
 <?php
 namespace Frost\Configs;
 
-require PATH."Configs\Connection.php";
+require PATH."Configs/Connection.php";
 /*
  * @class Database
  * @author Chris Sheppard

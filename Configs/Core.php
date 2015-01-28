@@ -9,7 +9,7 @@ require "Libs/Database.php";
 require "Libs/Cache.php";
 require "Libs/Logging.php";
 require "WebException.php";
-require "Libs/Crypt.php";
+//require "Libs/Crypt.php";
 require "Libs/Html.php";
 require "Libs/Session_handler.php";
 require "Libs/Session.php";
@@ -52,7 +52,7 @@ class Core {
  * [constructor - Sets up the Cryption and Session data]
  */
 	function __construct() {
-		$this->crypt = new Crypt(CRYPTKEY);
+		//$this->crypt = new Crypt(CRYPTKEY);
 		$this->Session = new Session();
 
 		\Configure::$url = $this->urlParsing();
@@ -278,6 +278,6 @@ class Core {
  * @return [string]    [the response of the converted string or the normal pass]
  */
 	public function decr($v) {
-		return (LIVE) ? $v : $this->crypt->decrypt($v);
+		//return (LIVE) ? $v : $this->crypt->decrypt($v);
 	}
 }

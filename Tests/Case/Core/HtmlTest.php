@@ -1,6 +1,6 @@
 <?php
-require PATH."Configs/Libs/Html.php";
-require PATH."Configs/Libs/Session_handler.php";
+//require PATH."Configs/Libs/Html.php";
+//require PATH."Configs/Libs/Session_handler.php";
 //
 //	@class HtmlTest
 //	@author Chris Sheppard
@@ -388,9 +388,8 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 	{
 		\Configure::write("Flash", array("message" => "My test message", "class" => "alert alert-danger"));
 		$results = self::$Html->Flash();
-
-		$this->assertEquals($results, '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>My test message</div>');
-
+		
+		$this->assertEquals($results, '<div class="alert alert-danger alert-dismissable"><span>My test message</span><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
 	}
 //
 // Action testPagination

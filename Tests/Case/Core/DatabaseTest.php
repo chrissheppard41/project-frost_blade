@@ -1,6 +1,7 @@
 <?php
-require PATH."Configs/Libs/Database.php";
-define('DS', DIRECTORY_SEPARATOR);
+//DEFINE("PATH", "../../");
+//require PATH."Configs/Libs/Database.php";
+//define('DS', DIRECTORY_SEPARATOR);
 //
 //	@class DatabaseTest
 //	@author Chris Sheppard
@@ -101,8 +102,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 
 
-		$queryE = self::$Database->query(array("query" => "DROP TABLE IF EXISTS testRelations;", "params" => ""));
-		$queryE = self::$Database->query(array("query" => "CREATE TABLE testRelations(
+		$queryE = self::$Database->query(array("query" => "DROP TABLE IF EXISTS testrelations;", "params" => ""));
+		$queryE = self::$Database->query(array("query" => "CREATE TABLE testrelations(
 			id INT(11) NOT NULL AUTO_INCREMENT,
 			relations_id INT(11) NOT NULL,
 			tests_id INT(11) NOT NULL,
@@ -111,7 +112,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 			PRIMARY KEY ( id )
 		);", "params" => ""));
 		$queryE = array(
-			"testRelations" => array(
+			"testrelations" => array(
 				array("relations_id" => "1","tests_id" => "1"),
 			)
 		);
@@ -160,7 +161,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$query = self::$Database->query(array("query" => "DROP TABLE next;", "params" => ""));
 		$query = self::$Database->query(array("query" => "DROP TABLE prev;", "params" => ""));
 		$query = self::$Database->query(array("query" => "DROP TABLE relations;", "params" => ""));
-		$query = self::$Database->query(array("query" => "DROP TABLE testRelations;", "params" => ""));
+		$query = self::$Database->query(array("query" => "DROP TABLE testrelations;", "params" => ""));
 	}
 
 //
@@ -170,6 +171,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 	{
 		$Database = new \Frost\Configs\Database();
 	}
+
 //
 // Action testConfigureWrite
 ///
@@ -234,6 +236,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($results), 15);
 		$this->assertTrue(is_array($results));
 	}
+
 //
 // Action testSave
 ///
@@ -475,8 +478,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		);
 		self::$Database->Delete($queryG);
 	}
-
-
 
 
 //
@@ -1055,10 +1056,10 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$expected = array(
 			"test" => array(
 				array(
-					"id" 			=> 1,
+					"id" 			=> "1",
 					"testcol" 		=> "hello",
 					"updatehere" 	=> null,
-					"name" 			=> "test"
+					"name" 			=> null
 				)
 			)
 		);
@@ -1249,48 +1250,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 	}
 
-//
-// Action testPage
-///
-	public function testCache()
-	{
-		self::delete_directory("tmp" . DS . "cache" . DS . "test");
-
-		$results = self::$Database->c_read("test", "file");
-		$this->assertEmpty($results);
-
-		$expected = array("My data here");
-		self::$Database->c_write("test", "file", $expected);
-		$results = self::$Database->c_read("test", "file");
-
-		$this->assertEquals($results, $expected);
-
-		self::$Database->c_delete("test", "file");
-		$results = self::$Database->c_read("test", "file");
-		$this->assertEmpty($results);
-
-		self::delete_directory("tmp" . DS . "cache" . DS . "test");
-	}
-	private static function delete_directory($dirname) {
-		$dir_handle = null;
-		if (is_dir($dirname))
-			$dir_handle = opendir($dirname);
-
-		if (!$dir_handle)
-			return false;
-
-		while($file = readdir($dir_handle)) {
-			   if ($file != "." && $file != "..") {
-					if (!is_dir($dirname."/".$file))
-						unlink($dirname."/".$file);
-					else
-						delete_directory($dirname.'/'.$file);
-			   }
-		}
-		closedir($dir_handle);
-		rmdir($dirname);
-		return true;
-	}
 
 /**
  * Action testSaveException
@@ -1374,7 +1333,7 @@ class Test extends \Frost\Configs\Database {
 	protected $relationships = array(
 		"Relation" => array(
 			"type" => "HABTM",
-			"linktable" => "testRelations",
+			"linktable" => "testrelations",
 			"lefttable" => "relations",
 			"leftcols" => array("relations.id","relations.name"),
 			"linkColumn" => "relations_id",

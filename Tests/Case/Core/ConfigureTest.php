@@ -1,8 +1,8 @@
 <?php
-DEFINE("LIVE", false);
-DEFINE("PATH", "../../");
-define("CRYPTKEY", "zB8Fznw/");
-require PATH."Configs/Libs/Configure.php";
+//DEFINE("LIVE", false);
+//DEFINE("PATH", "../../");
+//define("CRYPTKEY", "zB8Fznw/");
+//require PATH."Configs/Libs/Configure.php";
 //
 //	@class ConfigureTest
 //	@author Chris Sheppard

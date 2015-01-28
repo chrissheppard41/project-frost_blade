@@ -31,7 +31,7 @@ class Logging {
  * @param  [string] $name    []
  */
 	public static function l_write($message, $name = "access") {
-		$filename = "tmp".DS."logs".DS.$name . ".log";
+		$filename = APP_ROOT."tmp".DS."logs".DS.$name . ".log";
 		$filew = fopen($filename, 'a');
 	    fwrite($filew, $message."\n");
 	    fclose($filew);

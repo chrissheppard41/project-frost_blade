@@ -30,7 +30,7 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_index($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$data = $this->model->Find("pagination",
 			array(
@@ -62,7 +62,7 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_dashboard($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		return array("code" => 200, "message" => "User Index", "data" => null, "errors" => null);
 	}
@@ -73,7 +73,7 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_view($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$data = $this->model->Find("first",
 			array(
@@ -105,7 +105,7 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_add($options, $methodData) {
-		$this->view = "admin";
+		$this->view = "Admin";
 		if($this->requestType("POST")) {
 			if($this->model->Exists(array("email" => $this->model->post["users"]["email"], "username" => $this->model->post["users"]["username"]))) {
 				$this->Flash("<strong>User already exists</strong> The Email/Username you provided is currently being used", "alert alert-danger");
@@ -128,7 +128,7 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_edit($options, $methodData) {
-		$this->view = "admin";
+		$this->view = "Admin";
 		$data = $this->model->Find("first", array( "users" => array( array( "fields" => array( "id", "username", "email", "email_verified", "is_admin" ), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 
 		if($this->requestType("POST")) {
@@ -154,7 +154,7 @@ class UsersController extends Controller {
  * @return [array]          [response]
  */
 	public function admin_delete($options) {
-		$this->view = "admin";
+		$this->view = "Admin";
 
 		$this->model->Delete(
 			array(

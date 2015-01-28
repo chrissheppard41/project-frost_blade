@@ -8,20 +8,20 @@
 			Static views <span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/types/'); ?>">
-				<?php echo $this->Html->Url('Types', array('controller' => 'types', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Types/'); ?>">
+				<?php echo $this->Html->Url('Types', array('controller' => 'Types', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/unitTypes/'); ?>">
-				<?php echo $this->Html->Url('Unit Types', array('controller' => 'unitTypes', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/UnitTypes/'); ?>">
+				<?php echo $this->Html->Url('Unit Types', array('controller' => 'UnitTypes', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/enhancements/'); ?>">
-				<?php echo $this->Html->Url('Enhancements', array('controller' => 'enhancements', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Enhancements/'); ?>">
+				<?php echo $this->Html->Url('Enhancements', array('controller' => 'Enhancements', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/operations/'); ?>">
-				<?php echo $this->Html->Url('Operations', array('controller' => 'operations', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Operations/'); ?>">
+				<?php echo $this->Html->Url('Operations', array('controller' => 'Operations', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/colours/'); ?>">
-				<?php echo $this->Html->Url('Colours', array('controller' => 'colours', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Colours/'); ?>">
+				<?php echo $this->Html->Url('Colours', array('controller' => 'Colours', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 		</ul>
 	</li>
@@ -31,14 +31,14 @@
 			Race Control <span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/races/'); ?>">
-				<?php echo $this->Html->Url('Races', array('controller' => 'races', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Races/'); ?>">
+				<?php echo $this->Html->Url('Races', array('controller' => 'Races', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/armies/'); ?>">
-				<?php echo $this->Html->Url('Armies', array('controller' => 'armies', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Armies/'); ?>">
+				<?php echo $this->Html->Url('Armies', array('controller' => 'Armies', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/armycharacteristics/'); ?>">
-				<?php echo $this->Html->Url('Army characteristics', array('controller' => 'armycharacteristics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/ArmyCharacteristics/'); ?>">
+				<?php echo $this->Html->Url('Army characteristics', array('controller' => 'ArmyCharacteristics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 		</ul>
 	</li>
@@ -48,11 +48,11 @@
 			Squad management <span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/squads/'); ?>">
-				<?php echo $this->Html->Url('Squads', array('controller' => 'squads', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Squads/'); ?>">
+				<?php echo $this->Html->Url('Squads', array('controller' => 'Squads', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/units/'); ?>">
-				<?php echo $this->Html->Url('Units', array('controller' => 'units', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Units/'); ?>">
+				<?php echo $this->Html->Url('Units', array('controller' => 'Units', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 		</ul>
 	</li>
@@ -62,20 +62,20 @@
 			Unit management <span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/unitcharacteristics/'); ?>">
-				<?php echo $this->Html->Url('Characteristics', array('controller' => 'unitcharacteristics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/UnitCharacteristics/'); ?>">
+				<?php echo $this->Html->Url('Characteristics', array('controller' => 'UnitCharacteristics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/psykers/'); ?>">
-				<?php echo $this->Html->Url('Psykers', array('controller' => 'psykers', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Psykers/'); ?>">
+				<?php echo $this->Html->Url('Psykers', array('controller' => 'Psykers', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/relics/'); ?>">
-				<?php echo $this->Html->Url('Race Relics', array('controller' => 'relics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Relics/'); ?>">
+				<?php echo $this->Html->Url('Race Relics', array('controller' => 'Relics', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/warlords/'); ?>">
-				<?php echo $this->Html->Url('Warlord traits', array('controller' => 'warlords', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Warlords/'); ?>">
+				<?php echo $this->Html->Url('Warlord traits', array('controller' => 'Warlords', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Transports/'); ?>">
-				<?php echo $this->Html->Url('Transport capacity', array('controller' => 'transports', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+				<?php echo $this->Html->Url('Transport capacity', array('controller' => 'Transports', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 		</ul>
 	</li>
@@ -85,11 +85,11 @@
 			Wargear management <span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/wargears/'); ?>">
-				<?php echo $this->Html->Url('Wargear', array('controller' => 'wargears', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Wargears/'); ?>">
+				<?php echo $this->Html->Url('Wargear', array('controller' => 'Wargears', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
-			<li class="<?php echo $this->Html->Highlight('/^\/admin\/groups/'); ?>">
-				<?php echo $this->Html->Url('Groups', array('controller' => 'groups', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
+			<li class="<?php echo $this->Html->Highlight('/^\/admin\/Groups/'); ?>">
+				<?php echo $this->Html->Url('Groups', array('controller' => 'Groups', 'action' => 'index', 'admin' => true), array('class' => 'icon icon-users-alt1')); ?>
 			</li>
 		</ul>
 

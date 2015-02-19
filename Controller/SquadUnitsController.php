@@ -40,12 +40,12 @@ class SquadUnitsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'view', "params" => array($options[1]), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "squadunits" => array( array( "fields" => array( "id", "squads_id", "min_count", "max_count", "pts", "name"), "conditions"	=> array( "id" => $options[0] ), "contains" => array("groups" => array(), "wargears" => array(), "unitcharacteristics" => array(), "psykers" => array(), "warlords" => array(), "relics" => array(), "transports" => array() ) ) ) ) );
+		$data = $this->model->Find("first", array( "squadunits" => array( array( "fields" => array( "id", "squads_id", "min_count", "max_count", "pts", "name"), "conditions"	=> array( "squadunits.id" => $options[0] ), "contains" => array("squads" => array("fields" => array( "squads.armies_id as `armies_id`" ), "relation" => array( "squads.id" => "squadunits.squads_id") ), "groups" => array(), "wargears" => array(), "unitcharacteristics" => array(), "psykers" => array(), "warlords" => array(), "relics" => array(), "transports" => array() ) ) ) ) );
 
 		$_POST["data"] = $data;
 
 		$dataE = array_merge($data, $this->model->Find("all", array(
-			"groups" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
+			"groups" => array( array( "fields" => array( "id", "name"), "order" => array("name"), "conditions" => array("armies_id" => $data["squadunits"]["armies_id"]) ) ),
 			"unitcharacteristics" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
 			"wargears" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),
 			"psykers" => array( array( "fields" => array( "id", "name"), "order" => array("name") ) ),

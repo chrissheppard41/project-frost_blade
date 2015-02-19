@@ -17,7 +17,7 @@
 		//echo $this->Html->Input("pts", "wargears", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "pts"));
 
 		if(isset($typ__['data']["groups"]["id"])) {
-			echo $this->Html->Input("Groups", "wargears", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["groups"]["id"]));
+			echo $this->Html->Input("groups", "wargears", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["groups"]["id"]));
 		}
 
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));

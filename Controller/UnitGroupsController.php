@@ -41,7 +41,7 @@ class UnitGroupsController extends Controller {
 				$this->Flash("<strong>Success</strong> Item has been saved", "alert alert-success", array('controller' => 'Squads', 'action' => 'view', "params" => array($options[1]), 'admin' => true));
 			}
 		}
-		$data = $this->model->Find("first", array( "UnitGroups" => array( array( "fields" => array( "id", "min_count", "max_count"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
+		$data = $this->model->Find("first", array( "unitgroups" => array( array( "fields" => array( "id", "min_count", "max_count"), "conditions"	=> array( "id" => $options[0] ) ) ) ) );
 		$_POST["data"] = $data;
 		return array("code" => 200, "message" => "User Edit", "data" => array_merge($data, array("squad_id" => $options[1])), "errors" => null);
 	}

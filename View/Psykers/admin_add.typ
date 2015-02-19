@@ -19,7 +19,7 @@
 		echo $this->Html->Input("armies_id", "psykers", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["squads"]["armies_id"]));
 
 		if(isset($typ__['data']["groups"]["id"])) {
-			echo $this->Html->Input("Groups", "psykers", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["groups"]["id"]));
+			echo $this->Html->Input("groups", "psykers", array('type' => "hidden", 'id' => "groups", "value" => $typ__['data']["groups"]["id"]));
 		}
 
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));

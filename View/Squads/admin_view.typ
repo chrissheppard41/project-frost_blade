@@ -57,8 +57,8 @@ if(isset($typ__["data"]["squads"]["squadunits"])) {
 		<div class="panel-heading">
 			<?php echo $this->Html->__t("Squad Unit information"); ?> - <?php echo $squadunit['name'];?>
 			<span class="pull-right">
-				<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "squadunits", "action" => "edit", "admin" => true, "params" => array($squadunit["id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-warning")); ?>
-				<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "controller" => "squadunits", "action" => "delete", "params" => array($squadunit["id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
+				<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "SquadUnits", "action" => "edit", "admin" => true, "params" => array($squadunit["id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-warning")); ?>
+				<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "controller" => "SquadUnits", "action" => "delete", "params" => array($squadunit["id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
 			</span>
 		</div>
 
@@ -295,9 +295,9 @@ if(isset($typ__["data"]["squads"]["squadunits"])) {
 									<li class="list-group-item<?php echo $list;?>"><?php echo $groups["name"]; ?>: Min <?php echo $groups["min_count"]; ?> - Max <?php echo $groups["max_count"]; ?>
 
 										<span class="pull-right">
-											<?php echo $this->Html->Url($this->Html->__t("View"), array("controller" => "groups", "action" => "view", "admin" => true, "params" => array($groups["id"])), array("class" => "btn-sm btn-primary")); ?>
-											<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "unitgroups", "action" => "edit", "admin" => true, "params" => array($groups["unitgroups_id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-warning")); ?>
-											<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "controller" => "unitgroups", "action" => "delete", "params" => array($groups["unitgroups_id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
+											<?php echo $this->Html->Url($this->Html->__t("View"), array("controller" => "Groups", "action" => "view", "admin" => true, "params" => array($groups["id"])), array("class" => "btn-sm btn-primary")); ?>
+											<?php echo $this->Html->Url($this->Html->__t("Edit"), array("controller" => "UnitGroups", "action" => "edit", "admin" => true, "params" => array($groups["unitgroups_id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-warning")); ?>
+											<?php echo $this->Html->UrlPost($this->Html->__t("Delete"), array("admin" => true, "controller" => "UnitGroups", "action" => "delete", "params" => array($groups["unitgroups_id"], $typ__["data"]["squads"]["id"])), array("class" => "btn-sm btn-danger"), $this->Html->__t("Are you sure you want to delete this record?")); ?>
 										</span>
 									</li>
 								</ul>

@@ -18,7 +18,7 @@
 		echo $this->Html->Input("armies_id", "squads", array('class' => "form-control", 'type' => "hidden", 'id' => "armies", "value" => $typ__['data']["squads"]["armies_id"]));
 
 		echo $this->Html->Input("types_id", "squads", array('label' => 'Type', 'class' => "form-control", 'type' => "select", 'id' => "types"), $typ__['data']["types"]);
-		echo $this->Html->MultiSearch("Units", "squads", array('label' => 'Units', 'class' => "form-control", 'type' => "select", 'id' => "units", "multiple"), $typ__['data']["units"]);
+		echo $this->Html->MultiSearch("units", "squads", array('label' => 'Units', 'class' => "form-control", 'type' => "select", 'id' => "units", "multiple"), $typ__['data']["units"]);
 
 		echo $this->Html->Submit($this->Html->__t('Save'),array('class' => "btn btn-primary"));
 		echo $this->Html->Form();

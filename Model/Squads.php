@@ -16,8 +16,8 @@ class Squads extends \Frost\Configs\Database {
 			),
 			"between" => array(
 				"min" => 3,
-				"max" => 45,
-				"message" => "Between 3 to 45 characters"
+				"max" => 99,
+				"message" => "Between 3 to 99 characters"
 			)
 		)
 	);

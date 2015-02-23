@@ -32,7 +32,7 @@
 
 		//echo $this->Html->Input("pts", "units", array('label' => 'Points', 'placeholder' => "0", 'class' => "form-control", 'maxlength' => "255", 'type' => "number", 'id' => "a"));
 
-		echo $this->Html->Input("unittypes_id", "units", array('label' => 'Unit Type', 'class' => "form-control", 'type' => "select", 'id' => "unittypes"), $typ__['data']["UnitTypes"]);
+		echo $this->Html->Input("unittypes_id", "units", array('label' => 'Unit Type', 'class' => "form-control", 'type' => "select", 'id' => "unittypes"), $typ__['data']["unittypes"]);
 
 		echo $this->Html->Submit($this->Html->__t('Save'),
 			array(
